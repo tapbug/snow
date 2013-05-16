@@ -23,7 +23,7 @@ module.exports = function(app, api) {
             $codeForm.show()
         }, 10000)
 
-        var number = $number.val().replace(/[^\d\+]/g, '')
+        number = $number.val().replace(/[^\d\+]/g, '')
 
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
