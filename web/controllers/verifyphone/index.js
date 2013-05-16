@@ -12,6 +12,12 @@ module.exports = function(app, api) {
     $callForm.on('submit', function(e) {
         e.preventDefault()
 
+        number = $number.val().replace(/[^\d\+]/g, '')
+
+        if (!number.test(/^\+\d{2,16}$/)) {
+            return alert('Please enter your number as +46 123456 where 46 is the country code')
+        }
+
         $callForm.find('button')
         .enabled(false)
         .addClass('is-loading')
@@ -22,8 +28,6 @@ module.exports = function(app, api) {
         setTimeout(function() {
             $codeForm.show()
         }, 10000)
-
-        number = $number.val().replace(/[^\d\+]/g, '')
 
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
@@ -42,9 +46,15 @@ module.exports = function(app, api) {
         .addClass('is-loading')
         .html(app.i18n('verifyphone.verifying code'))
 
+        var code = $code.val()
+
+        if (!code.test(/^\d{4}$/)) {
+            return alert('The code should be four digits')
+        }
+
         $code.enabled(false)
 
-        api.call('v1/users/verify', { code: $code.val() })
+        api.call('v1/users/verify', { code: code })
         .done(function() {
             app.user.phone = number
             $el.modal('hide')
