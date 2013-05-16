@@ -1,0 +1,40 @@
+<div class="section container">
+    <div class="row">
+        <div class="span4">
+            <h3>Send</h3>
+
+            <form class="form span4">
+                <div class="control-group">
+                    <label class="control-label" for="currency">Currency</label>
+                    <div class="controls">
+                        <select id="currency" data-binding="currency">
+                            <% _.each(currencies, function(s) { %>
+                                <option value="<%= s %>"><%= s %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="email">To</label>
+                    <div class="controls">
+                        <input type="text" class="span4" id="email" data-binding="email" placeholder="lucky@gmail.com" value="<%= email || '' %>">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="amount">Amount</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input input-small volume" for="amount" data-binding="amount" type="text" value="<%= amount %>" />
+                            <!--<span class="add-on currency"><%= 'TODO' %></span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-success" data-action="send">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
