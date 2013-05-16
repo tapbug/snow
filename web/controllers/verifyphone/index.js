@@ -14,7 +14,7 @@ module.exports = function(app, api) {
 
         number = $number.val().replace(/[^\d\+]/g, '')
 
-        if (!number.test(/^\+\d{2,16}$/)) {
+        if (!/^\+\d{2,16}$/.test(number)) {
             return alert('Please enter your number as +46 123456 where 46 is the country code')
         }
 
@@ -48,7 +48,7 @@ module.exports = function(app, api) {
 
         var code = $code.val()
 
-        if (!code.test(/^\d{4}$/)) {
+        if (!/^\d{4}$/.test(code)) {
             return alert('The code should be four digits')
         }
 
