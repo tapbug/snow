@@ -7,6 +7,7 @@ module.exports = function(app, api) {
     , $codeForm = $el.find('form.code')
     , $number = $callForm.find('input[name="phone"]')
     , $code = $codeForm.find('input[name="code"]')
+    , number
 
     $callForm.on('submit', function(e) {
         e.preventDefault()
@@ -22,7 +23,9 @@ module.exports = function(app, api) {
             $codeForm.show()
         }, 10000)
 
-        api.call('v1/users/verify/call', { number: $number.val() })
+        var number = $number.val().replace(/[^\d\+]/g, '')
+
+        api.call('v1/users/verify/call', { number: number })
         .done(function() {
         })
         .fail(function(xhr) {
@@ -43,7 +46,7 @@ module.exports = function(app, api) {
 
         api.call('v1/users/verify', { code: $code.val() })
         .done(function() {
-            app.user.phone = $number.val()
+            app.user.phone = number
             $el.modal('hide')
 
             alertify.log(app.i18n('verifyphone.verified', app.user.phone))
@@ -57,4 +60,3 @@ module.exports = function(app, api) {
 
     return controller
 }
-
