@@ -108,6 +108,9 @@ module.exports = function(app, api) {
         api.call('v1/users/verify', { code: code })
         .done(function() {
             app.user.phone = number
+
+            app.emit('verifiedphone', number)
+
             $el.modal('hide')
 
             alertify.log(app.i18n('verifyphone.verified', app.user.phone))

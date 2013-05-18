@@ -1,12 +1,13 @@
 var _ = require('lodash')
+, debug = require('debug')
 
 module.exports = function(app, api) {
     function attach(user) {
-        console.log('Fetching Intercom settings')
+        debug('Fetching Intercom settings')
         api.call('v1/intercom')
         .done(function(settings) {
-            console.log('Intercom settings', settings)
-            console.log('Identifying with segment.io')
+            debug('Intercom settings', settings)
+            debug('Identifying with segment.io')
 
             analytics.identify(user.id.toString(), {
                 email: user.email,
@@ -17,5 +18,18 @@ module.exports = function(app, api) {
         })
     }
 
+    function verifiedphone(phone) {
+        if (!Intercom) {
+            debug('Will not update Intercom with phone because it\'s disabled')
+            return
+        }
+
+        Intercom('update', {
+            phone: update,
+            phone_verified_at: Math.round(+new Date() / 1e3)
+        })
+    }
+
     app.on('user', attach)
+    app.on('verifiedphone', verifiedphone)
 }
