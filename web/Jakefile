@@ -18,6 +18,8 @@ task('app', [
     'build/styles.css',
     'build/index.html',
     'build/img',
+    'build/img/glyphicons-halflings-white.png',
+    'build/img/glyphicons-halflings.png',
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
@@ -31,6 +33,8 @@ task('dist', [
     'build/index.min.html',
     'build/ripple.txt',
     'build/img',
+    'build/img/glyphicons-halflings-white.png',
+    'build/img/glyphicons-halflings.png',
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
@@ -63,6 +67,8 @@ file('build/raven.min.js', ['vendor/raven.min.js'], cpTask)
 file('build/img/registerbg.jpg', ['assets/img/registerbg.jpg'], cpTask)
 file('build/img/flags/NO.png', ['assets/img/flags/NO.png'], cpTask)
 file('build/img/flags/US.png', ['assets/img/flags/US.png'], cpTask)
+file('build/img/glyphicons-halflings.png', ['components/bootstrap/img/glyphicons-halflings.png'], cpTask)
+file('build/img/glyphicons-halflings-white.png', ['components/bootstrap/img/glyphicons-halflings-white.png'], cpTask)
 
 function cpTask() {
     cp(this.prereqs[0], this.name)
@@ -96,8 +102,7 @@ file('build/index.min.html', ['build'], function() {
 
 file('build/styles.css', ['build'], function() {
     exec('stylus assets/app.styl -o build');
-    (cat('components/bootstrap/css/bootstrap.min.css') + '\n' +
-    cat('components/bootstrap/css/bootstrap-responsive.min.css') + '\n' +
+    (cat('vendor/bootstrap-combined.min.css') + '\n' +
     cat('components/alertify/themes/alertify.core.css') + '\n' +
     cat('components/alertify/themes/alertify.bootstrap.css') + '\n' +
     cat('build/app.css') + '\n')
@@ -165,6 +170,8 @@ function publish(hostname, cb) {
         'index.min.html': 'index.html',
         'ripple.txt': 'ripple.txt',
         'img/registerbg.jpg': null,
+        'img/glyphicons-halflings.png': null,
+        'img/glyphicons-halflings-white.png': null,
         'img/flags/NO.png': null,
         'img/flags/US.png': null
     }

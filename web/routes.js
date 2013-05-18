@@ -10,6 +10,7 @@ var markets = require('./controllers/markets')
 , market = require('./controllers/market')
 , notfound = require('./controllers/notfound')
 , dashboard = require('./controllers/dashboard')
+, simple = require('./controllers/simple')
 , depositbtc = require('./controllers/depositbtc')
 , depositltc = require('./controllers/depositltc')
 , adminBalances = require('./controllers/admin/balances')
@@ -87,6 +88,11 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         $section.html(depositltc(app, api).$el)
         section('depositltc')
+    })
+    .add(/^simple$/, function() {
+        if (!app.authorize()) return
+        $section.html(simple(app, api).$el)
+        section('simple')
     })
     .add(/^admin\/balances$/, function() {
         if (!app.authorize()) return
