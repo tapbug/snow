@@ -129,5 +129,17 @@
 
     "verifyphone.calling you": "Calling...",
     "verifyphone.verifying code": "Verifying...",
-    "verifyphone.verified": "Phone number %s verified"
+    "verifyphone.verified": "Phone number %s verified",
+
+    "withdraws.cancel": "Cancel",
+    "withdraws.column headers.date": "Date",
+    "withdraws.column headers.amount": "Amount",
+    "withdraws.column headers.destination": "Destination",
+    "withdraws.column headers.status": "Status",
+    "withdraws.heading": "Withdraw requests",
+    "withdraws.states.processing": "Being processed",
+    "withdraws.states.requested": "Waiting to be processed",
+    "withdraws.states.completed": "Completed %s",
+    "withdraws.states.cancelled": "Cancelled",
+    "withdraws.states.cancelled.error": "Failed: %s"
 }

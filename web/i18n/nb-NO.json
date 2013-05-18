@@ -117,5 +117,17 @@
     "verifyphone.verify code": "Bekreft kode",
     "verifyphone.calling you": "Ringer...",
     "verifyphone.verifying code": "Godkjenner...",
-    "verifyphone.verified": "Telefonnummeret %s ble godkjent"
+    "verifyphone.verified": "Telefonnummeret %s ble godkjent",
+
+    "withdraws.cancel": "Avbryt",
+    "withdraws.column headers.date": "Dato",
+    "withdraws.column headers.amount": "Antall",
+    "withdraws.column headers.destination": "Destinasjon",
+    "withdraws.column headers.status": "Status",
+    "withdraws.heading": "Uttak",
+    "withdraws.states.processing": "Under behandling",
+    "withdraws.states.requested": "Venter på å bli behandlet",
+    "withdraws.states.completed": "Utført %s",
+    "withdraws.states.cancelled": "Avbrutt",
+    "withdraws.states.cancelled.error": "Feilet: %s"
 }

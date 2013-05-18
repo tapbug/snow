@@ -19,18 +19,18 @@ module.exports = function(app, api) {
             }
 
             if (item.state == 'completed') {
-                item.status = format('Completed %s', moment(item.completed).fromNow())
+                item.status = app.i18n('withdraws.states.completed', moment(item.completed).fromNow())
                 item.good = true
             } else if (item.state == 'processing') {
-                item.status = 'Being processed'
+                item.status = app.i18n('withdraws.states.processing')
             } else if (item.state == 'requested') {
-                item.status = 'Waiting to be processed'
+                item.status = app.i18n('withdraws.states.requested')
             } else if (item.state = 'cancelled') {
                 if (item.error) {
-                    item.status = 'Failed: ' + item.error
+                    item.status = i18n('withdraws.states.cancelled.error', item.error)
                     item.bad = true
                 } else if (item.error == null) {
-                    item.status = 'Cancelled'
+                    item.status = i18n('withdraws.states.cancelled')
                 }
             } else {
                 item.status = 'Unknown, ' + item.state
