@@ -6,7 +6,6 @@ var markets = require('./controllers/markets')
 , withdrawripple = require('./controllers/withdrawripple')
 , login = require('./controllers/login')
 , register = require('./controllers/register')
-, activities = require('./controllers/activities')
 , market = require('./controllers/market')
 , notfound = require('./controllers/notfound')
 , dashboard = require('./controllers/dashboard')
@@ -42,10 +41,6 @@ module.exports = function(app, api, router) {
     .add(/^markets\/(.+)$/, function(id) {
         $section.html(market(app, api, id).$el)
         section('market')
-    })
-    .add(/^activities$/, function() {
-        $section.html(activities(app, api).$el)
-        section('activities')
     })
     .add(/^register$/, function() {
         $section.html(register(app, api).$el)
