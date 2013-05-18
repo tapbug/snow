@@ -19,7 +19,7 @@ module.exports = function(app, api) {
     }
 
     function verifiedphone(phone) {
-        if (typeof Intercom !== 'undefined' && Intercom) {
+        if (typeof Intercom == 'undefined' || !Intercom) {
             debug('Will not update Intercom with phone because it\'s disabled')
             return
         }
