@@ -78,7 +78,7 @@ file('build/index.html', ['build'], function() {
         minifyHead: false,
         minifyScripts: false,
         minifyCss: false,
-        segment: '70kmerb0ik'
+        segment: segment
     })
     .to(this.name)
 })
@@ -89,7 +89,7 @@ file('build/index.min.html', ['build'], function() {
         minifyHead: true,
         minifyScripts: false,
         minifyCss: true,
-        segment: 'bc0p8b3ul1'
+        segment: segment
     })
     .to(this.name)
 })
@@ -186,10 +186,12 @@ function publish(hostname, cb) {
 }
 
 // publishing
+var segment
+
 task('pp', ['publish-prod'])
-task('publish-prod', [
-    'clean', 'dist'
-], function() {
+task('publish-prod', ['clean'], function() {
+    segment = 'bc0p8b3ul1'
+    jake.Task['dist'].invoke()
     publish('10.0.0.184', function(err) {
         if (err) return complete(err)
         exec('npm version patch', { silent: false })
@@ -198,9 +200,9 @@ task('publish-prod', [
 }, { async: true })
 
 task('ps', ['publish-staging'])
-task('publish-staging', [
-    'clean', 'dist'
-], function() {
+task('publish-staging', ['clean'], function() {
+    segment = '52j6v06i1t'
+    jake.Task['dist'].invoke()
     publish('54.217.208.30', complete)
 }, { async: true })
 
