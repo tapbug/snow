@@ -123,11 +123,11 @@
 
     "verifyphone.heading": "Verify phone",
     "verifyphone.intro": "To make your account more secure, we'll now call you and read a four digit code. Dont' worry, we're paying for the call.",
-    "verifyphone.number.placeholder": "+170285976",
+    "verifyphone.number.placeholder": "702-859-7638",
     "verifyphone.call me": "Call me",
     "verifyphone.verify code": "Verify code",
 
-    "verifyphone.calling you": "Calling you...",
-    "verifyphone.verifying code": "Verifying code...",
+    "verifyphone.calling you": "Calling...",
+    "verifyphone.verifying code": "Verifying...",
     "verifyphone.verified": "Phone number %s verified"
 }

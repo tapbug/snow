@@ -49,6 +49,7 @@ module.exports = function(lang) {
 
     if (lang) {
         debug('using hard coded language %s', lang)
+        fn.desired = lang
         fn.set(lang)
     } else {
         debug('user language %s', window.navigator.userLanguage || '<null>')
@@ -57,6 +58,7 @@ module.exports = function(lang) {
 
         if (lang) {
             debug('browser language: %s', lang)
+            fn.desired = lang
 
             if (dicts[lang]) {
                 debug('translation exists for %s', lang)
