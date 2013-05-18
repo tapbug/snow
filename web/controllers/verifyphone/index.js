@@ -54,7 +54,7 @@ module.exports = function(app, api) {
         e.preventDefault()
 
         var code = _.find(countries, { code: $country.val() }).dial_code
-        , number = $number.val().replace(/[^\d]/g, '')
+        number = $number.val().replace(/[^\d]/g, '')
 
         if (!number.length) {
             $number.focus()
