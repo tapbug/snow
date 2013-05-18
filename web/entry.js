@@ -5,6 +5,8 @@ var api = require('./api')()
 , debug = require('debug')
 debug.enable('*')
 
+app.router = router
+
 require('./routes')(app, api, router)
 
 if (window.analytics) {

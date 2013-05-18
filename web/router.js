@@ -18,5 +18,9 @@ module.exports = function() {
         return add
     }
 
+    add.go = function(hash) {
+        window.location.hash = hash
+    }
+
     return add.add = add
 }

@@ -1,7 +1,8 @@
 module.exports = function(app, api) {
     var balanceTemplate = require('./balance.html')
+     $el = $(require('./template.html')())
     , controller = {
-        $el: $(require('./template.html')())
+        $el: $el
     }
     , $summary = controller.$el.find('.account-summary')
     , $balances = $summary.find('.balances')
@@ -22,6 +23,12 @@ module.exports = function(app, api) {
     app.on('user', function(user) {
         $summary.find('.email').html(user.email)
         api.balances()
+    })
+
+    $el.on('click', '.brand', function(e) {
+        if (!app.user) return
+        e.preventDefault()
+        app.router.go('dashboard')
     })
 
     return controller
