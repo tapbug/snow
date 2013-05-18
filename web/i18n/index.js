@@ -3,15 +3,16 @@ var util = require('util')
 , _ = require('lodash')
 , dicts = {
     'en-US': require('./en-US.json'),
-    'en': require('./en-US.json'),
-    'en': require('./en-US.json'),
-    'en-GB': require('./en-US.json'),
-    'nb-NO': require('./nb-NO.json'),
-    'no-NO': require('./nb-NO.json'),
-    'no': require('./nb-NO.json'),
-    'nb': require('./nb-NO.json'),
+    'nb-NO': require('./nb-NO.json')
 }
-, fallback = 'en'
+, mappings = {
+    'en': 'en-US',
+    'en-GB': 'en-US',
+    'no-NO': 'nb-NO',
+    'no': 'nb-NO',
+    'nb': 'nb-NO'
+}
+, fallback = 'en-US'
 
 module.exports = function(lang) {
     var fn = function(key) {
@@ -29,12 +30,17 @@ module.exports = function(lang) {
         var args = _.toArray(arguments)
         args.splice(0, 1, s)
 
-        //return '!!' + util.format.apply(util, args) + '!!'
         return util.format.apply(util, args)
     }
 
     fn.set = function(lang) {
         debug('language set to %s', lang)
+
+        if (mappings[lang]) {
+            debug('mapping ' + lang + ' to ' + mappings[lang])
+            lang = mappings[lang]
+        }
+
         fn.lang = lang
         fn.dict = dicts[lang]
         $('html').attr('lang', lang).attr('xml:lang', lang)
