@@ -24,6 +24,8 @@ module.exports = function(app, api) {
             return
         }
 
+        debug('updating Intercom with phone number and time of verification')
+
         Intercom('update', {
             phone: update,
             phone_verified_at: Math.round(+new Date() / 1e3)
