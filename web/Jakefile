@@ -204,7 +204,7 @@ task('publish-staging', ['clean'], function() {
 
     // patch + tag
     exec('npm version patch')
-    var v = require('./package.json')
+    var v = require('./package.json').version
     exec('git add package.json')
     exec('git commit -m "v' + v + '"')
     exec('git tag ' + v)
