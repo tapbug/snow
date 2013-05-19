@@ -194,7 +194,6 @@ task('publish-prod', ['clean'], function() {
     jake.Task['dist'].invoke()
     publish('10.0.0.184', function(err) {
         if (err) return complete(err)
-        exec('npm version patch', { silent: false })
         complete()
     })
 }, { async: true })
@@ -202,6 +201,14 @@ task('publish-prod', ['clean'], function() {
 task('ps', ['publish-staging'])
 task('publish-staging', ['clean'], function() {
     segment = '52j6v06i1t'
+
+    // patch + tag
+    exec('npm version patch')
+    var v = require('./package.json')
+    exec('git add package.json')
+    exec('git commit -m "v' + v + '"')
+    exec('git tag ' + v)
+
     jake.Task['dist'].invoke()
     publish('54.217.208.30', complete)
 }, { async: true })
