@@ -41,7 +41,6 @@
     "register.create button": "Crear cuenta",
     "register.create button.creating": "Creando cuenta...",
 
-    // You created an order to buy/sell 5 NOK for 7 USD
     "activities.CreateOrder": "Usted ordenó un pedido de %s %s %s a %s %s",
     "activities.CancelOrder": "Usted canceló el pedido #%s",
     "activities.RippleWithdraw": "Usted solicitó retirar %s %s a Ripple (%s)",
