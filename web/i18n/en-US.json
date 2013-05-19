@@ -141,5 +141,11 @@
     "withdraws.states.requested": "Waiting to be processed",
     "withdraws.states.completed": "Completed %s",
     "withdraws.states.cancelled": "Cancelled",
-    "withdraws.states.cancelled.error": "Failed: %s"
+    "withdraws.states.cancelled.error": "Failed: %s",
+
+    "terms.heading": "Terms of Service",
+    "terms.body": "<p>Updated 2013-05-18.</p><p>The trading fee is 0.5% (both when you are buying and selling.)</p>",
+
+    "privacy.heading": "Privacy Policy",
+    "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>"
 }

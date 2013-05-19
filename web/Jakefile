@@ -23,7 +23,8 @@ task('app', [
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
-    'build/img/flags/US.png'
+    'build/img/flags/US.png',
+    'build/img/flags/ES.png'
 ])
 
 task('dist', [
@@ -38,6 +39,7 @@ task('dist', [
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
+    'build/img/flags/ES.png',
     'build/img/flags/US.png'
 ])
 
@@ -69,6 +71,7 @@ file('build/img/flags/NO.png', ['assets/img/flags/NO.png'], cpTask)
 file('build/img/flags/US.png', ['assets/img/flags/US.png'], cpTask)
 file('build/img/glyphicons-halflings.png', ['components/bootstrap/img/glyphicons-halflings.png'], cpTask)
 file('build/img/glyphicons-halflings-white.png', ['components/bootstrap/img/glyphicons-halflings-white.png'], cpTask)
+file('build/img/flags/ES.png', ['assets/img/flags/ES.png'], cpTask)
 
 function cpTask() {
     cp(this.prereqs[0], this.name)
@@ -173,6 +176,7 @@ function publish(hostname, cb) {
         'img/glyphicons-halflings.png': null,
         'img/glyphicons-halflings-white.png': null,
         'img/flags/NO.png': null,
+        'img/flags/ES.png': null,
         'img/flags/US.png': null
     }
 
@@ -201,7 +205,6 @@ task('publish-prod', ['clean'], function() {
     jake.Task['dist'].invoke()
     publish('10.0.0.184', function(err) {
         if (err) return complete(err)
-        exec('npm version patch', { silent: false })
         complete()
     })
 }, { async: true })
@@ -209,6 +212,14 @@ task('publish-prod', ['clean'], function() {
 task('ps', ['publish-staging'])
 task('publish-staging', ['clean'], function() {
     segment = '52j6v06i1t'
+
+    // patch + tag
+    exec('npm version patch')
+    var v = require('./package.json').version
+    exec('git add package.json')
+    exec('git commit -m "v' + v + '"')
+    exec('git tag ' + v)
+
     jake.Task['dist'].invoke()
     publish('54.217.208.30', complete)
 }, { async: true })

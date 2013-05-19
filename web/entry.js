@@ -1,7 +1,7 @@
 var api = require('./api')()
 , router = require('./router')()
 , $app = $('body')
-, app = require('./app')
+, app = window.app = require('./app')
 , debug = require('debug')
 debug.enable('*')
 
