@@ -26,7 +26,7 @@ module.exports = function(app, api) {
     })
 
     $el.on('click', '.brand', function(e) {
-        if (!app.user) return
+        if (!app.user()) return
         e.preventDefault()
         app.router.go('dashboard')
     })
