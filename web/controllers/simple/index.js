@@ -14,9 +14,8 @@ module.exports = function(app, api) {
     $el.on('click', 'a[href="#simple/buy"]', function(e) {
         e.preventDefault()
 
-        inner = require('./buy')(app, api)
-        $el.find('.wrapper').empty()
-        $el.find('.wrapper').append(inner.$el)
+        var modal = require('./buy')(app, api)
+        modal.$el.modal()
     })
 
     return controller
