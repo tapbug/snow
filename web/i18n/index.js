@@ -7,12 +7,9 @@ var util = require('util')
     'es-ES': require('./es-ES.json')
 }
 , mappings = {
-    'en': 'en-US',
-    'en-GB': 'en-US',
-    'no-NO': 'nb-NO',
-    'no': 'nb-NO',
-    'nb': 'nb-NO',
-    'es': 'es-ES'
+    '^en': 'en-US',
+    '^(no|nb)': 'nb-NO',
+    '^es': 'es-ES'
 }
 , fallback = 'en-US'
 
@@ -40,9 +37,15 @@ module.exports = function(lang) {
     fn.set = function(lang) {
         debug('language set to %s', lang)
 
-        if (mappings[lang]) {
-            debug('mapping ' + lang + ' to ' + mappings[lang])
-            lang = mappings[lang]
+        var mapping = _.find(_.keys(mappings), function(m) {
+            if (new RegExp(m, 'i').test(lang)) {
+                return true
+            }
+        })
+
+        if (mapping) {
+            debug('mapping %s (%s) to %s', lang, mapping, mappings[mapping])
+            lang = mappings[mapping]
         }
 
         fn.lang = lang
