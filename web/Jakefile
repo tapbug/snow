@@ -21,7 +21,8 @@ task('app', [
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
-    'build/img/flags/US.png'
+    'build/img/flags/US.png',
+    'build/img/flags/ES.png'
 ])
 
 task('dist', [
@@ -34,6 +35,7 @@ task('dist', [
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
+    'build/img/flags/ES.png',
     'build/img/flags/US.png'
 ])
 
@@ -63,6 +65,7 @@ file('build/raven.min.js', ['vendor/raven.min.js'], cpTask)
 file('build/img/registerbg.jpg', ['assets/img/registerbg.jpg'], cpTask)
 file('build/img/flags/NO.png', ['assets/img/flags/NO.png'], cpTask)
 file('build/img/flags/US.png', ['assets/img/flags/US.png'], cpTask)
+file('build/img/flags/ES.png', ['assets/img/flags/ES.png'], cpTask)
 
 function cpTask() {
     cp(this.prereqs[0], this.name)
@@ -166,6 +169,7 @@ function publish(hostname, cb) {
         'ripple.txt': 'ripple.txt',
         'img/registerbg.jpg': null,
         'img/flags/NO.png': null,
+        'img/flags/ES.png': null,
         'img/flags/US.png': null
     }
 

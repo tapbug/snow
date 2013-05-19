@@ -3,14 +3,16 @@ var util = require('util')
 , _ = require('lodash')
 , dicts = {
     'en-US': require('./en-US.json'),
-    'nb-NO': require('./nb-NO.json')
+    'nb-NO': require('./nb-NO.json'),
+    'es-ES': require('./es-ES.json')
 }
 , mappings = {
     'en': 'en-US',
     'en-GB': 'en-US',
     'no-NO': 'nb-NO',
     'no': 'nb-NO',
-    'nb': 'nb-NO'
+    'nb': 'nb-NO',
+    'es': 'es-ES'
 }
 , fallback = 'en-US'
 
@@ -26,6 +28,8 @@ module.exports = function(lang) {
             console.error('ERROR: missing translation key: ' + key)
             return 'translation missing!'
         }
+
+        //s = '!!' + s + '!!'
 
         var args = _.toArray(arguments)
         args.splice(0, 1, s)
