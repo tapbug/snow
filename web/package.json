@@ -1,7 +1,7 @@
 {
   "name": "snow-web",
   "description": "web interface",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "dependencies": {},
   "devDependencies": {
     "underscore": "~1.4.4",
