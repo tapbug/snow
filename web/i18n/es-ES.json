@@ -144,8 +144,6 @@
     "withdraws.states.cancelled.error": "Error: %s",
 
     "terms.heading": "Términos y condiciones",
-    "terms.body": "<p>Updated 2013-05-18.</p><p>Placeholder</p>",
 
     "privacy.heading": "Política de privacidad",
-    "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>"
 }
