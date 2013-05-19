@@ -16,7 +16,7 @@ module.exports = function(app, api) {
 
     // Add countries
     var countries = require('../../assets/callingcodes.json')
-    $country.append(countries.map(function(country) {
+    $country.append(_.map(countries, function(country) {
         return util.format('<option value="%s">%s (%s)</option>', country.code, country.name, country.dial_code)
     }))
 
