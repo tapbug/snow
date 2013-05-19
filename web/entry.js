@@ -65,8 +65,7 @@ app.rippleAddress = (function() {
 })()
 
 var language = $.cookie('language') || null
-//app.i18n = window.i18n = require('./i18n')(language)
-app.i18n = window.i18n = require('./i18n')('es-ES')
+app.i18n = window.i18n = require('./i18n')(language)
 $.fn.i18n = function() {
     $(this).html(app.i18n.apply(app.i18n, arguments))
 }
