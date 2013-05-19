@@ -1,5 +1,7 @@
 require('../../vendor/shake')
 
+var _ = require('lodash')
+
 module.exports = function(app, api) {
     var controller = {
         $el: $(require('./template.html')())
@@ -142,7 +144,7 @@ module.exports = function(app, api) {
         var fields = [$email, $password, $repeat]
         , invalid
 
-        fields.some(function($e) {
+        _.some(fields, function($e) {
             if ($e.hasClass('is-valid')) return
             $submit.shake()
             $e.find('input').focus()

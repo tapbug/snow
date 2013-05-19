@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 module.exports = function() {
     var routes = []
     , $window = $(window)
@@ -5,7 +7,7 @@ module.exports = function() {
     $window.on('ready hashchange', function() {
         var hash = window.location.hash.substr(1)
 
-        routes.some(function(route) {
+        _.some(routes, function(route) {
             var match = route.expr.exec(hash)
             if (!match) return
             route.fn.apply(route, match.slice(1))

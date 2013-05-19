@@ -1,4 +1,5 @@
-var markets = require('./controllers/markets')
+var _ = require('lodash')
+, markets = require('./controllers/markets')
 , home = require('./controllers/home')
 , orders = require('./controllers/orders')
 , withdrawbtc = require('./controllers/withdrawbtc')
@@ -19,7 +20,7 @@ var markets = require('./controllers/markets')
 , $app = $('body')
 
 function section(name) {
-    $app[0].className.split(/\s+/).forEach(function(name) {
+    _.each($app[0].className.split(/\s+/), function(name) {
         if (!/is-section-/.test(name)) return
         $app.removeClass(name)
     })

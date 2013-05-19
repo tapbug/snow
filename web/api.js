@@ -1,4 +1,5 @@
-var app = require('./app')
+var _ = require('lodash')
+, app = require('./app')
 
 module.exports = function() {
     var api = {}
@@ -51,7 +52,7 @@ module.exports = function() {
 
     api.balances = function() {
         api.call('v1/balances')
-        .done(app.balances.bind(app))
+        .done(_.bind(app.balances, app))
     }
 
     return api

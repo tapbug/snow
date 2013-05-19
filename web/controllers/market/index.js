@@ -29,7 +29,7 @@ module.exports = function(app, api, id) {
     function depthChanged(depth) {
         var combined = []
 
-        depth.bids.forEach(function(x) {
+        _.each(depth.bids, function(x) {
             combined.push({
                 type: 'bid',
                 price: x[0],
@@ -37,7 +37,7 @@ module.exports = function(app, api, id) {
             })
         })
 
-        depth.asks.forEach(function(x) {
+        _.each(depth.asks, function(x) {
             combined.push({
                 type: 'ask',
                 price: x[0],

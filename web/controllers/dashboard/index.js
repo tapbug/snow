@@ -1,4 +1,5 @@
-var num = require('num')
+var _ = require('lodash')
+, num = require('num')
 , Activities = require('../activities')
 , Withdraws = require('./withdraws')
 
@@ -31,7 +32,7 @@ module.exports = function(app, api) {
     }
 
     function balancesUpdated(balances) {
-        var indexed = balances.reduce(function(p, c) {
+        var indexed = _.reduce(balances, function(p, c) {
             p[c.currency] = c.available
             return p
         }, {})
