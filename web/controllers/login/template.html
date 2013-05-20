@@ -1,8 +1,26 @@
-<div class="container login">
-    <form class="span4">
-        <h2 class="heading"><%= i18n('login.heading') %></h2>
-        <input type="text" class="email input-block-level" placeholder="<%= i18n('login.email.placeholder') %>" name="email" />
-        <input type="password" class="password input-block-level" placeholder="<%= i18n('login.password.placeholder') %>" name="password" />
-        <input type="submit" class="btn btn-large btn-primary" value="<%= i18n('login.button') %>" />
+<div class="login container">
+    <h3><%= i18n('login.heading') %></h3>
+    <p><a href="#register" style="position:relative; top:-15px;"><%= i18n('login.new user register') %></a></p>
+
+    <form class="login">
+        <div class="control-group email">
+            <label class="control-label"><%= i18n('login.email.label') %></label>
+            <div class="controls">
+                <input type="text" name="email">
+                <span class="help-inline"></span>
+            </div>
+        </div>
+        <div class="control-group password">
+            <label class="control-label"><%= i18n('login.password.label') %></label>
+            <div class="controls">
+                <input type="password" name="password">
+                <span class="help-inline"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success btn-large"><%= i18n('login.login button') %></button>
+            </div>
+        </div>
     </form>
 </div>
