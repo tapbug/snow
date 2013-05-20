@@ -61,11 +61,14 @@
     "depositltc.address.label": "Send to this address",
     "depositltc.disclaimer": "We require 3 confirmations before your account is credited. This should take less than an hour.",
 
-    "login.wrong username or password": "Wrong e-mail/password combination",
+    "login.errors.wrong username or password": "Wrong e-mail/password",
     "login.heading": "Please sign in",
-    "login.email.placeholder": "Email address",
-    "login.password.placeholder": "Password",
-    "login.button": "Sign in",
+    "login.email.label": "Email address",
+    "login.password.label": "Password",
+    "login.login button": "Sign in",
+    "login.login button.logging in": "Signing in...",
+    "login.new user register": "Not registered? Click here",
+    "login.errors.email.badFormat": "Doesn't look valid.",
 
     "market.buy summary": "You are buying %s %s for %s %s",
     "market.sell summary": "You are selling %s %s for %s %s",

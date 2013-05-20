@@ -1,8 +1,10 @@
-@import loading.styl
+@import "loading.styl"
 
-body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+@media (min-width: 768px) {
+    body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+    }
 }
 
 footer {
@@ -105,7 +107,7 @@ body.is-logged-in #top {
         font-size 0.85em
 
 // Registration
-.is-section-register
+.is-section-register, .is-section-login
     background: url('/img/registerbg.jpg')  no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -119,7 +121,7 @@ body.is-logged-in #top {
     footer, hr
         display none
 
-.container.register
+.container.register, .container.login
     max-width: 550px
     padding: 19px 0px 29px 100px
     margin: 40px auto 20px
@@ -147,28 +149,6 @@ body.is-logged-in #top {
         visibility hidden
     .email .help-inline
         visibility visible
-
-
-// Login
-.container.login
-    //> *
-    max-width: 500px
-    padding: 19px 0px 29px 100px
-    margin: 20px auto 20px
-    //background-color: #fff
-    border: 1px solid #e5e5e5
-    //border-radius: 5px
-    box-shadow: 0 1px 2px rgba(0,0,0,.05)
-
-        .heading
-            margin-bottom: 10px
-
-        .email
-        .password
-            font-size: 16px
-            height: auto
-            margin-bottom: 15px
-            padding: 7px 9px
 
 .container.market
     .price
