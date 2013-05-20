@@ -129,5 +129,12 @@
     "withdraws.states.requested": "Venter på å bli behandlet",
     "withdraws.states.completed": "Utført %s",
     "withdraws.states.cancelled": "Avbrutt",
-    "withdraws.states.cancelled.error": "Feilet: %s"
+    "withdraws.states.cancelled.error": "Feilet: %s",
+    "login.errors.wrong username or password": "Feil brukernavn/passord",
+    "login.email.label": "Epost",
+    "login.password.label": "Passord",
+    "login.login button": "Logg inn",
+    "login.login button.logging in": "Logger inn...",
+    "login.new user register": "Ikke registrert? Klikk her",
+    "login.errors.email.badFormat": "Ser ikke gyldig ut."
 }
