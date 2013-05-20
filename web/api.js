@@ -4,7 +4,7 @@ var _ = require('lodash')
 module.exports = function() {
     var api = {}
 
-    function keyFromCredentials(email, password) {
+    api.keyFromCredentials = function(email, password) {
         var concat = email.toLowerCase() + password
         , bits = sjcl.hash.sha256.hash(concat)
         , hex = sjcl.codec.hex.fromBits(bits)
@@ -32,7 +32,7 @@ module.exports = function() {
     }
 
     api.login = function(email, password) {
-        var key = keyFromCredentials(email, password)
+        var key = api.keyFromCredentials(email, password)
         return api.call('v1/whoami', null, { key: key })
         .then(function(user) {
             api.key = key
@@ -43,7 +43,7 @@ module.exports = function() {
     api.register = function(email, password) {
         return api.call('v1/users', {
             email: email,
-            key: keyFromCredentials(email, password)
+            key: api.keyFromCredentials(email, password)
         })
         .then(function() {
             return api.login(email, password)

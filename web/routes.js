@@ -13,6 +13,7 @@ var _ = require('lodash')
 , terms = require('./controllers/terms')
 , privacy = require('./controllers/privacy')
 , depositbtc = require('./controllers/depositbtc')
+, changepassword = require('./controllers/changepassword')
 , depositltc = require('./controllers/depositltc')
 , adminBalances = require('./controllers/admin/balances')
 , adminWithdraws = require('./controllers/admin/withdraws')
@@ -80,6 +81,11 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         $section.html(depositbtc(app, api).$el)
         section('depositbtc')
+    })
+    .add(/^changepassword$/, function() {
+        if (!app.authorize()) return
+        $section.html(changepassword(app, api).$el)
+        section('changepassword')
     })
     .add(/^terms$/, function() {
         $section.html(terms(app, api).$el)
