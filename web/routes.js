@@ -13,8 +13,11 @@ var _ = require('lodash')
 , terms = require('./controllers/terms')
 , privacy = require('./controllers/privacy')
 , depositbtc = require('./controllers/depositbtc')
+, depositnok = require('./controllers/depositnok')
+, identity = require('./controllers/identity')
 , changepassword = require('./controllers/changepassword')
 , depositltc = require('./controllers/depositltc')
+, withdrawnorway = require('./controllers/withdrawnorway')
 , adminBalances = require('./controllers/admin/balances')
 , adminWithdraws = require('./controllers/admin/withdraws')
 , adminCredit = require('./controllers/admin/credit')
@@ -77,6 +80,11 @@ module.exports = function(app, api, router) {
         $section.html(dashboard(app, api).$el)
         section('dashboard')
     })
+    .add(/^identity(?:\?after=(.+))?$/, function(after) {
+        if (!app.authorize()) return
+        $section.html(identity(app, api, after).$el)
+        section('identity')
+    })
     .add(/^depositbtc$/, function() {
         if (!app.authorize()) return
         $section.html(depositbtc(app, api).$el)
@@ -99,6 +107,20 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         $section.html(depositltc(app, api).$el)
         section('depositltc')
+    })
+    .add(/^withdrawnorway$/, function() {
+        if (!app.authorize()) return
+        $section.html(withdrawnorway(app, api).$el)
+        section('withdrawnorway')
+    })
+    .add(/^depositnok$/, function() {
+        if (!app.authorize()) return
+        if (!app.user().firstName) {
+            window.location.hash = '#identity?after=depositnok'
+            return
+        }
+        $section.html(depositnok(app, api).$el)
+        section('depositnok')
     })
     .add(/^admin\/balances$/, function() {
         if (!app.authorize()) return

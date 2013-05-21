@@ -1,0 +1,32 @@
+<div class="container withdraw-btc">
+    <h3>Withraw using bank transfer</h3>
+
+    <p>TODO: Note processed manually</p>
+
+    <p class="no-bank-accounts error" style="display:none;">
+        You have no verified bank accounts. To verify a bank account,
+        simply make a 1 NOK deposit from it. Click here to do that.
+    </p>
+
+    <form class="form-horizontal well span6">
+        <div class="control-group">
+            <label class="control-label">Bank account</label>
+            <div class="controls">
+                <select name="bankAccount" class="bank-account"></select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="amount"><%= i18n('amount') %></label>
+            <div class="controls">
+                <input class="amount" type="text" id="amount" placeholder="0.0" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary" type="submit" value="Withdraw" />
+            </div>
+        </div>
+    </form>
+</div>
