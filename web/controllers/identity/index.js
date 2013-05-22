@@ -37,7 +37,7 @@ module.exports = function(app, api, after) {
 
         api.call('v1/users/identity', data)
         .done(function() {
-            alertify.log('User profile stored.')
+            alertify.log(app.i18n('identity.confirmation'))
             _.extend(app.user(), data)
             window.location.hash = '#' + (after || 'dashboard')
         })

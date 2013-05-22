@@ -136,5 +136,23 @@
     "login.login button": "Logg inn",
     "login.login button.logging in": "Logger inn...",
     "login.new user register": "Ikke registrert? Klikk her",
-    "login.errors.email.badFormat": "Ser ikke gyldig ut."
+    "login.errors.email.badFormat": "Ser ikke gyldig ut.",
+
+    "depositnok.heading": "Innskudd med norsk bankoveføring",
+    "depositnok.intro": "For å sette inn NOK med norsk bankoveføring, send med detaljene under. Pass på at melding til mottaker er riktig.",
+    "depositnok.account": "Kontonummer",
+    "depositnok.messageToRecipient": "Melding til mottaker",
+    "depositnok.minimumAmount": "Minste beløp",
+    "depositnok.maximumAmount": "Største beløp",
+
+    "identity.confirmation": "Profil lagret.",
+    "identity.heading": "Profil",
+    "identity.intro": "Før du gjør noen innskudd eller uttak, trenger vi å vite litt mer om deg.",
+    "identity.firstName": "Fornavn",
+    "identity.lastName": "Etternavn",
+    "identity.address": "Adresse",
+    "identity.city": "By",
+    "identity.postalArea": "Postkode",
+    "identity.country": "Land",
+    "identity.save": "Lagre"
 }

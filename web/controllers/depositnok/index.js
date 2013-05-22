@@ -1,12 +1,10 @@
 module.exports = function(app, api) {
-    var controller = {
-        $el: $(require('./template.html')())
+    var $el = $(require('./template.html')({
+        messageToRecipient: app.user().id * 1234
+    }))
+    , controller = {
+        $el: $el
     }
-    , $address = controller.$el.find('.address')
-
-    app.litecoinAddress().done(function(address) {
-        $address.html($('<a href="litecoin:' + address + '">' + address + '</a>'))
-    })
 
     app.section('dashboard')
 

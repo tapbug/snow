@@ -150,5 +150,23 @@
     "terms.body": "<p>Updated 2013-05-18.</p><p>The trading fee is 0.5% (both when you are buying and selling.)</p>",
 
     "privacy.heading": "Privacy Policy",
-    "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>"
+    "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>",
+
+    "depositnok.heading": "Deposit with Norwegian bank transfer",
+    "depositnok.intro": "To deposit NOK with Norwegian bank transfer, send using the details below. Make sure that the message to recipient is correct.",
+    "depositnok.account": "Account number",
+    "depositnok.messageToRecipient": "Message to recipient",
+    "depositnok.minimumAmount": "Minimum amount",
+    "depositnok.maximumAmount": "Maximum amount",
+
+    "identity.confirmation": "Profile stored.",
+    "identity.heading": "Profile",
+    "identity.intro": "Before you deposit or withdraw, we'll need to know some more about you.",
+    "identity.firstName": "First name",
+    "identity.lastName": "Last name",
+    "identity.address": "Address",
+    "identity.city": "City",
+    "identity.postalArea": "ZIP/Post code",
+    "identity.country": "Country",
+    "identity.save": "Save"
 }
