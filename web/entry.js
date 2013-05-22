@@ -14,7 +14,6 @@ if (window.analytics) {
 }
 
 app.on('user', function(user) {
-    console.log(user)
     $app.toggleClass('is-logged-in', !!user)
     $app.toggleClass('is-admin', user && user.admin)
 
