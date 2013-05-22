@@ -13,8 +13,7 @@ module.exports = function() {
 
     api.call = function(method, data, options) {
         var settings = {
-            url: '/api/' + method,
-            dataType: 'json'
+            url: '/api/' + method
         }
 
         options = options || {}
@@ -26,7 +25,10 @@ module.exports = function() {
         if (options.type) settings.type = options.type
         else if (data) settings.type = 'POST'
 
-        settings.data = data
+        if (data) {
+            settings.contentType = "application/json; charset=utf-8",
+            settings.data = JSON.stringify(data)
+        }
 
         return $.ajax(settings)
     }
