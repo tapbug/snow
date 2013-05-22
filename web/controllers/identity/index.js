@@ -39,6 +39,17 @@ module.exports = function(app, api, after) {
         .done(function() {
             alertify.log(app.i18n('identity.confirmation'))
             _.extend(app.user(), data)
+
+            if (typeof Intercom != 'undefined' && Intercom) {
+                Intercom('update', {
+                    name: data.firstName + ' ' + data.lastName,
+                    address: data.address,
+                    city: data.city,
+                    postalArea: data.postalArea,
+                    country: data.country
+                })
+            }
+
             window.location.hash = '#' + (after || 'dashboard')
         })
         .fail(function(xhr) {
