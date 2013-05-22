@@ -9,8 +9,6 @@ module.exports = function(app, api, after) {
     }
     , $form = $el.find('form')
 
-    console.log('after', after)
-
     var countries = require('../../assets/callingcodes.json')
     , $country = $el.find('.country')
     $country.append(_.map(countries, function(country) {

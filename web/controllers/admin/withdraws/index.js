@@ -55,6 +55,12 @@ module.exports = function(app, api) {
         })
     })
 
+    $el.on('click', 'a[href="#user"]', function(e) {
+        e.preventDefault()
+        var id = $(this).closest('a').attr('data-user-id')
+        , modal = require('../user')(app, api, +id)
+    })
+
     $el.on('click', '.process', function() {
         var id = $(this).closest('.withdraw').attr('data-id')
         , $el = $(this)

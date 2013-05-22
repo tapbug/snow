@@ -1,11 +1,13 @@
+var format = require('util').format
+
 module.exports = function(app, api, currency) {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
     }
     , $form = controller.$el.find('form')
-    , $amount = $form.find('input.amount')
-    , $bankAccount = $form.find('input.bank-account')
+    , $amount = $form.find('.amount')
+    , $bankAccount = $form.find('.bank-account')
 
     api.call('v1/users/bankAccounts')
     .fail(app.alertXhrError)
@@ -17,18 +19,22 @@ module.exports = function(app, api, currency) {
             return
         }
 
-        alert(JSON.stringify(accounts, null, 4))
+        $bankAccount.html(accounts.map(function(a) {
+            return format('<option class="bank-account" value="%s">%s (%s)</option>',
+                a.id, a.displayName, a.details.account)
+        }))
     })
 
     $form.on('submit', function(e) {
         e.preventDefault()
-        api.call('v1/btc/out', {
+        api.call('v1/withdraws/norway', {
             amount: $amount.val(),
-            address: $address.val()
+            bankAccount: +$bankAccount.val()
         })
         .fail(app.alertXhrError)
         .done(function() {
-            alert(app.i18n('withdrawbtc.confirmation'))
+            alert('Request to withdraw received.')
+            api.balances()
             window.location.hash = '#dashboard'
         })
     })

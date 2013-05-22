@@ -108,9 +108,9 @@ module.exports = function(app, api, router) {
         $section.html(depositltc(app, api).$el)
         section('depositltc')
     })
-    .add(/^withdrawnorway$/, function() {
+    .add(/^withdrawnorway\?currency=([A-Z]{3})$/, function(currency) {
         if (!app.authorize()) return
-        $section.html(withdrawnorway(app, api).$el)
+        $section.html(withdrawnorway(app, api, currency).$el)
         section('withdrawnorway')
     })
     .add(/^depositnok$/, function() {
