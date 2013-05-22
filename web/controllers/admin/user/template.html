@@ -1,0 +1,47 @@
+<div class="modal admin-user">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>User #<%= user_id %> <%= first_name ? last_name + ', ' + first_name : '' %></h3>
+    </div>
+
+    <div class="modal-body">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>User #</td>
+                <td><%= user_id %></td>
+            </tr>
+            <tr>
+                <td>First name</td>
+                <td><%= first_name || '' %></td>
+            </tr>
+            <tr>
+                <td>Last name</td>
+                <td><%= last_name || '' %></td>
+            </tr>
+            <tr>
+                <td>Created</td>
+                <td><%= created %></td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td><%= phone_number || '' %></td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td><%= country || '' %></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><%= city || '' %></td>
+            </tr>
+            <tr>
+                <td>Postal Area</td>
+                <td><%= postal_area || '' %></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><%- address.replace('\n', '<br />') || '' %></td>
+            </tr>
+        </table>
+    </div>
+</div>

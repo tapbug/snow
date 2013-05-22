@@ -39,7 +39,6 @@ module.exports = function(app, api) {
         $country.val(option.code)
 
         setTimeout(function() {
-            console.log($number)
             $number.focus()
         }, 500)
     } else {
