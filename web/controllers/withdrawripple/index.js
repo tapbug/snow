@@ -17,6 +17,7 @@ module.exports = function(app, api) {
         .fail(app.alertXhrError)
         .done(function() {
             alert(app.i18n('withdrawripple.confirmation'))
+            api.balances()
             window.location.hash = '#dashboard'
         })
     })
