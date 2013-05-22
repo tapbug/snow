@@ -42,7 +42,7 @@ app.errorFromXhr = function(xhr) {
             return {
                 name: 'ErrorBodyInvalid',
                 message: 'Failed to parse JSON error body',
-                body: body ? body.toString() : '<null or empty>',
+                body: body || '<null or empty>',
                 status: xhr.status
             }
         }
