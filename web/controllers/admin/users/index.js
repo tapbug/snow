@@ -21,13 +21,11 @@ module.exports = function(app, api) {
     function refresh(query) {
         $form.addClass('is-loading')
 
-        setTimeout(function() {
-            api.call('admin/users', null, { qs: query })
-            .always(function() {
-                    $form.removeClass('is-loading')
-            })
-            .done(itemsChanged)
-        }, 1000)
+        api.call('admin/users', null, { qs: query })
+        .always(function() {
+                $form.removeClass('is-loading')
+        })
+        .done(itemsChanged)
     }
 
     $el.on('click', 'a[href^="#admin/users/"]', function(e) {
