@@ -34,6 +34,7 @@ module.exports = function(app, api, userId) {
         .always(function() {
             $el.removeClass('is-loading').enabled(true)
         })
+        .fail(app.alertXhrError)
         .done(function() {
             alertify.log(util.format(
                 'User #%s credited with %s %s (%s)',
@@ -44,10 +45,6 @@ module.exports = function(app, api, userId) {
 
             $el.find('input').val('')
             $el.find('.user input').focus()
-        })
-        .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
         })
     })
 
@@ -61,6 +58,7 @@ module.exports = function(app, api, userId) {
 
     function refreshBankAccounts() {
         api.call('admin/users/' + userId + '/bankAccounts')
+        .fail(app.alertXhrError)
         .done(function(accounts) {
             $el.find('.bank-account select').html(accounts.map(function(a) {
                 return util.format('<option value="%s">%s (%s)</option>',

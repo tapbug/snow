@@ -28,6 +28,7 @@ module.exports = function(app, api, userId) {
         .always(function() {
             $button.addClass('is-loading').enabled(false)
         })
+        .fail(app.alertXhrError)
         .done(function() {
             $el.trigger('added')
             $el.modal('hide')
