@@ -52,7 +52,8 @@ var vendor = [
     'build/jquery.cookie.js',
     'build/sjcl.js',
     'build/alertify.min.js',
-    'build/bootstrap-dropdown.js'
+    'build/bootstrap-dropdown.js',
+    'build/bootstrap-modal.js'
 ]
 
 file('build/jquery.min.js', ['components/jquery/jquery.min.js'], cpTask)
@@ -60,6 +61,7 @@ file('build/sjcl.js', ['vendor/sjcl.js'], cpTask)
 file('build/jquery.cookie.js', ['vendor/jquery.cookie.js'], cpTask)
 file('build/alertify.min.js', ['components/alertify/alertify.min.js'], cpTask)
 file('build/bootstrap-dropdown.js', ['vendor/bootstrap-stylus/js/bootstrap-dropdown.js'], cpTask)
+file('build/bootstrap-modal.js', ['vendor/bootstrap-stylus/js/bootstrap-modal.js'], cpTask)
 file('build/ripple.txt', ['assets/ripple.txt'], cpTask)
 file('build/raven.min.js', ['vendor/raven.min.js'], cpTask)
 file('build/img/registerbg.jpg', ['assets/img/registerbg.jpg'], cpTask)

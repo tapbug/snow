@@ -1,6 +1,7 @@
 require('../../vendor/shake')
 
 var _ = require('lodash')
+, debug = require('debug')('login')
 
 module.exports = function(app, api, after) {
     var controller = {
@@ -108,12 +109,15 @@ module.exports = function(app, api, after) {
         .addClass('is-loading')
         .html(i18n('login.login button.logging in'))
 
+        debug('logging in')
+
         api.login($email.find('input').val(), $password.find('input').val())
         .always(function() {
             $submit.prop('disabled', false)
             .removeClass('is-loading')
             .html(i18n('login.login button'))
         }).done(function() {
+            debug('login success')
             window.location.hash = '#' + (after || 'dashboard')
         }).fail(function(xhr) {
             var err = app.errorFromXhr(xhr)

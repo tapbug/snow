@@ -21,7 +21,7 @@ module.exports = function(app, api, currency) {
 
         $bankAccount.html(accounts.map(function(a) {
             return format('<option class="bank-account" value="%s">%s (%s)</option>',
-                a.id, a.displayName, a.details.account)
+                a.id, a.displayName || 'Unnamed', a.accountNumber)
         }))
     })
 

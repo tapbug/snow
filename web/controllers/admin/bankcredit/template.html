@@ -1,16 +1,15 @@
 <div class="nav-container"></div>
 
-<div class="container admin-balances">
-    <h3>Admin: Credit</h3>
-
-    <p>Use this page to credit a user manually. The user will be credited and the special account <i>edge</i> will be debited.</p>
+<div class="container admin-bank-credit">
+    <h3>Bank credit</h3>
 
     <div class="row">
         <form class="form-horizontal">
-            <div class="user control-group">
-                <label class="control-label">User #</label>
+            <div class="bank-account control-group">
+                <label class="control-label">Bank account</label>
                 <div class="controls">
-                    <input type="text">
+                    <select type="text" />
+                    <button class="add-bank-account btn">+</button>
                     <span class="help-inline"></span>
                 </div>
             </div>
@@ -22,6 +21,7 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
+
             <div class="currency control-group">
                 <label class="control-label">Currency</label>
                 <div class="controls">
@@ -29,6 +29,15 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
+
+            <div class="reference control-group">
+                <label class="control-label">Reference</label>
+                <div class="controls">
+                    <input type="text" />
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+
             <div class="currency control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-success">Credit user</button>

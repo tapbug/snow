@@ -21,7 +21,7 @@ var _ = require('lodash')
 , adminBalances = require('./controllers/admin/balances')
 , adminUsers = require('./controllers/admin/users')
 , adminWithdraws = require('./controllers/admin/withdraws')
-, adminCredit = require('./controllers/admin/credit')
+, adminBankCredit = require('./controllers/admin/bankcredit')
 , $app = $('body')
 
 function section(name) {
@@ -138,10 +138,10 @@ module.exports = function(app, api, router) {
         $section.html(adminWithdraws(app, api).$el)
         section('admin-withdraws')
     })
-    .add(/^admin\/credit$/, function() {
+    .add(/^admin\/bankcredit\/(\d+)$/, function(userId) {
         if (!app.authorize()) return
-        $section.html(adminCredit(app, api).$el)
-        section('admin-credit')
+        $section.html(adminBankCredit(app, api, userId).$el)
+        section('admin-bank-credit')
     })
     .add(/^(.+)$/, function(hash) {
         $section.html(notfound(hash).$el)
