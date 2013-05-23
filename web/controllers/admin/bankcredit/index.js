@@ -16,7 +16,7 @@ module.exports = function(app, api, userId) {
         var $el = $(this)
 
         var body = {
-            userId: userId,
+            user_id: userId,
             amount: $el.find('.amount input').val(),
             reference: $el.find('.reference input').val(),
             currency_id: $el.find('.currency input').val(),
