@@ -19,6 +19,7 @@ var _ = require('lodash')
 , depositltc = require('./controllers/depositltc')
 , withdrawnorway = require('./controllers/withdrawnorway')
 , adminBalances = require('./controllers/admin/balances')
+, adminUsers = require('./controllers/admin/users')
 , adminWithdraws = require('./controllers/admin/withdraws')
 , adminCredit = require('./controllers/admin/credit')
 , $app = $('body')
@@ -126,6 +127,11 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         $section.html(adminBalances(app, api).$el)
         section('admin-balances')
+    })
+    .add(/^admin\/users$/, function() {
+        if (!app.authorize()) return
+        $section.html(adminUsers(app, api).$el)
+        section('admin-users')
     })
     .add(/^admin\/withdraws$/, function() {
         if (!app.authorize()) return

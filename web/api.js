@@ -17,9 +17,10 @@ module.exports = function() {
         }
 
         options = options || {}
+        options.qs = options.qs || {}
 
         if (options.key || api.key) {
-            settings.url += '?key=' + (options.key || api.key)
+            options.qs.key = options.key || api.key
         }
 
         if (options.type) settings.type = options.type
@@ -28,6 +29,17 @@ module.exports = function() {
         if (data) {
             settings.contentType = "application/json; charset=utf-8",
             settings.data = JSON.stringify(data)
+        }
+
+        if (_.size(options.qs)) {
+            settings.url += '?' + _.map(options.qs, function(v, k) {
+                // this is a little hackish. to send a key without a value
+                if (v === null) return null
+                if (_.isString(v) && !v.length) return k
+                return k + '=' + encodeURIComponent(v)
+            }).filter(function(x) {
+                return x !== null
+            }).join('&')
         }
 
         return $.ajax(settings)
