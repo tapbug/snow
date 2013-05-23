@@ -104,3 +104,10 @@ $.fn.enabled = function(value) {
 $.fn.fadeAway = function(delay) {
     return $(this).fadeOut(delay || 500, function() { $(this).remove() })
 }
+
+$.fn.focusSoon = function() {
+    var that = this
+    setTimeout(function() {
+        $(that).focus()
+    }, 500)
+}
