@@ -40,9 +40,7 @@ module.exports = function(app, api, after) {
             alert('Password has been changed. Please sign in again.')
             window.location = '/'
         }).fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
         })
     })
 

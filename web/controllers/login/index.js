@@ -130,7 +130,7 @@ module.exports = function(app, api, after) {
                 return
             }
 
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
         })
     })
 

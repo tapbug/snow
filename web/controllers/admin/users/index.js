@@ -22,17 +22,12 @@ module.exports = function(app, api) {
         $form.addClass('is-loading')
 
         api.call('admin/users', null, { qs: query })
+        .fail(app.alertXhrError)
         .always(function() {
                 $form.removeClass('is-loading')
         })
         .done(itemsChanged)
     }
-
-    $el.on('click', 'a[href^="#admin/users/"]', function(e) {
-        e.preventDefault()
-        var userId = /\d+$/.exec($(this).attr('href'))[0]
-        require('../user/')(app, api, +userId)
-    })
 
     $form.on('submit', function(e) {
         function parseField(val) {

@@ -1,9 +1,9 @@
 <tr class="item">
     <td><a href="#markets/<%= id %>"><%= id.substr(0,3) + ' / ' + id.substr(3) %></a></td>
-    <td class="last"><%= last %></td>
-    <td class="bid"><%= bid %></td>
-    <td class="ask"><%= ask %></td>
-    <td class="high"><%= high %></td>
-    <td class="low"><%= low %></td>
-    <td class="volume"><%= volume %></td>
+    <td class="last"><%= numbers.formatPrice(last) %></td>
+    <td class="bid"><%= numbers.formatPrice(bid) %></td>
+    <td class="ask"><%= numbers.formatPrice(ask) %></td>
+    <td class="high"><%= numbers.formatPrice(high) %></td>
+    <td class="low"><%= numbers.formatPrice(low) %></td>
+    <td class="volume"><%= numbers.formatAmount(volume) %></td>
 </tr>

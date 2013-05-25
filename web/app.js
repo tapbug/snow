@@ -22,8 +22,14 @@ app.balances = function(value) {
     return app._balances
 }
 
-app.alertXhrError = function(err) {
-    alert(JSON.stringify(app.errorFromXhr(err), null, 4))
+app.alertXhrError = function(xhr) {
+    var err = app.errorFromXhr(xhr)
+
+    if (typeof Raven != 'undefined') {
+        Raven.captureException(err)
+    }
+
+    alert(JSON.stringify(err, null, 4))
 }
 
 app.authorize = function() {

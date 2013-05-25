@@ -79,10 +79,7 @@ module.exports = function(app, api) {
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
         })
-        .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
-        })
+        .fail(app.alertXhrError)
     })
 
     $codeForm.on('submit', function(e) {
@@ -115,8 +112,7 @@ module.exports = function(app, api) {
             alertify.log(app.i18n('verifyphone.verified', app.user.phone))
         })
         .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
             window.location = '/'
         })
     })

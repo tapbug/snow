@@ -17,7 +17,9 @@ module.exports = function(app, api) {
     }
 
     function refresh() {
-        api.call('admin/balances').done(itemsChanged)
+        api.call('admin/balances')
+        .fail(app.alertXhrError)
+        .done(itemsChanged)
     }
 
     refresh()

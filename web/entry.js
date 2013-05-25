@@ -63,6 +63,8 @@ app.rippleAddress = (function() {
     }
 })()
 
+window.numbers = require('./util/numbers')
+
 var language = $.cookie('language') || null
 app.i18n = window.i18n = require('./i18n')(language)
 $.fn.i18n = function() {

@@ -20,6 +20,7 @@ var _ = require('lodash')
 , withdrawnorway = require('./controllers/withdrawnorway')
 , adminBalances = require('./controllers/admin/balances')
 , adminUsers = require('./controllers/admin/users')
+, adminUser = require('./controllers/admin/user')
 , adminWithdraws = require('./controllers/admin/withdraws')
 , adminBankCredit = require('./controllers/admin/bankcredit')
 , $app = $('body')
@@ -122,6 +123,11 @@ module.exports = function(app, api, router) {
         }
         $section.html(depositnok(app, api).$el)
         section('depositnok')
+    })
+    .add(/^admin\/users\/(\d+)$/, function(userId) {
+        if (!app.authorize()) return
+        $section.html(adminUser(app, api, userId).$el)
+        section('admin-balances')
     })
     .add(/^admin\/balances$/, function() {
         if (!app.authorize()) return

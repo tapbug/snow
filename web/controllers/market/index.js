@@ -117,7 +117,9 @@ module.exports = function(app, api, id) {
             type: 'ask',
             price: $sellPrice.val(),
             amount: $sellAmount.val()
-        }).done(function(order) {
+        })
+        .fail(app.alertXhrError)
+        .done(function(order) {
             api.balances()
             alert(i18n('market.order placed', order.id))
             //window.location.hash = '#orders'

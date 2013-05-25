@@ -27,7 +27,9 @@ module.exports = function(app, api) {
     }
 
     function refresh() {
-        api.call('admin/withdraws').done(itemsChanged)
+        api.call('admin/withdraws')
+        .fail(app.alertXhrError)
+        .done(itemsChanged)
     }
 
     $el.on('click', '.cancel', function() {
@@ -48,8 +50,7 @@ module.exports = function(app, api) {
                 $el.closest('.withdraw').fadeAway()
             })
             .fail(function(xhr) {
-                var err = app.errorFromXhr(xhr)
-                alert(JSON.stringify(err, null, 4))
+                app.alertXhrError(xhr)
                 refresh()
             })
         })
@@ -76,8 +77,7 @@ module.exports = function(app, api) {
             refresh()
         })
         .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
             refresh()
         })
     })
@@ -96,8 +96,7 @@ module.exports = function(app, api) {
             $el.closest('.withdraw').fadeAway()
         })
         .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
             refresh()
         })
     })

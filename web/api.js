@@ -42,8 +42,6 @@ module.exports = function() {
             }).join('&')
         }
 
-        console.log(settings)
-
         return $.ajax(settings)
     }
 
