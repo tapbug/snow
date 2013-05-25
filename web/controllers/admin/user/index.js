@@ -42,9 +42,7 @@ module.exports = function(app, api, userId) {
             .fail(app.alertXhrError)
             .done(function(requests) {
                 $requests.find('tbody').html(requests.map(function(request) {
-                    console.log(request)
-                    var template = _.template('<tr><td><%= request_id %></td><td><%= JSON.stringify(this) %></td></tr>')
-                    return template(request)
+                    return require('./withdraw.html')(request)
                 }))
             })
 
