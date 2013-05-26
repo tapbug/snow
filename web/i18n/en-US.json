@@ -168,5 +168,12 @@
     "identity.city": "City",
     "identity.postalArea": "ZIP/Post code",
     "identity.country": "Country",
-    "identity.save": "Save"
+    "identity.save": "Save",
+
+    "verifyemail.heading": "Verify email",
+    "verifyemail.intro": "To make your account more secure, we'll now verify your email. Ready?",
+    "verifyemail.send button": "Send email to %s",
+    "verifyemail.send button.sending": "Sending email to %s",
+    "verifyemail.send button.waiting": "Check your e-mail now",
+    "verifyemail.confirmation": "Your email has been verified."
 }

@@ -3,24 +3,26 @@ var util = require('util')
 , debug = require('debug')('verifyemail')
 
 module.exports = function(app, api) {
-    var $el = $(require('./template.html')())
+    var $el = $(require('./template.html')({
+        email: app.user().email
+    }))
     , controller = {
         $el: $el
     }
     , timer
 
-    $el.on('click .send', function(e) {
+    $el.on('click', '.send', function(e) {
         e.preventDefault()
 
         $(e.target)
         .enabled(false)
         .addClass('is-loading')
-        .html('sending...')
+        .html(app.i18n('verifyemail.send button.sending', app.user().email))
 
         api.call('v1/email/verify/send', {}, { type: 'POST' })
         .fail(app.alertXhrError)
         .done(function() {
-            $(e.target).html('waiting...')
+            $(e.target).html(app.i18n('verifyemail.send button.waiting', app.user().email))
 
             timer = setInterval(function() {
                 api.call('v1/whoami')
@@ -32,7 +34,7 @@ module.exports = function(app, api) {
                     if (!user.emailVerified) return
                     clearInterval(timer)
                     $el.modal('hide')
-                    alertify.log('Email verified')
+                    alertify.log(app.i18n('verifyemail.confirmation'))
                 })
             }, 5e3)
         })

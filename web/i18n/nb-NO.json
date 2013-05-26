@@ -154,5 +154,12 @@
     "identity.city": "By",
     "identity.postalArea": "Postkode",
     "identity.country": "Land",
-    "identity.save": "Lagre"
+    "identity.save": "Lagre",
+
+    "verifyemail.heading": "Godkjenn epost",
+    "verifyemail.intro": "For å gjøre kontoen din mer sikker, godkjenner vi eposten din. Klar?",
+    "verifyemail.send button": "Send epost til %s",
+    "verifyemail.send button.sending": "Sender epost til %s",
+    "verifyemail.send button.waiting": "Sjekk eposten din nå",
+    "verifyemail.confirmation": "Eposten din har blitt godkjent."
 }
