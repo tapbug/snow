@@ -36,21 +36,23 @@ module.exports = function(app, api, userId) {
         }
 
         if (href == '#withdraw-requests') {
-            var $requests = $el.find('#withdraw-requests')
-
-            api.call('admin/users/' + userId + '/withdrawRequests')
-            .fail(app.alertXhrError)
-            .done(function(requests) {
-                $requests.find('tbody').html(requests.map(function(request) {
-                    return require('./withdraw.html')(request)
-                }))
-            })
-
+            refreshWithdrawRequests()
             return
         }
 
         throw new Error(href)
     })
+
+    function refreshWithdrawRequests() {
+        var $requests = $el.find('#withdraw-requests')
+        api.call('admin/users/' + userId + '/withdrawRequests')
+        .fail(app.alertXhrError)
+        .done(function(requests) {
+            $requests.find('tbody').html(requests.map(function(request) {
+                return require('./withdraw.html')(request)
+            }))
+        })
+    }
 
     function userRetrieved(user) {
         $el.find('#summary').html(require('./user.html')(user))
@@ -61,6 +63,32 @@ module.exports = function(app, api, userId) {
         .fail(app.alertXhrError)
         .done(userRetrieved)
     }
+
+    $el.on('click', '#withdraw-requests .withdraw .cancel', function(e) {
+        e.preventDefault()
+
+        var id = $(this).closest('.withdraw').attr('data-id')
+        , $btn = $(this)
+
+        alertify.prompt('Why is the request being cancelled? The user will see this.', function(ok, error) {
+            if (!ok) return
+
+            $btn.addClass('is-loading')
+            .enabled(false)
+            .siblings().enabled(false)
+
+
+            api.call('admin/withdraws/' + id, { state: 'cancelled', error: error || null }, { type: 'PATCH' })
+            .fail(function(xhr) {
+                app.alertXhrError(xhr)
+                refreshWithdrawRequests()
+            })
+            .done(function() {
+                alertify.log(util.format('Order #%s cancelled.', id), 'success', 30e3)
+                refreshWithdrawRequests()
+            })
+        })
+    })
 
     refresh()
 
