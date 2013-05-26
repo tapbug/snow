@@ -64,6 +64,17 @@ module.exports = function(app, api, userId) {
         .done(userRetrieved)
     }
 
+    $el.on('click', '.send-email-verification', function(e) {
+        e.preventDefault()
+        var userId = $(e.target).closest('.user').attr('data-user-id')
+
+        api.call('admin/users/' + userId + '/sendVerificationEmail', null, { type: 'POST' })
+        .fail(app.alertXhrError)
+        .done(function() {
+            alert('Done')
+        })
+    })
+
     $el.on('click', '#withdraw-requests .withdraw .cancel', function(e) {
         e.preventDefault()
 

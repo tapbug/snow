@@ -17,14 +17,33 @@ app.on('user', function(user) {
     $app.toggleClass('is-logged-in', !!user)
     $app.toggleClass('is-admin', user && user.admin)
 
-    if (!user.phone) {
+    var checkPhone = function(next) {
+        if (user.phone) return next()
         var verifyphone = require('./controllers/verifyphone')(app, api)
         $app.append(verifyphone.$el)
         verifyphone.$el.modal({
             keyboard: false,
             backdrop: 'static'
         })
+        verifyphone.$el.on('hidden', next)
     }
+
+    var checkEmail = function(next) {
+        if (user.emailVerified) return next()
+        var verifyemail = require('./controllers/verifyemail')(app, api)
+        $app.append(verifyemail.$el)
+        verifyemail.$el.modal({
+            keyboard: false,
+            backdrop: 'static'
+        })
+        verifyemail.$el.on('hidden', next)
+    }
+
+    checkEmail(function() {
+        checkPhone(function() {
+            console.log('verifications done')
+        })
+    })
 })
 
 app.bitcoinAddress = (function() {

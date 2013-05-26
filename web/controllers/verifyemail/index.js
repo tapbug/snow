@@ -1,0 +1,42 @@
+var util = require('util')
+, _ = require('lodash')
+, debug = require('debug')('verifyemail')
+
+module.exports = function(app, api) {
+    var $el = $(require('./template.html')())
+    , controller = {
+        $el: $el
+    }
+    , timer
+
+    $el.on('click .send', function(e) {
+        e.preventDefault()
+
+        $(e.target)
+        .enabled(false)
+        .addClass('is-loading')
+        .html('sending...')
+
+        api.call('v1/email/verify/send', {}, { type: 'POST' })
+        .fail(app.alertXhrError)
+        .done(function() {
+            $(e.target).html('waiting...')
+
+            timer = setInterval(function() {
+                api.call('v1/whoami')
+                .fail(function(err) {
+                    console.error('failed to whoami for email check')
+                    console.error(err)
+                })
+                .done(function(user) {
+                    if (!user.emailVerified) return
+                    clearInterval(timer)
+                    $el.modal('hide')
+                    alertify.log('Email verified')
+                })
+            }, 5e3)
+        })
+    })
+
+    return controller
+}
