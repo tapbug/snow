@@ -80,11 +80,25 @@ app.rippleAddress = (function() {
 
 window.numbers = require('./util/numbers')
 
-var language = $.cookie('language') || null
-app.i18n = window.i18n = require('./i18n')(language)
-$.fn.i18n = function() {
-    $(this).html(app.i18n.apply(app.i18n, arguments))
+function i18n() {
+    var language = $.cookie('language') || null
+    app.i18n = window.i18n = require('./i18n')(language)
+
+    var moment = require('moment')
+    require('moment/lang/es')
+    require('moment/lang/nb')
+
+    if (app.i18n.lang == 'nb-NO') moment.lang('nb')
+    else if (app.i18n.lang == 'es-ES') moment.lang('es')
+    else moment.lang('en')
+
+    $.fn.i18n = function() {
+        $(this).html(app.i18n.apply(app.i18n, arguments))
+    }
 }
+
+i18n()
+
 
 var header = require('./controllers/header')(app, api)
 $app.find('.header').replaceWith(header.$el)
