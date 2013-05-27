@@ -15,6 +15,7 @@ var _ = require('lodash')
 , depositbtc = require('./controllers/depositbtc')
 , depositnok = require('./controllers/depositnok')
 , identity = require('./controllers/identity')
+, resetPassword = require('./controllers/resetPassword')
 , changepassword = require('./controllers/changepassword')
 , depositltc = require('./controllers/depositltc')
 , withdrawnorway = require('./controllers/withdrawnorway')
@@ -44,6 +45,10 @@ module.exports = function(app, api, router) {
     .add(/^markets$/, function() {
         $section.html(markets(app, api).$el)
         section('markets')
+    })
+    .add(/^resetPassword$/, function() {
+        $section.html(resetPassword(app, api).$el)
+        section('resetPassword')
     })
     .add(/^markets\/(.+)$/, function(id) {
         $section.html(market(app, api, id).$el)
