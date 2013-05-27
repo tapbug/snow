@@ -178,5 +178,5 @@
     "verifyemail.confirmation": "Your email has been verified.",
 
     "resetPassword.heading": "Reset your password",
-    "resetPassword.intro": "<p>To reset your password, you will need access to the email and phone number you registered with.</p><p>We will first email you a link. After you click the link, go back to this window. Have your phone ready!</p>"
+    "resetPassword.intro": "<p>To reset your password, you will need access to the email and phone number you registered with.</p><p>We will first email you a link. After you click the link, go back to this window.</p>"
 }
