@@ -9,12 +9,12 @@
             <select name="country" class="country">
             </select>
 
-            <input type="text" name="phone" placeholder="<%= i18n('verifyphone.number.placeholder') %>" class="number">
+            <input type="text" name="phone" class="number">
             <button type="submit" class="btn btn-primary pull-right"><%= i18n('verifyphone.call me') %></button>
         </form>
 
         <form class="code form-inline pull-right" style="display:none;">
-            <input type="text" name="code" class="code" placeholder="1234">
+            <input type="text" name="code" class="code" />
             <button type="submit" class="btn btn-success"><%= i18n('verifyphone.verify code') %></button>
         </form>
     </div>
