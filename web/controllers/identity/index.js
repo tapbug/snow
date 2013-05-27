@@ -15,9 +15,7 @@ module.exports = function(app, api, after) {
         return util.format('<option value="%s">%s</option>', country.code, country.name)
     }))
 
-    setTimeout(function() {
-        $form.find('.first-name').focus()
-    }, 250)
+    $form.find('.first-name').focusSoon()
 
     $form.on('submit', function(e) {
         e.preventDefault()

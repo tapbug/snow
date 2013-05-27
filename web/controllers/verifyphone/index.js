@@ -38,15 +38,11 @@ module.exports = function(app, api) {
     if (option) {
         $country.val(option.code)
 
-        setTimeout(function() {
-            $number.focus()
-        }, 500)
+        $number.focusSoon()
     } else {
         debug('There is no option that matches the country ' + country)
 
-        setTimeout(function() {
-            $country.focus()
-        }, 500)
+        $country.focusSoon()
     }
 
     $callForm.on('submit', function(e) {

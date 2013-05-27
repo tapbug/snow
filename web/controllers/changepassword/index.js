@@ -44,9 +44,7 @@ module.exports = function(app, api, after) {
         })
     })
 
-    setTimeout(function() {
-        $newPassword.find('input').focus()
-    }, 250)
+    $newPassword.find('input').focusSoon()
 
     return controller
 }

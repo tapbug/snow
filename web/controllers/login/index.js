@@ -134,9 +134,7 @@ module.exports = function(app, api, after) {
         })
     })
 
-    setTimeout(function() {
-        $email.find('input').focus()
-    }, 250)
+    $email.find('input').focusSoon()
 
     return controller
 }

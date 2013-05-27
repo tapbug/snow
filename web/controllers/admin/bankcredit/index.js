@@ -44,7 +44,7 @@ module.exports = function(app, api, userId) {
                 body.reference), 'success', 30e3)
 
             $el.find('input').val('')
-            $el.find('.user input').focus()
+            $el.find('.user input').focusSoon()
         })
     })
 
