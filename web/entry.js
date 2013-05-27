@@ -5,6 +5,8 @@ var api = require('./api')()
 debug.enable('*')
 debug = debug('snow:entry')
 
+require('./helpers/jquery')
+
 if (window.analytics) {
     require('./segment')(app, api)
 }
@@ -103,18 +105,6 @@ i18n()
 var header = require('./controllers/header')(app, api)
 $app.find('.header').replaceWith(header.$el)
 
-$.fn.field = function(name, value) {
-    var $fields = $(this).find('[name="' + name + '"]')
-
-    if (value !== undefined) {
-        $fields.each(function() {
-            $(this).val(value)
-        })
-    }
-
-    return $fields
-}
-
 $app.on('click', 'a[href="#set-language"]', function(e) {
     e.preventDefault()
     var language = $(this).attr('data-language')
@@ -123,25 +113,6 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
 
     window.location.reload ? window.location.reload() : window.location = '/'
 })
-
-$.fn.enabled = function(value) {
-    if (typeof value != 'undefined') {
-        return $(this).prop('disabled', !value)
-        .toggleClass('disabled', !value)
-    }
-    return !this.prop('disabled')
-}
-
-$.fn.fadeAway = function(delay) {
-    return $(this).fadeOut(delay || 500, function() { $(this).remove() })
-}
-
-$.fn.focusSoon = function() {
-    var that = this
-    setTimeout(function() {
-        $(that).focus()
-    }, 500)
-}
 
 var apiKey = $.cookie('apiKey')
 
