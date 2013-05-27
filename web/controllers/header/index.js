@@ -25,11 +25,5 @@ module.exports = function(app, api) {
         api.balances()
     })
 
-    $el.on('click', '.brand', function(e) {
-        if (!app.user()) return
-        e.preventDefault()
-        app.router.go('dashboard')
-    })
-
     return controller
 }

@@ -50,7 +50,7 @@ module.exports = function(app, api, after) {
                 })
             }
 
-            window.location.hash = '#' + (after || 'dashboard')
+            window.location.hash = '#' + (after || '')
         })
         .fail(function(xhr) {
             app.alertXhrError(xhr)

@@ -163,7 +163,7 @@ module.exports = function(app, api) {
             .removeClass('is-loading')
             .html(i18n('register.create button'))
         }).done(function() {
-            window.location.hash = '#dashboard'
+            window.location.hash = '#'
         }).fail(function(xhr) {
             var err = app.errorFromXhr(xhr)
 

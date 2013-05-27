@@ -45,13 +45,18 @@ module.exports = function() {
         return $.ajax(settings)
     }
 
-    api.login = function(email, password) {
-        var key = api.keyFromCredentials(email, password)
+    api.loginWithKey = function(key) {
         return api.call('v1/whoami', null, { key: key })
         .then(function(user) {
+            $.cookie('apiKey', key)
             api.key = key
             app.user(user)
         })
+    }
+
+    api.login = function(email, password) {
+        var key = api.keyFromCredentials(email, password)
+        return api.loginWithKey(key)
     }
 
     api.register = function(email, password) {

@@ -118,7 +118,7 @@ module.exports = function(app, api, after) {
             .html(i18n('login.login button'))
         }).done(function() {
             debug('login success')
-            window.location.hash = '#' + (after || 'dashboard')
+            window.location.hash = '#' + (after || '')
         }).fail(function(xhr) {
             var err = app.errorFromXhr(xhr)
 

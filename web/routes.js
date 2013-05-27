@@ -39,8 +39,13 @@ module.exports = function(app, api, router) {
 
     router
     .add(/^$/, function() {
-        $section.html(home().$el)
-        section('home')
+        if (app.user()) {
+            $section.html(dashboard(app, api).$el)
+            section('dashboard')
+        } else {
+            $section.html(home().$el)
+            section('home')
+        }
     })
     .add(/^markets$/, function() {
         $section.html(markets(app, api).$el)
@@ -49,6 +54,10 @@ module.exports = function(app, api, router) {
     .add(/^resetPassword$/, function() {
         $section.html(resetPassword(app, api).$el)
         section('resetPassword')
+    })
+    .add(/^signOut$/, function() {
+        $.removeCookie('apiKey')
+        window.location = '/'
     })
     .add(/^markets\/(.+)$/, function(id) {
         $section.html(market(app, api, id).$el)
@@ -81,11 +90,6 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         $section.html(withdrawripple(app, api).$el)
         section('withdrawripple')
-    })
-    .add(/^dashboard$/, function() {
-        if (!app.authorize()) return
-        $section.html(dashboard(app, api).$el)
-        section('dashboard')
     })
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
         if (!app.authorize()) return

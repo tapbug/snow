@@ -35,7 +35,7 @@ module.exports = function(app, api, currency) {
         .done(function() {
             alert('Request to withdraw received.')
             api.balances()
-            window.location.hash = '#dashboard'
+            window.location.hash = '#'
         })
     })
 

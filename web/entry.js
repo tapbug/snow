@@ -1,13 +1,9 @@
 var api = require('./api')()
-, router = require('./router')()
 , $app = $('body')
 , app = window.app = require('./app')
 , debug = require('debug')
 debug.enable('*')
-
-app.router = router
-
-require('./routes')(app, api, router)
+debug = debug('snow:entry')
 
 if (window.analytics) {
     require('./segment')(app, api)
@@ -131,4 +127,23 @@ $.fn.focusSoon = function() {
     setTimeout(function() {
         $(that).focus()
     }, 500)
+}
+
+var apiKey = $.cookie('apiKey')
+
+if (apiKey) {
+    debug('using cached credentials')
+    api.loginWithKey(apiKey)
+    .done(startRouter)
+} else {
+    debug('no cached credentials')
+    startRouter()
+}
+
+function startRouter() {
+    debug('starting router')
+    var router = require('./router')()
+    app.router = router
+    require('./routes')(app, api, router)
+    router.now()
 }
