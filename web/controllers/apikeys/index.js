@@ -37,7 +37,7 @@ module.exports = function(app, api) {
         , $key = $(this).closest('.key')
         , id = $key.attr('data-id')
 
-        api.call('v1/keys' + id, null, { type: 'DELETE' })
+        api.call('v1/keys/' + id, null, { type: 'DELETE' })
         .fail(function(xhr) {
             $remove.loading(false)
             app.alertXhrError(xhr)
