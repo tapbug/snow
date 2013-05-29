@@ -26,6 +26,7 @@ app.alertXhrError = function(xhr) {
     var err = app.errorFromXhr(xhr)
 
     if (typeof Raven != 'undefined') {
+        var error = new Error(err.message)
         Raven.captureException(err)
     }
 
@@ -56,7 +57,7 @@ app.errorFromXhr = function(xhr) {
 
     return {
         name: 'UnknownErrorFormat',
-        message: 'Error is not JSON',
+        message: 'Error is not JSON:\n' + body || '<null or empty>',
         body: body ? body.toString() : '<null or empty>',
         status: xhr.status
     }
