@@ -29,7 +29,8 @@ module.exports = function(app, api, currency) {
         e.preventDefault()
         api.call('v1/withdraws/norway', {
             amount: $amount.val(),
-            bankAccount: +$bankAccount.val()
+            bankAccount: +$bankAccount.val(),
+            currency: 'NOK'
         })
         .fail(app.alertXhrError)
         .done(function() {

@@ -19,7 +19,7 @@ var _ = require('lodash')
 , apiKeys = require('./controllers/apiKeys')
 , changepassword = require('./controllers/changepassword')
 , depositltc = require('./controllers/depositltc')
-, withdrawnorway = require('./controllers/withdrawnorway')
+, withdrawbank = require('./controllers/withdrawbank')
 , adminBalances = require('./controllers/admin/balances')
 , adminUsers = require('./controllers/admin/users')
 , adminUser = require('./controllers/admin/user')
@@ -124,10 +124,10 @@ module.exports = function(app, api, router) {
         $section.html(depositltc(app, api).$el)
         section('depositltc')
     })
-    .add(/^withdrawnorway\?currency=([A-Z]{3})$/, function(currency) {
+    .add(/^withdrawbank\?currency=([A-Z]{3})$/, function(currency) {
         if (!app.authorize()) return
-        $section.html(withdrawnorway(app, api, currency).$el)
-        section('withdrawnorway')
+        $section.html(withdrawbank(app, api, currency).$el)
+        section('withdrawbank')
     })
     .add(/^depositnok$/, function() {
         if (!app.authorize()) return
