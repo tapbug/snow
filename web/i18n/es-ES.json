@@ -20,8 +20,8 @@
     "amount": "Cantidad",
     "price": "Precio",
 
-    "header.existing user": "Entrar",
-    "header.new user": "Registrarse",
+    "top.existing user": "Entrar",
+    "top.new user": "Registrarse",
 
     "register.heading": "Comenzar a usar Justcoin.",
     "register.email.label": "Correo electrónico",

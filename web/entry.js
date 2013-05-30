@@ -103,8 +103,8 @@ function i18n() {
 i18n()
 
 
-var header = require('./controllers/header')(app, api)
-$app.find('.header').replaceWith(header.$el)
+var top = require('./controllers/top')(app, api)
+$app.find('.top').replaceWith(top.$el)
 
 $app.on('click', 'a[href="#set-language"]', function(e) {
     e.preventDefault()

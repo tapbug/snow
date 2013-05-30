@@ -11,7 +11,7 @@ app.user = function(value) {
 }
 
 app.section = function(name) {
-    $('.header .nav .' + name).addClass('active').siblings().removeClass('active')
+    $('.top .nav .' + name).addClass('active').siblings().removeClass('active')
 }
 
 app.balances = function(value) {

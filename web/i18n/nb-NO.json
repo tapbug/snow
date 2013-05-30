@@ -15,8 +15,8 @@
     "markets": "Markeder",
     "sign out": "Logg ut",
 
-    "header.existing user": "Logg inn",
-    "header.new user": "Registrere",
+    "top.existing user": "Logg inn",
+    "top.new user": "Registrere",
 
     "register.heading": "Start med Justcoin.",
     "register.email.label": "E-post",

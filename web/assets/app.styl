@@ -3,6 +3,12 @@
 @import "loading.styl"
 @import "admin.styl"
 
+-animation()
+    animation arguments
+    -webkit-animation arguments
+    -moz-animation arguments
+
+
 @media (min-width: 768px) {
     body {
         padding-top: 60px;
@@ -34,23 +40,8 @@ footer {
 }
 
 body:not(.is-logged-in)
-    #top
-        .balances, .orders, .activities, .dashboard
-            display: none
-
-        .account-summary .logged-in
-            display: none
-
     .container.market .buy-sell
         display: none
-
-body:not(.is-admin)
-    #top .admin
-        display: none
-
-body.is-logged-in #top {
-    .account-summary .not-logged-in { display: none; }
-}
 
 #balances a[href="#my/withdraw/XRP"] { display: none; }
 #balances a[href="#my/deposit/XRP"] { display: none; }
@@ -117,7 +108,7 @@ body.is-logged-in #top {
     -o-background-size: cover;
     background-size: cover;
 
-    #top
+    > .top
         .nav-collapse
             visibility hidden
 
@@ -190,3 +181,4 @@ body.is-logged-in
         display none
 
 @import "../controllers/apikeys/styles.styl"
+@import "../controllers/top/styles.styl"
