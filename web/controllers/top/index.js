@@ -38,7 +38,7 @@ module.exports = function(app, api) {
     app.on('balances', function(balances) {
         balancesChanged(balances)
         balancesTimer && clearTimeout(balancesTimer)
-        balancesTimer = setTimeout(api.balances, 1e3)
+        balancesTimer = setTimeout(api.balances, 30e3)
     })
 
     app.on('user', function(user) {
