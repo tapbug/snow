@@ -6,6 +6,7 @@ debug.enable('*')
 debug = debug('snow:entry')
 
 require('./helpers/jquery')
+require('./util/console')
 
 if (window.analytics) {
     require('./segment')(app, api)
