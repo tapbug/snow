@@ -15,6 +15,13 @@ module.exports = function(i18n, activity) {
         return format(i18n('activities.CancelOrder'), activity.details.id)
     }
 
+    if (activity.type == 'BankCredit') {
+        return format(i18n('activities.BankCredit'),
+            activity.details.amount,
+            activity.details.currency,
+            activity.details.reference)
+    }
+
     if (activity.type == 'RippleWithdraw') {
         return format(i18n('activities.RippleWithdraw'),
             activity.details.amount, activity.details.currency, activity.details.address)
