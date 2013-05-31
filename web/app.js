@@ -26,8 +26,7 @@ app.alertXhrError = function(xhr) {
     var err = app.errorFromXhr(xhr)
 
     if (typeof Raven != 'undefined') {
-        var error = new Error(err.message)
-        Raven.captureException(err)
+        Raven.captureException(JSON.stringify(err, null, 4))
     }
 
     alert(JSON.stringify(err, null, 4))
