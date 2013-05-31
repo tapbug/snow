@@ -1,4 +1,4 @@
-var _ = require('underscore')
+var _ = require('lodash')
 , noop = function() {}
 
 _.each(['console', 'error', 'trace'], function(n) {

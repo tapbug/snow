@@ -4,7 +4,6 @@
   "version": "0.0.76",
   "dependencies": {},
   "devDependencies": {
-    "underscore": "~1.4.4",
     "nconf": "0.6.5",
     "backbone": "~1.0.0",
     "debug": "0.7.0",
