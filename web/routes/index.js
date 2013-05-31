@@ -1,30 +1,25 @@
 var _ = require('lodash')
-, markets = require('./controllers/markets')
-, home = require('./controllers/home')
-, orders = require('./controllers/orders')
-, withdrawbtc = require('./controllers/withdrawbtc')
-, withdrawltc = require('./controllers/withdrawltc')
-, withdrawripple = require('./controllers/withdrawripple')
-, login = require('./controllers/login')
-, register = require('./controllers/register')
-, market = require('./controllers/market')
-, notfound = require('./controllers/notfound')
-, dashboard = require('./controllers/dashboard')
-, terms = require('./controllers/terms')
-, privacy = require('./controllers/privacy')
-, depositbtc = require('./controllers/depositbtc')
-, depositnok = require('./controllers/depositnok')
-, identity = require('./controllers/identity')
-, resetPassword = require('./controllers/resetPassword')
-, apiKeys = require('./controllers/apiKeys')
-, changepassword = require('./controllers/changepassword')
-, depositltc = require('./controllers/depositltc')
-, withdrawbank = require('./controllers/withdrawbank')
-, adminBalances = require('./controllers/admin/balances')
-, adminUsers = require('./controllers/admin/users')
-, adminUser = require('./controllers/admin/user')
-, adminWithdraws = require('./controllers/admin/withdraws')
-, adminBankCredit = require('./controllers/admin/bankcredit')
+, markets = require('../controllers/markets')
+, home = require('../controllers/home')
+, orders = require('../controllers/orders')
+, withdrawbtc = require('../controllers/withdrawbtc')
+, withdrawltc = require('../controllers/withdrawltc')
+, withdrawripple = require('../controllers/withdrawripple')
+, login = require('../controllers/login')
+, register = require('../controllers/register')
+, market = require('../controllers/market')
+, notfound = require('../controllers/notfound')
+, dashboard = require('../controllers/dashboard')
+, terms = require('../controllers/terms')
+, privacy = require('../controllers/privacy')
+, depositbtc = require('../controllers/depositbtc')
+, depositnok = require('../controllers/depositnok')
+, identity = require('../controllers/identity')
+, resetPassword = require('../controllers/resetPassword')
+, apiKeys = require('../controllers/apiKeys')
+, changepassword = require('../controllers/changepassword')
+, depositltc = require('../controllers/depositltc')
+, withdrawbank = require('../controllers/withdrawbank')
 , $app = $('body')
 
 function section(name) {
@@ -138,33 +133,11 @@ module.exports = function(app, api, router) {
         $section.html(depositnok(app, api).$el)
         section('depositnok')
     })
-    .add(/^admin\/users\/(\d+)$/, function(userId) {
-        if (!app.authorize()) return
-        $section.html(adminUser(app, api, userId).$el)
-        section('admin-balances')
-    })
-    .add(/^admin\/balances$/, function() {
-        if (!app.authorize()) return
-        $section.html(adminBalances(app, api).$el)
-        section('admin-balances')
-    })
-    .add(/^admin\/users$/, function() {
-        if (!app.authorize()) return
-        $section.html(adminUsers(app, api).$el)
-        section('admin-users')
-    })
-    .add(/^admin\/withdraws$/, function() {
-        if (!app.authorize()) return
-        $section.html(adminWithdraws(app, api).$el)
-        section('admin-withdraws')
-    })
-    .add(/^admin\/bankcredit\/(\d+)$/, function(userId) {
-        if (!app.authorize()) return
-        $section.html(adminBankCredit(app, api, userId).$el)
-        section('admin-bank-credit')
-    })
+
+    require('./admin').configure(app, api, router, $section)
+
+    router
     .add(/^(.+)$/, function(hash) {
         $section.html(notfound(hash).$el)
-        section('notfound')
     })
 }
