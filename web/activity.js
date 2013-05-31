@@ -46,5 +46,9 @@ module.exports = function(i18n, activity) {
         return i18n('activities.Created')
     }
 
+    if (activity.type == 'IdentitySet') {
+        return i18n('activities.IdentitySet')
+    }
+
     return JSON.stringify(activity)
 }

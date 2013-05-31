@@ -47,6 +47,7 @@
     "activities.BTCWithdraw": "Du ba om å ta ut %s BTC til %s",
     "activities.SendToUser": "Du sendte %s %s til %s",
     "activities.Created": "Du lagde denne kontoen.",
+    "activities.IdentitySet": "Du oppga navn og adresse.",
     "activities.heading": "Kontoaktivitet",
     "dashboard.heading": "Oversikt",
     "dashboard.nok coming soon": "Kommer i starten av juni!",

@@ -49,6 +49,7 @@
     "activities.Created": "You created this user account",
     "activities.heading": "Activity",
     "activities.BankCredit": "You deposited %s %s from a bank account (%s)",
+    "activities.IdentitySet": "You supplied your name and address.",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",
