@@ -42,7 +42,9 @@ module.exports = function() {
             }).join('&')
         }
 
-        return $.ajax(settings)
+        var xhr = $.ajax(settings)
+        xhr.settings = settings
+        return xhr
     }
 
     api.loginWithKey = function(key) {

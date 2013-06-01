@@ -23,13 +23,8 @@ app.balances = function(value) {
 }
 
 app.alertXhrError = function(xhr) {
-    var err = app.errorFromXhr(xhr)
-
-    if (typeof Raven != 'undefined') {
-        Raven.captureException(JSON.stringify(err, null, 4))
-    }
-
-    alert(JSON.stringify(err, null, 4))
+    app.reportErrorFromXhr(xhr)
+    alert(JSON.stringify(app.bodyFromXhr(xhr), null, 4))
 }
 
 app.authorize = function() {
@@ -38,26 +33,31 @@ app.authorize = function() {
     return false
 }
 
-app.errorFromXhr = function(xhr) {
-    var body = xhr.responseText
+app.reportErrorFromXhr = function(xhr) {
+    if (typeof Raven != 'undefined') {
+        var options = {
+            request: xhr.settings,
+            response: {
+                readyState: xhr.readyState,
+                body: app.bodyFromXhr(xhr),
+                responseText: xhr.responseText,
+                status: xhr.status,
+                statusText: xhr.statusText
+            }
+        }
 
+        Raven.captureMessage('Exception alert()\'ed to the user', options)
+    }
+
+}
+
+app.bodyFromXhr = function(xhr) {
     if (xhr.getAllResponseHeaders().match(/Content-Type: application\/json/i)) {
         try {
-            return JSON.parse(body)
+            return JSON.parse(xhr.responseText)
         } catch (err) {
-            return {
-                name: 'ErrorBodyInvalid',
-                message: 'Failed to parse JSON error body',
-                body: body || '<null or empty>',
-                status: xhr.status
-            }
         }
     }
 
-    return {
-        name: 'UnknownErrorFormat',
-        message: 'Error is not JSON:\n' + body || '<null or empty>',
-        body: body ? body.toString() : '<null or empty>',
-        status: xhr.status
-    }
+    return xhr.responseText
 }
