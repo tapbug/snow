@@ -78,7 +78,17 @@ module.exports = function(app, api, id) {
     }
 
     function updateBuySummary() {
-        var total = num($buyPrice.val()).mul($buyAmount.val())
+        var buyPrice = $buyPrice.val()
+        , buyAmount = $buyAmount.val()
+
+        // Check for <= 0 or NaN
+        if (!(+buyPrice > 0 && +buyAmount > 0)) {
+            $buySummary.html('')
+            return
+        }
+
+        var total = num(buyPrice).mul(buyAmount)
+
         $buySummary.i18n('market.buy summary',
             $buyAmount.val(),
             base,
@@ -87,7 +97,16 @@ module.exports = function(app, api, id) {
     }
 
     function updateSellSummary() {
-        var total = num($sellPrice.val()).mul($sellAmount.val())
+        var sellPrice = $sellPrice.val()
+        , sellAmount = $sellAmount.val()
+
+        // Check for <= 0 or NaN
+        if (!(+sellPrice > 0 && +sellAmount > 0)) {
+            $sellSummary.html('')
+            return
+        }
+
+        var total = num(sellPrice).mul(sellAmount)
         $sellSummary.i18n('market.sell summary',
             $sellAmount.val(),
             base,
@@ -106,8 +125,12 @@ module.exports = function(app, api, id) {
         .fail(app.alertXhrError)
         .done(function(order) {
             api.balances()
-            alert(i18n('market.order placed', order.id))
-            //window.location.hash = '#orders'
+            alertify.log(i18n('market.order placed', order.id))
+            $buyPrice.val('')
+            $buyAmount.val('')
+            updateBuySummary()
+            $buyAmount.focus()
+            refreshDepth()
         })
     })
 
@@ -122,8 +145,12 @@ module.exports = function(app, api, id) {
         .fail(app.alertXhrError)
         .done(function(order) {
             api.balances()
-            alert(i18n('market.order placed', order.id))
-            //window.location.hash = '#orders'
+            alertify.log(i18n('market.order placed', order.id))
+            $sellPrice.val('')
+            $sellAmount.val('')
+            updateSellSummary()
+            $sellAmount.focus()
+            refreshDepth()
         })
     })
 
