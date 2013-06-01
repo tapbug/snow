@@ -4,7 +4,7 @@ var adminBalances = require('../controllers/admin/balances')
 , adminWithdraws = require('../controllers/admin/withdraws')
 , adminBankCredit = require('../controllers/admin/bankcredit')
 
-module.expirts = {
+module.exports = {
     configure: function(app, api, router, $section) {
         router
         .add(/^admin\/users\/(\d+)$/, function(userId) {
