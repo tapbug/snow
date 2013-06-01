@@ -27,7 +27,7 @@ module.exports = function() {
         else if (data) settings.type = 'POST'
 
         if (data) {
-            settings.contentType = "application/json; charset=utf-8",
+            settings.contentType = 'application/json; charset=utf-8'
             settings.data = JSON.stringify(data)
         }
 
