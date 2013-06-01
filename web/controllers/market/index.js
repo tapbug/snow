@@ -25,6 +25,7 @@ module.exports = function(app, api, id) {
     , $sellPrice = $sell.find('*[name="price"]')
     , $sellAmount = $sell.find('*[name="amount"]')
     , $sellSummary = $sell.find('.summary')
+    , i18n = app.i18n
 
     function depthChanged(depth) {
         var combined = []
