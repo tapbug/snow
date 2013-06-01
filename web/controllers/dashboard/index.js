@@ -1,4 +1,5 @@
-var num = require('num')
+var _ = require('lodash')
+, num = require('num')
 , Activities = require('../activities')
 , Withdraws = require('./withdraws')
 
@@ -17,9 +18,15 @@ module.exports = function(app, api) {
     , $activities = controller.$el.find('.activities')
     , $withdraws = controller.$el.find('.withdraws')
     , $depositXrp = controller.$el.find('.deposit-xrp')
+    , $depositNok = controller.$el.find('.deposit-nok')
 
     $activities.replaceWith(activities.$el)
     $withdraws.replaceWith(withdraws.$el)
+
+    $depositNok.on('click', function(e) {
+        e.preventDefault()
+        window.location.hash = '#depositnok'
+    })
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -31,7 +38,7 @@ module.exports = function(app, api) {
     }
 
     function balancesUpdated(balances) {
-        var indexed = balances.reduce(function(p, c) {
+        var indexed = _.reduce(balances, function(p, c) {
             p[c.currency] = c.available
             return p
         }, {})

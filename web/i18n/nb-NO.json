@@ -1,6 +1,6 @@
 {
     "home.heading": "Velkommen til Justcoin!",
-    "home.sub-heading": "Justcoin er en børs for virtuell valuta. Vi støtter for tiden Bitcoin, Litecoin og ripples (XRP).",
+    "home.sub-heading": "Justcoin er en børs for digital valuta. Hos oss kan du kjøpe og selge Bitcoin med norske kroner.<br />Vi støtter også Litecoin og ripples (XRP).",
     "home.call to action": "Registrer deg nå",
     "home.bitcoin.heading": "Bitcoin",
     "home.bitcoin.body": "Du kan sette inn og ta ut BTC (tre bekreftelser)",
@@ -11,13 +11,12 @@
     "home.exchange.heading": "Veksle BTC/LTC/XRP",
     "home.exchange.body": "Etter at du registrerer deg, kan du kjøpe og selge BTC/LTC/XRP. Du kan også ta ut BTC/LTC til Ripple gjennom Justcoin.",
 
-    "dashboard": "Oversikt",
     "orders": "Ordre",
     "markets": "Markeder",
     "sign out": "Logg ut",
 
-    "header.existing user": "Logg inn",
-    "header.new user": "Registrere",
+    "top.existing user": "Logg inn",
+    "top.new user": "Registrere",
 
     "register.heading": "Start med Justcoin.",
     "register.email.label": "E-post",
@@ -48,9 +47,10 @@
     "activities.BTCWithdraw": "Du ba om å ta ut %s BTC til %s",
     "activities.SendToUser": "Du sendte %s %s til %s",
     "activities.Created": "Du lagde denne kontoen.",
+    "activities.IdentitySet": "Du oppga navn og adresse.",
     "activities.heading": "Kontoaktivitet",
     "dashboard.heading": "Oversikt",
-    "dashboard.nok coming soon": "Kommer snart!",
+    "dashboard.nok coming soon": "Kommer i starten av juni!",
     "depositbtc.heading": "Sett inn Bitcoin",
     "depositbtc.address.label": "Send til denne adressen",
     "depositbtc.disclaimer": "vi krever 3 bekreftelser før du blir kreditert. Dette pleier å ta mindre enn en time.",
@@ -112,7 +112,6 @@
 
     "verifyphone.heading": "Godkjenn telefonnummer",
     "verifyphone.intro": "For å gjøre kontoen din sikrere, ringer vi deg og leser opp en kode med fire tall. Vi betaler for samtalen.",
-    "verifyphone.number.placeholder": "97385296",
     "verifyphone.call me": "Ring meg",
     "verifyphone.verify code": "Bekreft kode",
     "verifyphone.calling you": "Ringer...",
@@ -129,5 +128,37 @@
     "withdraws.states.requested": "Venter på å bli behandlet",
     "withdraws.states.completed": "Utført %s",
     "withdraws.states.cancelled": "Avbrutt",
-    "withdraws.states.cancelled.error": "Feilet: %s"
+    "withdraws.states.cancelled.error": "Feilet: %s",
+    "login.errors.wrong username or password": "Feil brukernavn/passord",
+    "login.email.label": "Epost",
+    "login.password.label": "Passord",
+    "login.login button": "Logg inn",
+    "login.login button.logging in": "Logger inn...",
+    "login.new user register": "Ikke registrert? Klikk her",
+    "login.errors.email.badFormat": "Ser ikke gyldig ut.",
+
+    "depositnok.heading": "Innskudd med norsk bankoveføring",
+    "depositnok.intro": "For å sette inn NOK med norsk bankoveføring, send med detaljene under. Pass på at melding til mottaker er riktig.",
+    "depositnok.account": "Kontonummer",
+    "depositnok.messageToRecipient": "Melding til mottaker",
+    "depositnok.minimumAmount": "Minste beløp",
+    "depositnok.maximumAmount": "Største beløp",
+
+    "identity.confirmation": "Profil lagret.",
+    "identity.heading": "Profil",
+    "identity.intro": "Før du gjør noen innskudd eller uttak, trenger vi å vite litt mer om deg.",
+    "identity.firstName": "Fornavn",
+    "identity.lastName": "Etternavn",
+    "identity.address": "Adresse",
+    "identity.city": "By",
+    "identity.postalArea": "Postkode",
+    "identity.country": "Land",
+    "identity.save": "Lagre",
+
+    "verifyemail.heading": "Godkjenn epost",
+    "verifyemail.intro": "For å gjøre kontoen din mer sikker, godkjenner vi eposten din. Klar?",
+    "verifyemail.send button": "Send epost til %s",
+    "verifyemail.send button.sending": "Sender epost til %s",
+    "verifyemail.send button.waiting": "Sjekk eposten din nå",
+    "verifyemail.confirmation": "Eposten din har blitt godkjent."
 }

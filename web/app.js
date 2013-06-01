@@ -11,7 +11,7 @@ app.user = function(value) {
 }
 
 app.section = function(name) {
-    $('.header .nav .' + name).addClass('active').siblings().removeClass('active')
+    $('.top .nav .' + name).addClass('active').siblings().removeClass('active')
 }
 
 app.balances = function(value) {
@@ -22,8 +22,14 @@ app.balances = function(value) {
     return app._balances
 }
 
-app.alertXhrError = function(err) {
-    alert(JSON.stringify(app.errorFromXhr(err), null, 4))
+app.alertXhrError = function(xhr) {
+    var err = app.errorFromXhr(xhr)
+
+    if (typeof Raven != 'undefined') {
+        Raven.captureException(JSON.stringify(err, null, 4))
+    }
+
+    alert(JSON.stringify(err, null, 4))
 }
 
 app.authorize = function() {
@@ -42,7 +48,7 @@ app.errorFromXhr = function(xhr) {
             return {
                 name: 'ErrorBodyInvalid',
                 message: 'Failed to parse JSON error body',
-                body: body ? body.toString() : '<null or empty>',
+                body: body || '<null or empty>',
                 status: xhr.status
             }
         }
@@ -50,7 +56,7 @@ app.errorFromXhr = function(xhr) {
 
     return {
         name: 'UnknownErrorFormat',
-        message: 'Error is not JSON',
+        message: 'Error is not JSON:\n' + body || '<null or empty>',
         body: body ? body.toString() : '<null or empty>',
         status: xhr.status
     }

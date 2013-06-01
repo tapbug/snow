@@ -18,8 +18,6 @@ task('app', [
     'build/styles.css',
     'build/index.html',
     'build/img',
-    'build/img/glyphicons-halflings-white.png',
-    'build/img/glyphicons-halflings.png',
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
@@ -34,8 +32,6 @@ task('dist', [
     'build/index.min.html',
     'build/ripple.txt',
     'build/img',
-    'build/img/glyphicons-halflings-white.png',
-    'build/img/glyphicons-halflings.png',
     'build/img/registerbg.jpg',
     'build/img/flags',
     'build/img/flags/NO.png',
@@ -56,21 +52,23 @@ var vendor = [
     'build/jquery.cookie.js',
     'build/sjcl.js',
     'build/alertify.min.js',
-    'build/bootstrap.min.js'
+    'build/bootstrap-dropdown.js',
+    'build/bootstrap-modal.js',
+    'build/bootstrap-tab.js'
 ]
 
 file('build/jquery.min.js', ['components/jquery/jquery.min.js'], cpTask)
 file('build/sjcl.js', ['vendor/sjcl.js'], cpTask)
 file('build/jquery.cookie.js', ['vendor/jquery.cookie.js'], cpTask)
 file('build/alertify.min.js', ['components/alertify/alertify.min.js'], cpTask)
-file('build/bootstrap.min.js', ['components/bootstrap/js/bootstrap.min.js'], cpTask)
+file('build/bootstrap-dropdown.js', ['vendor/bootstrap-stylus/js/bootstrap-dropdown.js'], cpTask)
+file('build/bootstrap-modal.js', ['vendor/bootstrap-stylus/js/bootstrap-modal.js'], cpTask)
+file('build/bootstrap-tab.js', ['vendor/bootstrap-stylus/js/bootstrap-tab.js'], cpTask)
 file('build/ripple.txt', ['assets/ripple.txt'], cpTask)
 file('build/raven.min.js', ['vendor/raven.min.js'], cpTask)
 file('build/img/registerbg.jpg', ['assets/img/registerbg.jpg'], cpTask)
 file('build/img/flags/NO.png', ['assets/img/flags/NO.png'], cpTask)
 file('build/img/flags/US.png', ['assets/img/flags/US.png'], cpTask)
-file('build/img/glyphicons-halflings.png', ['components/bootstrap/img/glyphicons-halflings.png'], cpTask)
-file('build/img/glyphicons-halflings-white.png', ['components/bootstrap/img/glyphicons-halflings-white.png'], cpTask)
 file('build/img/flags/ES.png', ['assets/img/flags/ES.png'], cpTask)
 
 function cpTask() {
@@ -105,8 +103,7 @@ file('build/index.min.html', ['build'], function() {
 
 file('build/styles.css', ['build'], function() {
     exec('stylus assets/app.styl -o build');
-    (cat('vendor/bootstrap-combined.min.css') + '\n' +
-    cat('components/alertify/themes/alertify.core.css') + '\n' +
+    (cat('components/alertify/themes/alertify.core.css') + '\n' +
     cat('components/alertify/themes/alertify.bootstrap.css') + '\n' +
     cat('build/app.css') + '\n')
     .to(this.name)
@@ -173,8 +170,6 @@ function publish(hostname, cb) {
         'index.min.html': 'index.html',
         'ripple.txt': 'ripple.txt',
         'img/registerbg.jpg': null,
-        'img/glyphicons-halflings.png': null,
-        'img/glyphicons-halflings-white.png': null,
         'img/flags/NO.png': null,
         'img/flags/ES.png': null,
         'img/flags/US.png': null
@@ -205,6 +200,8 @@ task('publish-prod', ['clean'], function() {
     jake.Task['dist'].invoke()
     publish('10.0.0.184', function(err) {
         if (err) return complete(err)
+        var tag = new Date().toISOString().match(/^[^\.]+/)[0].replace(/:/g, '-')
+        exec('git tag ' + tag)
         complete()
     })
 }, { async: true })
@@ -212,13 +209,6 @@ task('publish-prod', ['clean'], function() {
 task('ps', ['publish-staging'])
 task('publish-staging', ['clean'], function() {
     segment = '52j6v06i1t'
-
-    // patch + tag
-    exec('npm version patch')
-    var v = require('./package.json').version
-    exec('git add package.json')
-    exec('git commit -m "v' + v + '"')
-    exec('git tag ' + v)
 
     jake.Task['dist'].invoke()
     publish('54.217.208.30', complete)

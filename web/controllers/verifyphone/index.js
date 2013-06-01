@@ -1,6 +1,6 @@
 var util = require('util')
 , _ = require('lodash')
-, debug = require('debug')('verifyphone')
+, debug = require('debug')('verifyemail')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')())
@@ -16,7 +16,7 @@ module.exports = function(app, api) {
 
     // Add countries
     var countries = require('../../assets/callingcodes.json')
-    $country.append(countries.map(function(country) {
+    $country.append(_.map(countries, function(country) {
         return util.format('<option value="%s">%s (%s)</option>', country.code, country.name, country.dial_code)
     }))
 
@@ -38,16 +38,11 @@ module.exports = function(app, api) {
     if (option) {
         $country.val(option.code)
 
-        setTimeout(function() {
-            console.log($number)
-            $number.focus()
-        }, 500)
+        $number.focusSoon()
     } else {
         debug('There is no option that matches the country ' + country)
 
-        setTimeout(function() {
-            $country.focus()
-        }, 500)
+        $country.focusSoon()
     }
 
     $callForm.on('submit', function(e) {
@@ -80,10 +75,7 @@ module.exports = function(app, api) {
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
         })
-        .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
-        })
+        .fail(app.alertXhrError)
     })
 
     $codeForm.on('submit', function(e) {
@@ -116,8 +108,7 @@ module.exports = function(app, api) {
             alertify.log(app.i18n('verifyphone.verified', app.user.phone))
         })
         .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
             window.location = '/'
         })
     })

@@ -1,5 +1,7 @@
 require('../../vendor/shake')
 
+var _ = require('lodash')
+
 module.exports = function(app, api) {
     var controller = {
         $el: $(require('./template.html')())
@@ -142,7 +144,7 @@ module.exports = function(app, api) {
         var fields = [$email, $password, $repeat]
         , invalid
 
-        fields.some(function($e) {
+        _.some(fields, function($e) {
             if ($e.hasClass('is-valid')) return
             $submit.shake()
             $e.find('input').focus()
@@ -161,7 +163,7 @@ module.exports = function(app, api) {
             .removeClass('is-loading')
             .html(i18n('register.create button'))
         }).done(function() {
-            window.location.hash = '#dashboard'
+            window.location.hash = '#'
         }).fail(function(xhr) {
             var err = app.errorFromXhr(xhr)
 
@@ -178,13 +180,11 @@ module.exports = function(app, api) {
                 return
             }
 
-            alert(JSON.stringify(err, null, 4))
+            app.alertXhrError(xhr)
         })
     })
 
-    setTimeout(function() {
-        $email.find('input').focus()
-    }, 250)
+    $email.find('input').focusSoon()
 
     return controller
 }

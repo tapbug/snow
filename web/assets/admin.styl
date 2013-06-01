@@ -1,0 +1,31 @@
+.admin-users
+    @extend .container
+
+    .users-table
+        @extend .table
+        @extend .table-bordered
+        @extend .table-striped
+
+        width auto
+
+        .user-id-header, .user-id
+            width 80px
+        .name-header, .name
+            width 175px
+        .email-header, .email
+            width 250px
+        .country-header, .country
+            width 105px
+        .actions-header, .actions
+            width 200px
+
+    .search-form
+        @extend .form-inline
+
+        .search
+            @extend .btn
+            @extend .btn-success
+
+        &.is-loading
+            .search
+                is-loading()

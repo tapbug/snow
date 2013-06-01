@@ -15,7 +15,8 @@ module.exports = function(app, api) {
         .fail(app.alertXhrError)
         .done(function() {
             alert(app.i18n('withdrawltc.confirmation'))
-            window.location.hash = '#dashboard'
+            api.balances()
+            window.location.hash = '#'
         })
     })
 

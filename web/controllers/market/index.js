@@ -25,11 +25,12 @@ module.exports = function(app, api, id) {
     , $sellPrice = $sell.find('*[name="price"]')
     , $sellAmount = $sell.find('*[name="amount"]')
     , $sellSummary = $sell.find('.summary')
+    , i18n = app.i18n
 
     function depthChanged(depth) {
         var combined = []
 
-        depth.bids.forEach(function(x) {
+        _.each(depth.bids, function(x) {
             combined.push({
                 type: 'bid',
                 price: x[0],
@@ -37,7 +38,7 @@ module.exports = function(app, api, id) {
             })
         })
 
-        depth.asks.forEach(function(x) {
+        _.each(depth.asks, function(x) {
             combined.push({
                 type: 'ask',
                 price: x[0],
@@ -117,7 +118,9 @@ module.exports = function(app, api, id) {
             type: 'ask',
             price: $sellPrice.val(),
             amount: $sellAmount.val()
-        }).done(function(order) {
+        })
+        .fail(app.alertXhrError)
+        .done(function(order) {
             api.balances()
             alert(i18n('market.order placed', order.id))
             //window.location.hash = '#orders'

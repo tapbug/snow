@@ -11,7 +11,6 @@
     "home.exchange.heading": "Exchange BTC/LTC/XRP",
     "home.exchange.body": "Once you sign up, you can buy and sell BTC/LTC for XRP on our exchange. Alternatively, you can withdraw BTC/LTC to Ripple and exchange there.",
 
-    "dashboard": "Dashboard",
     "orders": "Orders",
     "markets": "Markets",
     "sign out": "Sign out",
@@ -21,8 +20,8 @@
     "amount": "Amount",
     "price": "Price",
 
-    "header.existing user": "Log in",
-    "header.new user": "Register",
+    "top.existing user": "Log in",
+    "top.new user": "Register",
 
     "register.heading": "Start using Justcoin.",
     "register.email.label": "Email address",
@@ -49,6 +48,8 @@
     "activities.SendToUser": "You sent %s %s to %s",
     "activities.Created": "You created this user account",
     "activities.heading": "Activity",
+    "activities.BankCredit": "You deposited %s %s from a bank account (%s)",
+    "activities.IdentitySet": "You supplied your name and address.",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",
@@ -61,11 +62,14 @@
     "depositltc.address.label": "Send to this address",
     "depositltc.disclaimer": "We require 3 confirmations before your account is credited. This should take less than an hour.",
 
-    "login.wrong username or password": "Wrong e-mail/password combination",
+    "login.errors.wrong username or password": "Wrong e-mail/password",
     "login.heading": "Please sign in",
-    "login.email.placeholder": "Email address",
-    "login.password.placeholder": "Password",
-    "login.button": "Sign in",
+    "login.email.label": "Email address",
+    "login.password.label": "Password",
+    "login.login button": "Sign in",
+    "login.login button.logging in": "Signing in...",
+    "login.new user register": "Not registered? Click here",
+    "login.errors.email.badFormat": "Doesn't look valid.",
 
     "market.buy summary": "You are buying %s %s for %s %s",
     "market.sell summary": "You are selling %s %s for %s %s",
@@ -122,8 +126,7 @@
     "withdrawripple.button": "Withdraw to Ripple",
 
     "verifyphone.heading": "Verify phone",
-    "verifyphone.intro": "To make your account more secure, we'll now call you and read a four digit code. Dont' worry, we're paying for the call.",
-    "verifyphone.number.placeholder": "702-859-7638",
+    "verifyphone.intro": "To make your account more secure, we'll now call you and read a four digit code. Don't worry, we're paying for the call.",
     "verifyphone.call me": "Call me",
     "verifyphone.verify code": "Verify code",
 
@@ -147,5 +150,33 @@
     "terms.body": "<p>Updated 2013-05-18.</p><p>The trading fee is 0.5% (both when you are buying and selling.)</p>",
 
     "privacy.heading": "Privacy Policy",
-    "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>"
+    "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>",
+
+    "depositnok.heading": "Deposit with Norwegian bank transfer",
+    "depositnok.intro": "To deposit NOK with Norwegian bank transfer, send using the details below. Make sure that the message to recipient is correct.",
+    "depositnok.account": "Account number",
+    "depositnok.messageToRecipient": "Message to recipient",
+    "depositnok.minimumAmount": "Minimum amount",
+    "depositnok.maximumAmount": "Maximum amount",
+
+    "identity.confirmation": "Profile stored.",
+    "identity.heading": "Profile",
+    "identity.intro": "Before you deposit or withdraw, we'll need to know some more about you.",
+    "identity.firstName": "First name",
+    "identity.lastName": "Last name",
+    "identity.address": "Address",
+    "identity.city": "City",
+    "identity.postalArea": "ZIP/Post code",
+    "identity.country": "Country",
+    "identity.save": "Save",
+
+    "verifyemail.heading": "Verify email",
+    "verifyemail.intro": "To make your account more secure, we'll now verify your email. Ready?",
+    "verifyemail.send button": "Send email to %s",
+    "verifyemail.send button.sending": "Sending email to %s",
+    "verifyemail.send button.waiting": "Check your e-mail now",
+    "verifyemail.confirmation": "Your email has been verified.",
+
+    "resetPassword.heading": "Reset your password",
+    "resetPassword.intro": "<p>To reset your password, you will need access to the email and phone number you registered with.</p><p>We will first email you a link. After you click the link, go back to this window.</p>"
 }

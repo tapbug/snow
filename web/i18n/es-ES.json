@@ -11,7 +11,6 @@
     "home.exchange.heading": "Intercambio BTC/LTC/XRP",
     "home.exchange.body": "Una vez registrado, puede comprar y vender BTC/LTC por XRP en nuestro intercambio. Además, puede retirar BTC/LTC a Ripple e intercambiarlo ahí.",
 
-    "dashboard": "Vista general",
     "orders": "Pedidos",
     "markets": "Mercados",
     "sign out": "Salir",
@@ -21,8 +20,8 @@
     "amount": "Cantidad",
     "price": "Precio",
 
-    "header.existing user": "Entrar",
-    "header.new user": "Registrarse",
+    "top.existing user": "Entrar",
+    "top.new user": "Registrarse",
 
     "register.heading": "Comenzar a usar Justcoin.",
     "register.email.label": "Correo electrónico",
@@ -123,7 +122,6 @@
 
     "verifyphone.heading": "Verificar teléfono",
     "verifyphone.intro": "Para hacer su cuenta más segura, le llamaremos y le daremos un código de 4 dígitos. La llamada será en inglés. No se preocupe, nosotros pagamos la llamada.",
-    "verifyphone.number.placeholder": "687-964-011",
     "verifyphone.call me": "Llámeme",
     "verifyphone.verify code": "Código de verificación",
 
@@ -145,5 +143,5 @@
 
     "terms.heading": "Términos y condiciones",
 
-    "privacy.heading": "Política de privacidad",
+    "privacy.heading": "Política de privacidad"
 }

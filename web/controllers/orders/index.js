@@ -14,7 +14,9 @@ module.exports = function(app, api) {
     }
 
     function refresh() {
-        api.call('v1/orders').done(itemsChanged)
+        api.call('v1/orders')
+        .fail(app.alertXhrError)
+        .done(itemsChanged)
     }
 
     $items.on('click', 'button.cancel', function(e) {
