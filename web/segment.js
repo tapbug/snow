@@ -6,13 +6,7 @@ module.exports = function(app, api) {
         debug('Fetching Intercom settings')
         api.call('v1/intercom')
         .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-            console.error('Failed to fetch intercom settings')
-            console.error(err)
-
-            if (typeof Raven != 'undefined') {
-                Raven.captureException(err)
-            }
+            app.reportErrorFromXhr(xhr)
         })
         .done(function(settings) {
             debug('Intercom settings', settings)
