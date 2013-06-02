@@ -1,9 +1,15 @@
-@import "bootstrap-variables.styl"
-@import "../vendor/bootstrap-stylus/stylus/bootstrap.styl"
-@import "../vendor/bootstrap-stylus/stylus/responsive.styl"
 @import "../node_modules/nib/lib/nib/vendor.styl"
 @import "loading.styl"
 @import "admin.styl"
+
+-animation()
+    animation arguments
+    -webkit-animation arguments
+    -moz-animation arguments
+
+body
+    position relative
+    padding-top 50px
 
 footer {
     text-align: center;
@@ -145,5 +151,5 @@ body.is-logged-in
         display none
 
 @import "../controllers/apikeys/styles.styl"
-@import "../controllers/top/styles.styl"
 @import "../controllers/home/styles.styl"
+@import "../controllers/top/styles.styl"

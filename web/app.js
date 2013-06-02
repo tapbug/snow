@@ -51,6 +51,17 @@ app.reportErrorFromXhr = function(xhr) {
 
 }
 
+app.errorFromXhr = function(xhr) {
+    if (xhr.getAllResponseHeaders().match(/Content-Type: application\/json/i)) {
+        try {
+            return JSON.parse(xhr.responseText)
+        } catch (err) {
+        }
+    }
+
+    return null
+}
+
 app.bodyFromXhr = function(xhr) {
     if (xhr.getAllResponseHeaders().match(/Content-Type: application\/json/i)) {
         try {
