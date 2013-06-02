@@ -52,18 +52,14 @@ var vendor = [
     'build/jquery.cookie.js',
     'build/sjcl.js',
     'build/alertify.min.js',
-    'build/bootstrap-dropdown.js',
-    'build/bootstrap-modal.js',
-    'build/bootstrap-tab.js'
+    'build/bootstrap.min.js'
 ]
 
 file('build/jquery.min.js', ['components/jquery/jquery.min.js'], cpTask)
 file('build/sjcl.js', ['vendor/sjcl.js'], cpTask)
 file('build/jquery.cookie.js', ['vendor/jquery.cookie.js'], cpTask)
 file('build/alertify.min.js', ['components/alertify/alertify.min.js'], cpTask)
-file('build/bootstrap-dropdown.js', ['vendor/bootstrap-stylus/js/bootstrap-dropdown.js'], cpTask)
-file('build/bootstrap-modal.js', ['vendor/bootstrap-stylus/js/bootstrap-modal.js'], cpTask)
-file('build/bootstrap-tab.js', ['vendor/bootstrap-stylus/js/bootstrap-tab.js'], cpTask)
+file('build/bootstrap.min.js', ['vendor/bootstrap/js/bootstrap.min.js'], cpTask)
 file('build/ripple.txt', ['assets/ripple.txt'], cpTask)
 file('build/raven.min.js', ['vendor/raven.min.js'], cpTask)
 file('build/img/registerbg.jpg', ['assets/img/registerbg.jpg'], cpTask)
@@ -105,6 +101,8 @@ file('build/styles.css', ['build'], function() {
     exec('stylus assets/app.styl -o build');
     (cat('components/alertify/themes/alertify.core.css') + '\n' +
     cat('components/alertify/themes/alertify.bootstrap.css') + '\n' +
+    cat('vendor/bootstrap/css/bootstrap.min.css') + '\n' +
+    cat('vendor/bootstrap/css/bootstrap-responsive.min.css') + '\n' +
     cat('build/app.css') + '\n')
     .to(this.name)
 })
