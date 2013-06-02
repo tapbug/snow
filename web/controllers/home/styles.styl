@@ -1,29 +1,75 @@
-/* Main marketing message and sign up button */
-.jumbotron {
-    margin: 80px 0;
-    text-align: center;
-}
-.jumbotron h1 {
-    font-size: 100px;
-    line-height: 1;
-}
-.jumbotron .lead {
-    font-size: 24px;
-    line-height: 1.25;
-}
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-}
+.is-section-home
+    > hr, footer
+        display none
 
-/* Supporting marketing content */
-.marketing {
-    margin: 60px 0;
-}
-.marketing p + h4 {
-    margin-top: 28px;
-}
+    .top
+        display none
 
-@media (max-width: 767px)
-    .feature
+.landing
+    video
+        margin 0
+        padding 0
+        border 0
+        font-size 100%
+        font inherit
+        vertical-align baseline
+        height: auto
+        left 0
+        position: fixed
+        top 0
+
+    .cta
+        position absolute
         text-align center
+
+        .links
+            margin-top 16px
+            color white
+
+            a
+                color white
+                font-size 16px
+                font-weight bold
+                text-decoration underline
+
+        .tagline
+            color #efefef
+            font-size 48px
+            font-weight bold
+            font-family Helvetica, Arial, sans-serif
+            line-height normal
+            padding-bottom 24px
+            text-shadow: 1px 1px 2px #333333
+            filter dropshadow(color=#333333, offx=1, offy=1)
+
+        .signup
+            @extend .btn
+            @extend .btn-large
+            @extend .btn-success
+            padding: 18px 24px
+            font-size: 24px
+            line-height: normal
+            -webkit-border-radius: 8px * 1.5
+            -moz-border-radius: 8px * 1.5
+            border-radius: 8px * 1.5
+            transition-property: top;
+            transition-duration: 1500ms;
+
+    .logo
+        color #fafafa
+        font-size 40px
+        position absolute
+        top 35px
+        left 35px
+
+    &.is-playing-what-is-bitcoin, &.landing.is-playing-what-is-ripple
+        .logo, .links, .links a
+            color #555
+            text-shadow: 1px 1px 2px #333333
+            filter dropshadow(color=#333333, offx=1, offy=1)
+
+        .cta
+            top 25px
+
+        .tagline
+            display none

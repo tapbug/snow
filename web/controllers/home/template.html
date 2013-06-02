@@ -1,26 +1,20 @@
-<div class="section container">
-<div class="jumbotron">
-        <h1><%= i18n('home.heading') %></h1>
-        <p class="lead"><%- i18n('home.sub-heading') %></p>
-        <a class="btn btn-large btn-success" href="#register"><%= i18n('home.call to action') %></a>
-      </div>
+<div class="landing">
+    <div class="video-wrapper">
+        <video preload="auto" autoplay="autplay"></video>
+    </div>
 
-      <hr>
+    <div class="logo">Justcoin</div>
 
-      <div class="features row-fluid">
-        <div class="feature span4">
-          <h2><%= i18n('home.bitcoin.heading') %></h2>
-          <p><%= i18n('home.bitcoin.body') %></p>
-          <p><a class="btn" href="https://www.weusecoins.com/en" target="_blank"><%= i18n('home.bitcoin.what is button') %></a></p>
+    <div class="cta">
+        <div class="tagline">Your digital currency exchange</div>
+
+        <div>
+            <button class="signup" href="#register">Start with Justcoin</button>
         </div>
-        <div class="feature span4">
-          <h2><%= i18n('home.ripple.heading') %></h2>
-          <p><%= i18n('home.ripple.body') %></p>
-          <p><a class="btn" href="https://ripple.com" target="_blank"><%= i18n('home.ripple.what is button') %> &raquo;</a></p>
-       </div>
-        <div class="feature span4">
-          <h2><%= i18n('home.exchange.heading') %></h2>
-          <p><%= i18n('home.exchange.body') %></p>
+
+        <div class="links">
+            <a href="#" class="what-is-bitcoin">What is Bitcoin?</a>&nbsp;|&nbsp;
+            <a href="#" class="what-is-ripple">What is Ripple?</a>
         </div>
-      </div>
+    </div>
 </div>
