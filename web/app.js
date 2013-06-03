@@ -35,7 +35,7 @@ app.authorize = function() {
 
 app.reportErrorFromXhr = function(xhr) {
     if (typeof Raven != 'undefined') {
-        var options = {
+        var details = {
             request: xhr.settings,
             response: {
                 readyState: xhr.readyState,
@@ -46,9 +46,8 @@ app.reportErrorFromXhr = function(xhr) {
             }
         }
 
-        Raven.captureMessage('Exception alert()\'ed to the user', options)
+        Raven.captureMessage('Exception alert()\'ed to the user', JSON.stringify(details))
     }
-
 }
 
 app.errorFromXhr = function(xhr) {
