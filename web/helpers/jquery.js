@@ -60,7 +60,8 @@ $.fn.removeClasses = function(re) {
     $.each(this, function(i, el) {
         if (!el.className) return
         _.each(el.className.split(/\s+/), function(name) {
-            re.test(name) && el.removeClass(name)
+            if (!re.test(name)) return
+            el.className = el.className.replace(name, '')
         }, this)
     })
     return this
