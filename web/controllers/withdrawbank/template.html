@@ -1,16 +1,15 @@
 <div class="container withdraw-btc">
-    <h3>Withraw using bank transfer</h3>
+    <h3><%= i18n('withdrawbank.heading') %></h3>
 
-    <p>TODO: Note processed manually</p>
+    <p><%= i18n('withdrawbank.intro') %></p>
 
     <p class="no-bank-accounts error" style="display:none;">
-        You have no verified bank accounts. To verify a bank account,
-        simply make a 1 NOK deposit from it. Click here to do that.
+        <%- i18n('withdrawbank.no bank account error') %>
     </p>
 
     <form class="form-horizontal well span6">
         <div class="control-group">
-            <label class="control-label">Bank account</label>
+            <label class="control-label"><%- i18n('withdrawbank.bank account.label') %></label>
             <div class="controls">
                 <select name="bankAccount" class="bank-account"></select>
             </div>
@@ -19,13 +18,13 @@
         <div class="control-group">
             <label class="control-label" for="amount"><%= i18n('amount') %></label>
             <div class="controls">
-                <input class="amount" type="text" id="amount" placeholder="0.0" />
+                <input class="amount" type="text" id="amount" placeholder="<%= i18n('amount') %>" />
             </div>
         </div>
 
         <div class="control-group">
             <div class="controls">
-                <input type="submit" class="btn btn-primary" type="submit" value="Withdraw" />
+                <input type="submit" class="btn btn-primary" type="submit" value="<%- i18n('withdrawbank.submit') %>" />
             </div>
         </div>
     </form>
