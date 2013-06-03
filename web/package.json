@@ -27,7 +27,8 @@
     "http-proxy": "~0.10.2",
     "lodash": "~1.2.1",
     "jed": "~0.5.4",
-    "optimist": "~0.4.0"
+    "optimist": "~0.4.0",
+    "nib": "~0.9.1"
   },
   "scripts": {
     "test": "jake test"
