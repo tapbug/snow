@@ -16,10 +16,10 @@ var Player = module.exports = function(videos) {
 }
 
 function createSourceElement(source) {
-    var types = { 'ogv': 'video/ogg' }
+    var remaps = { 'ogv': 'ogg' }
     , url = _.isString(source) ? source : source.url
     , extension = url.match(/\.([^\.]+)/i)[1]
-    , type = source.type || 'video/' + (extension || '.mp4')
+    , type = source.type || 'video/' + (remaps[extension] || extension || 'mp4')
     return $(format('<source type="%s" src="%s"></source>', type, url))
 }
 
