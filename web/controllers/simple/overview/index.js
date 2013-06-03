@@ -1,5 +1,6 @@
 var num = require('num')
 , _ = require('lodash')
+, numbers = require('../../../util/numbers')
 , debug = require('debug')('simple')
 
 module.exports = function(app, api) {
@@ -50,13 +51,12 @@ module.exports = function(app, api) {
         }
 
         debug('market last %s', last)
+        debug('*** FAKING LAST TO 760.38 ***')
+        last = 760.38
 
-        var converted = num(balance).mul(last)
-        converted.set_precision(2)
-        converted = converted.toString() + ' NOK'
-        debug('converted %s', converted)
-
-        $converted.html(converted)
+        var converted = num(balance).mul(last).toString()
+        , formatted = numbers.format(converted, { ts: ' ', precision: 2 })
+        $converted.html('tilsvarer ' + formatted + ' NOK')
     }
 
     function refreshMarkets() {

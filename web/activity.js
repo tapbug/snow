@@ -50,5 +50,25 @@ module.exports = function(i18n, activity) {
         return i18n('activities.IdentitySet')
     }
 
+    if (activity.type == 'AdminBankAccountCredit') {
+        return format('Admin: Credited user %s\'s bank account (#%s) with %s %s (%s)',
+            activity.details.user_id, activity.details.bank_account_id,
+            activity.details.amount, activity.details.currency_id,
+            activity.details.reference)
+    }
+
+    if (activity.type == 'AdminWithdrawCancel') {
+        return format('Admin: Cancelled withdraw request #%s (%s)',
+            activity.details.id, activity.details.error)
+    }
+
+    if (activity.type == 'AdminWithdrawComplete') {
+        return format('Admin: Completed withdraw request #%s', activity.details.id)
+    }
+
+    if (activity.type == 'AdminWithdrawProcess') {
+        return format('Admin: Started processing withdraw request #%s', activity.details.id)
+    }
+
     return JSON.stringify(activity)
 }

@@ -20,6 +20,7 @@ var _ = require('lodash')
 , changepassword = require('../controllers/changepassword')
 , depositltc = require('../controllers/depositltc')
 , withdrawbank = require('../controllers/withdrawbank')
+, simple = require('../controllers/simple')
 , $app = $('body')
 
 function section(name) {
@@ -36,8 +37,13 @@ module.exports = function(app, api, router) {
     router
     .add(/^$/, function() {
         if (app.user()) {
-            $section.html(dashboard(app, api).$el)
-            section('dashboard')
+            if (app.user().simple) {
+                $section.html(simple(app, api).$el)
+                section('simple')
+            } else {
+                $section.html(dashboard(app, api).$el)
+                section('dashboard')
+            }
         } else {
             $section.html(home().$el)
             section('home')

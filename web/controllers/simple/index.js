@@ -7,16 +7,54 @@ module.exports = function(app, api) {
     , controller = {
         $el: $el
     }
-    , inner = require('./overview')(app, api)
 
-    $el.find('.wrapper').append(inner.$el)
+    function inner(what) {
+        $el.find('.wrapper').empty().append(what.$el)
+    }
 
-    $el.on('click', 'a[href="#simple/buy"]', function(e) {
+    function overview() {
+        inner(require('./overview')(app, api))
+
+        $el.find('.nav .overview')
+        .addClass('active')
+        .siblings()
+        .removeClass('active')
+    }
+
+    function activities() {
+        inner(require('./activities')(app, api))
+
+        $el.find('.nav .activities')
+        .addClass('active')
+        .siblings()
+        .removeClass('active')
+    }
+
+    $el.on('click', '.buy a', function(e) {
         e.preventDefault()
 
         var modal = require('./buy')(app, api)
         modal.$el.modal()
     })
+
+    $el.on('click', '.terms a', function(e) {
+        e.preventDefault()
+        var modal = require('./terms')(app, api)
+        modal.$el.modal()
+    })
+
+    $el.on('click', '.activities a', function(e) {
+        e.preventDefault()
+        activities()
+    })
+
+
+    $el.on('click', '.overview a', function(e) {
+        e.preventDefault()
+        overview()
+    })
+
+    overview()
 
     return controller
 }
