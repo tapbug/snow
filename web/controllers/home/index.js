@@ -17,6 +17,7 @@ module.exports = function(hash) {
                 'landing.mp4',
                 'landing.ogv'
             ],
+            greedy: true,
             loop: true
         },
         bitcoin: {
