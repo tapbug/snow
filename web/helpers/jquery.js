@@ -57,10 +57,11 @@ $.fn.field = function(name, value) {
 }
 
 $.fn.removeClasses = function(re) {
-    if (!this.className) return this
-    _.each(this.className.split(/\s+/), function(name) {
-        if (re.test(name)) return
-        this.removeClass(name)
-    }, this)
+    $.each(this, function(i, el) {
+        if (!el.className) return
+        _.each(el.className.split(/\s+/), function(name) {
+            re.test(name) && el.removeClass(name)
+        }, this)
+    })
     return this
 }
