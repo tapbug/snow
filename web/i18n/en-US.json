@@ -39,6 +39,7 @@
     "register.errors.email.checkFailed": "No fake/disposable emails please!",
     "register.create button": "Create my account",
     "register.create button.creating": "Creating account...",
+    "register.existing user login": "Existing user? Login here",
 
     "activities.CreateOrder": "You created an order to %s %s %s for %s %s",
     "activities.CancelOrder": "You cancelled order #%s",

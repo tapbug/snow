@@ -34,6 +34,7 @@
     "register.errors.email.checkFailed": "Ingen tulle/midlertidige eposter, takk!",
     "register.create button": "Registrer meg nå",
     "register.create button.creating": "Oppretter konto...",
+    "register.existing user login": "Allerede registrert? Logg inn",
 
     "withdraw": "Ta ut",
     "deposit": "Sett inn",

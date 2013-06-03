@@ -27,7 +27,7 @@ module.exports = function() {
         else if (data) settings.type = 'POST'
 
         if (data) {
-            settings.contentType = "application/json; charset=utf-8",
+            settings.contentType = 'application/json; charset=utf-8'
             settings.data = JSON.stringify(data)
         }
 
@@ -42,7 +42,9 @@ module.exports = function() {
             }).join('&')
         }
 
-        return $.ajax(settings)
+        var xhr = $.ajax(settings)
+        xhr.settings = settings
+        return xhr
     }
 
     api.loginWithKey = function(key) {

@@ -1,6 +1,4 @@
-@import "bootstrap-variables.styl"
-@import "../vendor/bootstrap-stylus/stylus/bootstrap.styl"
-@import "../vendor/bootstrap-stylus/stylus/responsive.styl"
+@import "../node_modules/nib/lib/nib/vendor.styl"
 @import "loading.styl"
 @import "admin.styl"
 
@@ -9,13 +7,9 @@
     -webkit-animation arguments
     -moz-animation arguments
 
-
-@media (min-width: 768px) {
-    body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-    }
-}
+body
+    position relative
+    padding-top 50px
 
 footer {
     text-align: center;
@@ -48,31 +42,6 @@ body:not(.is-logged-in)
 #balances a[href="#my/deposit/XRP"] { display: none; }
 #balances a[href^="#my/send"] { display: none; }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-    margin: 80px 0;
-    text-align: center;
-}
-.jumbotron h1 {
-    font-size: 100px;
-    line-height: 1;
-}
-.jumbotron .lead {
-    font-size: 24px;
-    line-height: 1.25;
-}
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-}
-
-/* Supporting marketing content */
-.marketing {
-    margin: 60px 0;
-}
-.marketing p + h4 {
-    margin-top: 28px;
-}
 
 .dashboard
     .balances
@@ -182,4 +151,5 @@ body.is-logged-in
         display none
 
 @import "../controllers/apikeys/styles.styl"
+@import "../controllers/home/styles.styl"
 @import "../controllers/top/styles.styl"

@@ -122,7 +122,7 @@ module.exports = function(app, api, after) {
         }).fail(function(xhr) {
             var err = app.errorFromXhr(xhr)
 
-            if (err.name == 'UnknownApiKey') {
+            if (err !== null && err.name == 'UnknownApiKey') {
                 $email
                 .addClass('error')
                 .find('.help-inline')

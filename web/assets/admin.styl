@@ -1,11 +1,5 @@
 .admin-users
-    @extend .container
-
     .users-table
-        @extend .table
-        @extend .table-bordered
-        @extend .table-striped
-
         width auto
 
         .user-id-header, .user-id
@@ -20,11 +14,7 @@
             width 200px
 
     .search-form
-        @extend .form-inline
-
         .search
-            @extend .btn
-            @extend .btn-success
 
         &.is-loading
             .search

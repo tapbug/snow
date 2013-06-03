@@ -167,7 +167,7 @@ module.exports = function(app, api) {
         }).fail(function(xhr) {
             var err = app.errorFromXhr(xhr)
 
-            if (err.name == 'EmailFailedCheck') {
+            if (err !== null && err.name == 'EmailFailedCheck') {
                 $email.find('input').focus()
 
                 $email

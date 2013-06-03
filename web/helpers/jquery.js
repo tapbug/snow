@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 $.fn.enabled = function(value) {
     if (typeof value != 'undefined') {
         return $(this).prop('disabled', !value)
@@ -52,4 +54,15 @@ $.fn.field = function(name, value) {
     }
 
     return $fields
+}
+
+$.fn.removeClasses = function(re) {
+    $.each(this, function(i, el) {
+        if (!el.className) return
+        _.each(el.className.split(/\s+/), function(name) {
+            if (!re.test(name)) return
+            el.className = el.className.replace(name, '')
+        }, this)
+    })
+    return this
 }
