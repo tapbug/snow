@@ -79,7 +79,7 @@ Player.prototype.resize = function() {
     , height
     , video = this.videos[this.current]
 
-    if (wRatio > vRatio && video.greedy) {
+    if (wRatio > vRatio == !!video.greedy) {
         width = wWidth
         height = width / vRatio
     } else {
