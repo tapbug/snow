@@ -159,6 +159,7 @@
     "depositnok.messageToRecipient": "Message to recipient",
     "depositnok.minimumAmount": "Minimum amount",
     "depositnok.maximumAmount": "Maximum amount",
+    "depositnok.recipient": "Recipient",
 
     "identity.confirmation": "Profile stored.",
     "identity.heading": "Profile",

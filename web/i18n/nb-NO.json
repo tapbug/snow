@@ -144,6 +144,7 @@
     "depositnok.messageToRecipient": "Melding til mottaker",
     "depositnok.minimumAmount": "Minste beløp",
     "depositnok.maximumAmount": "Største beløp",
+    "depositnok.recipient": "Mottaker",
 
     "identity.confirmation": "Profil lagret.",
     "identity.heading": "Profil",
