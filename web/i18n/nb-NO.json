@@ -161,5 +161,11 @@
     "verifyemail.send button": "Send epost til %s",
     "verifyemail.send button.sending": "Sender epost til %s",
     "verifyemail.send button.waiting": "Sjekk eposten din nå",
-    "verifyemail.confirmation": "Eposten din har blitt godkjent."
+    "verifyemail.confirmation": "Eposten din har blitt godkjent.",
+
+    "withdrawbank.heading": "Ta ut til en bankkonto",
+    "withdrawbank.intro": "Alle uttak til bankkonto håndteres manuelt.",
+    "withdrawbank.no bank account error": "Du har ingen godkjente bankkontoer. For å legge inn en bankkonto, trenger du bare sende 1 kr. for å bevise at du eier den.",
+    "withdrawbank.bank account.label": "Bankkonto",
+    "withdrawbank.submit": "Ta ut"
 }
