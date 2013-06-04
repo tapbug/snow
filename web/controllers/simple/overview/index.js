@@ -2,6 +2,7 @@ var num = require('num')
 , _ = require('lodash')
 , numbers = require('../../../util/numbers')
 , debug = require('debug')('simple')
+, headerTemplate = require('../header.html')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')())
@@ -13,6 +14,8 @@ module.exports = function(app, api) {
     , $address = $el.find('.address')
     , balance
     , last
+
+    $el.find('.header-placeholder').replaceWith(headerTemplate())
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

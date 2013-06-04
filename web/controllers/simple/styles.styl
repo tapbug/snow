@@ -1,4 +1,4 @@
-.is-section-simple
+.is-section-simple-overview, .is-section-simple-send, .is-section-simple-buy
     .navbar
         display none
 
@@ -9,18 +9,11 @@
         display none
 
 .simple
-    h1
-        font-size: 50pt
-        font-weight: normal
-        color: #333
-
-    footer
-        margin-top: 100px
-
-        .links
-            text-align: center
-        a
-            color: #00BBCC
+    .header
+        h1
+            font-size: 50pt
+            font-weight: normal
+            color: #333
 
     .nav
         margin-top: 10px;
@@ -29,29 +22,6 @@
             font-size: 0.8em;
             line-height: 0.8em;
 
-    .overview
-        text-align center
-
-        .balances
-            text-align: right
-
-        .balance
-            font-size: 4em;
-            line-height: 80px;
-
-        .balance-converted
-            font-size: 20px;
-            //line-height: 20px;
-
-        /*.actions
-            padding-top: 35px;*/
-
-.simplez
-    h1
-        font-size: 50pt
-        font-weight: normal
-        color: #333
-
     footer
         margin-top: 100px
 
@@ -60,20 +30,7 @@
         a
             color: #00BBCC
 
-    max-width 700px
-    text-align left
-    margin-left: auto
-    margin-right: auto
-
-    .pagewrapper
-
-
-    .wrapper
-        border: solid 1px #ccc;
-        margin: 0 auto;
-        margin-top: 30px;
-
-    .overview
+    &.overview
         text-align center
 
         .balances
@@ -85,7 +42,6 @@
 
         .balance-converted
             font-size: 20px;
-            line-height: 20px;
 
-        .actions
-            padding-top: 35px;
+@import "send/styles.styl"
+@import "buy/styles.styl"

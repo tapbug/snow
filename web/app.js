@@ -12,6 +12,14 @@ app.user = function(value) {
 
 app.section = function(name) {
     $('.top .nav .' + name).addClass('active').siblings().removeClass('active')
+    var $app = $('body')
+
+    _.each($app[0].className.split(/\s+/), function(name) {
+        if (!/is-section-/.test(name)) return
+        $app.removeClass(name)
+    })
+
+    $app.addClass('is-section-' + name)
 }
 
 app.balances = function(value) {

@@ -1,34 +1,67 @@
-<div class="modal">
-    <div class="modal-header">
-        <h3>Kjøp Bitcoin</h3>
-    </div>
-    <div class="modal-body">
-        <p style="padding-bottom:25px;">Du kan kjøpe Bitcoin med vanlig, norsk bankoverføring.</p>
+<div class="container simple buy is-step-estimate">
+    <div class="header-placeholder"></div>
 
-        <form class="form-horizontal amount-step">
-            <div class="control-group">
-                <label class="control-label" for="inputEmail">Kjøp for</label>
-                <div class="controls">
-                    <div class="input-append">
-                        <input type="text" class="input-small" id="inputEmail" placeholder="">
-                        <span class="add-on">NOK</span>
+    <h3>Kjøp Bitcoin</h3>
+
+    <div class="row estimate-step">
+        <div class="span6">
+            <p style="padding-bottom: 15px;">Hvor mange Bitcoin ønsker du å kjøpe?</p>
+
+            <form class="estimate-form form-horizontal well">
+                <div class="control-group amount">
+                    <label class="control-label" for="amount">Antall</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" class="input-small" name="amount" id="amount" />
+                            <span class="add-on">BTC</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="inputEmail">ca.</label>
-                <div class="controls">
-                    <div class="input-append">
-                        <input type="text" class="input-small disabled" disabled="disabled" id="inputEmail" placeholder="">
-                        <span class="add-on">BTC</span>
+
+                <div class="control-group amount-converted">
+                    <label class="control-label" for="amount-converted">ca.</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" class="input-small disabled" disabled="disabled" name="amount-converted" id="amount-converted" value="" />
+                            <span class="add-on">NOK</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-success">Fortsett</button>
+
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <button type="submit" class="continue-button btn btn-large btn-success">
+                            Fortsett
+                        </button>
+                    </div>
                 </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row payment-step">
+        <div class="span6">
+            <p>Vi bruker vanlig, norsk bankoverføring. Send <span class="amount-converted"></span> NOK til:</p>
+
+            <div class="well">
+                <table>
+                    <tr>
+                        <td style="width:200px;"><%= i18n('depositnok.account') %></td>
+                        <td style="font-weight:bold;">1503.36.59595</td>
+                    </tr>
+                    <tr>
+                        <td><%= i18n('depositnok.messageToRecipient') %></td>
+                        <td><%= messageToRecipient %></td>
+                    </tr>
+                </table>
             </div>
-        </form>
+
+            <div class="alert alert-info">
+                <h4>Justcoin er en børs</h4>
+                Hvor mange Bitcoin du faktisk mottar kommer
+                an på hva som er best pris på markedet når vi registrerer innbetalingen din.
+            </div>
+        </div>
     </div>
 </div>
