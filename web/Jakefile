@@ -56,7 +56,8 @@ directory('build/img')
 directory('build/img/flags')
 
 var head = [
-    'build/raven.min.js'
+    'build/raven.min.js',
+    'vendor/modernizr.js'
 ]
 
 var vendor = [
