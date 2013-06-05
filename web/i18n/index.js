@@ -1,5 +1,5 @@
 var util = require('util')
-, debug = require('debug')('i18n')
+, debug = require('../util/debug')('i18n')
 , _ = require('lodash')
 , dicts = {
     'en-US': require('./en-US.json'),
@@ -22,7 +22,7 @@ module.exports = function(lang) {
         }
 
         if (typeof s == 'undefined') {
-            console.error('ERROR: missing translation key: ' + key)
+            debug('ERROR: missing translation key: ' + key)
             return 'translation missing!'
         }
 

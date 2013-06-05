@@ -1,6 +1,7 @@
 var EventEmitter = require('events').EventEmitter
 , _ = require('lodash')
 , app = module.exports = new EventEmitter()
+, debug = require('./util/debug')('app')
 
 app.user = function(value) {
     if (!_.isUndefined(value)) {
@@ -43,18 +44,17 @@ app.authorize = function() {
 
 app.reportErrorFromXhr = function(xhr) {
     if (typeof Raven != 'undefined') {
-        var details = {
-            request: xhr.settings,
-            response: {
-                readyState: xhr.readyState,
-                body: app.bodyFromXhr(xhr),
-                responseText: xhr.responseText,
-                status: xhr.status,
-                statusText: xhr.statusText
-            }
+        var tags = {
+            hash: window.location.hash,
+            readyState: xhr.readyState,
+            body: app.bodyFromXhr(xhr),
+            status: xhr.status,
+            request: xhr.settings
         }
 
-        Raven.captureMessage('Exception alert()\'ed to the user', JSON.stringify(details))
+        debug('Sending message to Raven', tags)
+
+        Raven.captureMessage('Exception alert()\'ed to the user', { tags: tags })
     }
 }
 

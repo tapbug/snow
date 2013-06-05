@@ -18,6 +18,7 @@ module.exports = function() {
 
         options = options || {}
         options.qs = options.qs || {}
+        options.qs.ts = +new Date()
 
         if (options.key || api.key) {
             options.qs.key = options.key || api.key

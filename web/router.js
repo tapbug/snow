@@ -1,5 +1,5 @@
 var _ = require('lodash')
-, debug = require('debug')('router')
+, debug = require('./util/debug')('router')
 
 module.exports = function() {
     var routes = []

@@ -1,5 +1,5 @@
 var _ = require('lodash')
-, debug = require('debug')('segment')
+, debug = require('./util/debug')('segment')
 
 module.exports = function(app, api) {
     function attach(user) {

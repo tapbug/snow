@@ -35,6 +35,11 @@ module.exports = function(app, api, userId) {
             return
         }
 
+        if (href == '#summary') {
+            refresh()
+            return
+        }
+
         if (href == '#withdraw-requests') {
             refreshWithdrawRequests()
             return

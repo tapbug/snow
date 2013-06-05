@@ -1,12 +1,9 @@
 var api = require('./api')()
 , $app = $('body')
 , app = window.app = require('./app')
-, debug = require('debug')
-debug.enable('*')
-debug = debug('snow:entry')
+, debug = require('./util/debug')('snow:entry')
 
 require('./helpers/jquery')
-require('./util/console')
 
 if (window.analytics) {
     require('./segment')(app, api)
@@ -40,7 +37,7 @@ app.on('user', function(user) {
 
     checkEmail(function() {
         checkPhone(function() {
-            console.log('verifications done')
+            debug('verifications done')
         })
     })
 })
@@ -109,7 +106,7 @@ $app.find('.top').replaceWith(top.$el)
 $app.on('click', 'a[href="#set-language"]', function(e) {
     e.preventDefault()
     var language = $(this).attr('data-language')
-    console.log('changing language to ' + language + ' with cookie')
+    debug('changing language to ' + language + ' with cookie')
     $.cookie('language', language, { expires: 365 * 10 })
 
     window.location.reload ? window.location.reload() : window.location = '/'

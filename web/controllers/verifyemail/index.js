@@ -1,6 +1,6 @@
 var util = require('util')
 , _ = require('lodash')
-, debug = require('debug')('verifyemail')
+, debug = require('../../util/debug')('verifyemail')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')({
@@ -27,8 +27,8 @@ module.exports = function(app, api) {
             timer = setInterval(function() {
                 api.call('v1/whoami')
                 .fail(function(err) {
-                    console.error('failed to whoami for email check')
-                    console.error(err)
+                    debug('failed to whoami for email check')
+                    debug(err)
                 })
                 .done(function(user) {
                     if (!user.emailVerified) return

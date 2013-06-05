@@ -1,6 +1,6 @@
 var _ = require('lodash')
 , format = require('util').format
-, debug = require('debug')('player')
+, debug = require('../../util/debug')('player')
 
 var Player = module.exports = function(videos) {
     this.$el = $('<video></video>')

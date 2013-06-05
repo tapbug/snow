@@ -1,6 +1,6 @@
 var util = require('util')
 , _ = require('lodash')
-, debug = require('debug')('verifyemail')
+, debug = require('../../util/debug')('verifyemail')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')())
