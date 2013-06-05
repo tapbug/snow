@@ -130,6 +130,12 @@ if ($.cookie('existingUser')) {
     app.router.go('login')
 }
 
+$(window).on('hashchange', function() {
+    if (typeof analytics != 'undefined') {
+        analytics.pageview()
+    }
+})
+
 function startRouter() {
     debug('starting router')
     var router = require('./router')()
