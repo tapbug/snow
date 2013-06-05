@@ -30,10 +30,14 @@
 
                 <div class="control-group">
                     <label class="control-label"></label>
-                    <div class="controls">
+                    <div class="controls form-inline">
                         <button type="submit" class="continue-button btn btn-large btn-success">
                             Fortsett
                         </button>
+
+                        <div style="display:inline-block;margin-left:25px;">
+                            <a href="#simple">Tilbake</a>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -42,25 +46,41 @@
 
     <div class="row payment-step">
         <div class="span6">
-            <p>Vi bruker vanlig, norsk bankoverføring. Send <span class="amount-converted"></span> NOK til:</p>
+            <p>Vi bruker vanlig, norsk bankoverføring.</p>
 
             <div class="well">
                 <table>
+                    <tr>
+                        <td style="width:200px;">Beløp</td>
+                        <td style="font-weight:bold;"><span class="amount-converted"></span> NOK</td>
+                    </tr>
                     <tr>
                         <td style="width:200px;"><%= i18n('depositnok.account') %></td>
                         <td style="font-weight:bold;">1503.36.59595</td>
                     </tr>
                     <tr>
                         <td><%= i18n('depositnok.messageToRecipient') %></td>
-                        <td><%= messageToRecipient %></td>
+                        <td style="font-weight:bold;"><%= messageToRecipient %></td>
+                    </tr>
+                    <tr style="vertical-align:top;">
+                        <td><%= i18n('depositnok.recipient') %></td>
+                        <td>
+                            Justcoin AS<br />
+                            Tordenskioldsgate 3<br />
+                            0160 Oslo
+                        </td>
                     </tr>
                 </table>
             </div>
 
-            <div class="alert alert-info">
+            <div class="well">
                 <h4>Justcoin er en børs</h4>
                 Hvor mange Bitcoin du faktisk mottar kommer
                 an på hva som er best pris på markedet når vi registrerer innbetalingen din.
+            </div>
+
+            <div>
+                <a href="#simple">Tilbake</a>
             </div>
         </div>
     </div>

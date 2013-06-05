@@ -3,19 +3,36 @@ var num = require('num')
 , numbers = require('../../../util/numbers')
 , debug = require('debug')('simple-buy')
 , headerTemplate = require('../header.html')
+, format = require('util').format
 
-module.exports = function(app, api, amount) {
+module.exports = function(app, api) {
     var $el = $(require('./template.html')({
         messageToRecipient: app.user().id * 1234
     }))
     , controller = {
         $el: $el
     }
-    , $form = $el.find('.estimate-form')
+    , $form = $el.find('.sell-form')
     , $amount = $el.find('.amount')
     , $converted = $el.find('.amount-converted')
     , last
+    , balance
+    , $balance = $el.find('.balance')
     , amountValidateTimer
+
+    function balancesUpdated(balances) {
+        var indexed = balances.reduce(function(p, c) {
+            p[c.currency] = c.available
+            return p
+        }, {})
+
+        balance = indexed.BTC
+        $balance.html(numbers.format(balance, { ts: ',', maxPrecision: 8 }) + ' BTC')
+    }
+
+    app.on('balances', balancesUpdated)
+
+    app.balances() && balancesUpdated(app.balances())
 
     // Insert header
     $el.find('.header-placeholder').replaceWith(headerTemplate())
@@ -29,9 +46,17 @@ module.exports = function(app, api, amount) {
             if (emptyIsError === true) $amount.addClass('error')
             return
         }
-
         // NaN or <= 0
-        if (parseAmount() === null) {
+        if (!(+amount > 0)) {
+            $amount.addClass('is-invalid error')
+            return
+        }
+
+        if (_.isUndefined(balance)) {
+            throw new Error('balance is undefined')
+        }
+
+        if (num(amount).gt(balance)) {
             $amount.addClass('is-invalid error')
             return
         }
@@ -93,6 +118,23 @@ module.exports = function(app, api, amount) {
 
     refreshMarkets()
 
+    var $bankAccount = $form.find('.bank-account')
+
+    api.call('v1/users/bankAccounts')
+    .fail(app.alertXhrError)
+    .done(function(accounts) {
+        if (true || !accounts.length) {
+            $el.find('.no-bank-accounts-error').show()
+            $el.find('.sell-form-container').hide()
+            return
+        }
+
+        $bankAccount.html(accounts.map(function(a) {
+            return format('<option class="bank-account" value="%s">%s</option>',
+                a.id, a.accountNumber)
+        }))
+    })
+
     $form.on('submit', function(e) {
         e.preventDefault()
 
@@ -104,7 +146,7 @@ module.exports = function(app, api, amount) {
             return
         }
 
-        $form.find('.continue-button').loading(true)
+        $form.find('.sell-button').loading(true)
         $amount.enabled(false)
 
         setTimeout(function() {
@@ -113,11 +155,6 @@ module.exports = function(app, api, amount) {
             $el.find('.payment-step .amount-converted').html(converted)
         }, 750)
     })
-
-    if (amount == 'any') {
-        $el.toggleClass('is-step-estimate is-step-payment')
-        $el.find('.payment-step .amount-converted').closest('tr').hide()
-    }
 
     $amount.find('input').focusSoon()
 

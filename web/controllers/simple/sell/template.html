@@ -1,0 +1,70 @@
+<div class="container simple sell">
+    <div class="header-placeholder"></div>
+
+    <h3>Selg Bitcoin</h3>
+
+    <div class="no-bank-accounts-error" style="max-width: 550px">
+        <p>
+            For å ta ut penger til en bankkonto, må du først registrere den. Du kan registrere
+            en bankkonto ved å sette inn minst 1 kr. fra den.
+        </p>
+
+        <p>
+            <a href="#simple/buy?any" class="btn btn-success">Registrer bankkonto</a>
+        </p>
+    </div>
+
+    <div class="row sell-form-container">
+        <div class="span6">
+            <p style="padding-bottom: 15px;">Hvor mange Bitcoin ønsker du å selge? Du har <span class="balance"></span></p>
+
+            <form class="sell-form form-horizontal well">
+                <div class="control-group amount">
+                    <label class="control-label" for="amount">Antall</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" class="input-small" name="amount" id="amount" />
+                            <span class="add-on">BTC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group amount-converted">
+                    <label class="control-label" for="amount-converted">ca.</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" class="input-small disabled" disabled="disabled" name="amount-converted" id="amount-converted" value="" />
+                            <span class="add-on">NOK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Til konto</label>
+                    <div class="controls">
+                        <select name="bankAccount" class="bank-account"></select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls form-inline">
+                        <button type="submit" class="sell-button btn btn-large btn-success">
+                            Selg Bitcoin
+                        </button>
+
+                        <div style="display:inline-block;margin-left:25px;">
+                            <a href="#simple">Tilbake</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="well">
+                <h4>Justcoin er en børs</h4>
+                Vekslingskursen over er veiledende. Den faktiske kursen kommer an på hva
+                som er tilgjengelig på markedet.
+            </div>
+        </div>
+    </div>
+</div>

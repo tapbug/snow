@@ -16,7 +16,7 @@ module.exports = function(app, api) {
     , $address = $el.find('.address')
     , amountValidateTimer
     , addressValidateTimer
-    , $sendButton = $el.find('.send-button')
+    , $button = $el.find('.sell-button')
 
     // Insert header
     $el.find('.header-placeholder').replaceWith(headerTemplate())
@@ -56,7 +56,7 @@ module.exports = function(app, api) {
         }
 
         if (num(amount).gt(balance)) {
-            $amount.addClass('is-invalid')
+            $amount.addClass('is-invalid error')
             return
         }
 
@@ -113,7 +113,7 @@ module.exports = function(app, api) {
         .add($address.find('input'))
         .enabled(false)
 
-        $sendButton.loading(true)
+        $button.loading(true)
 
         api.call('v1/btc/out', {
             amount: $amount.find('input').val(),
