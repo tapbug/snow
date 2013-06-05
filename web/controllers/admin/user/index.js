@@ -25,7 +25,7 @@ module.exports = function(app, api, userId) {
             api.call('admin/users/' + userId + '/activities')
             .fail(app.alertXhrError)
             .done(function(activities) {
-                $activity.find('tbody').html(activities.map(function(activity) {
+                $activity.find('tbody').html(_.map(activities, function(activity) {
                     var template = _.template('<tr><td><%= created %></td><td><%= text %></td></tr>')
                     activity.text = formatActivity(app.i18n, activity)
                     return template(activity)
@@ -53,7 +53,7 @@ module.exports = function(app, api, userId) {
         api.call('admin/users/' + userId + '/withdrawRequests')
         .fail(app.alertXhrError)
         .done(function(requests) {
-            $requests.find('tbody').html(requests.map(function(request) {
+            $requests.find('tbody').html(_.map(requests, function(request) {
                 return require('./withdraw.html')(request)
             }))
         })
