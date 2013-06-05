@@ -11,31 +11,40 @@ module.exports = function(hash) {
     , $tagline = $el.find('.tagline')
     , $signup = $el.find('.signup')
     , taglineRotateTimer = setInterval(rotateTagline, 3.5e3)
+    , player
 
-    var player = new Player({
-        landing: {
-            sources: [
-                'landing.mp4',
-                'landing.ogv'
-            ],
-            greedy: true,
-            loop: true
-        },
-        bitcoin: {
-            sources: [
-                'what-is-bitcoin.mp4',
-                'what-is-bitcoin.ogv'
-            ]
-        },
-        ripple: {
-            sources: [
-                'what-is-ripple.mp4',
-                'what-is-ripple.ogv'
-            ]
-        }
-    }).play('landing').fullscreen(true)
+    if (Modernizr.video) {
+        player = new Player({
+            landing: {
+                sources: [
+                    'landing.mp4',
+                    'landing.ogv'
+                ],
+                greedy: true,
+                loop: true
+            },
+            bitcoin: {
+                sources: [
+                    'what-is-bitcoin.mp4',
+                    'what-is-bitcoin.ogv'
+                ]
+            },
+            ripple: {
+                sources: [
+                    'what-is-ripple.mp4',
+                    'what-is-ripple.ogv'
+                ]
+            }
+        }).play('landing').fullscreen(true)
 
-    $el.find('video').replaceWith(player.$el)
+        $el.find('video').replaceWith(player.$el)
+
+        player.$el.on('playing', function() {
+            $el.removeClasses(/^is-playing/)
+            .addClass('is-playing-' + player.current)
+            resize()
+        })
+    }
 
     var taglines = [
         'Your digital currency exchange',
@@ -61,7 +70,7 @@ module.exports = function(hash) {
             left: windowWidth / 2 - $cta.width() / 2
         })
 
-        if (player.current == 'landing') {
+        if (!player || player.current == 'landing') {
             $cta.css({
                 top: windowHeight / 2 - $cta.height() / 2
             })
@@ -69,25 +78,23 @@ module.exports = function(hash) {
             $tagline.css({
                 fontSize: windowWidth / 30
             })
-        } else {
+        }
+
+        if (player && player.current != 'landing') {
             $cta.css('top', '')
         }
     }
 
     $window.on('resize', resize)
 
-    player.$el.on('playing', function() {
-        $el.removeClasses(/^is-playing/)
-        .addClass('is-playing-' + player.current)
-        resize()
-    })
-
     $el.on('click', '.what-is-bitcoin', function(e) {
+        if (!player) return
         e.preventDefault()
         player.play('bitcoin').enqueue('landing')
     })
 
     $el.on('click', '.what-is-ripple', function(e) {
+        if (!player) return
         e.preventDefault()
         player.play('ripple').enqueue('landing')
     })
