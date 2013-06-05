@@ -1,7 +1,7 @@
 require('../../vendor/shake')
 
 var _ = require('lodash')
-, debug = require('debug')('login')
+, debug = require('../../util/debug')('login')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')())

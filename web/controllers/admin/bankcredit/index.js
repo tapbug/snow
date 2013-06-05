@@ -1,5 +1,5 @@
 var util = require('util')
-, debug = require('debug')('admin:bankcredit')
+, debug = require('../../../util/debug')('admin:bankcredit')
 
 module.exports = function(app, api, userId) {
     var $el = $(require('./template.html')())
