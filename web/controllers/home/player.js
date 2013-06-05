@@ -27,7 +27,7 @@ Player.prototype.play = function(name) {
     var video = this.videos[name]
     if (!video) throw new Error('no video ' + name)
     this.$el.find('source').remove()
-    this.$el.append(video.sources.map(createSourceElement))
+    this.$el.append(_.map(video.sources, createSourceElement))
     this.el.loop = video.loop || null
     this.el.play()
     this.el.load()

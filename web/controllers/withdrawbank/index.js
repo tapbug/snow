@@ -1,4 +1,5 @@
 var format = require('util').format
+, _ = require('lodash')
 
 module.exports = function(app, api, currency) {
     var $el = $(require('./template.html')())
@@ -19,7 +20,7 @@ module.exports = function(app, api, currency) {
             return
         }
 
-        $bankAccount.html(accounts.map(function(a) {
+        $bankAccount.html(_.map(accounts, function(a) {
             return format('<option class="bank-account" value="%s">%s (%s)</option>',
                 a.id, a.displayName || 'Unnamed', a.accountNumber)
         }))
