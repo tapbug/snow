@@ -1,4 +1,5 @@
 var util = require('util')
+, _ = require('lodash')
 , debug = require('../../../util/debug')('admin:bankcredit')
 
 module.exports = function(app, api, userId) {
@@ -60,7 +61,7 @@ module.exports = function(app, api, userId) {
         api.call('admin/users/' + userId + '/bankAccounts')
         .fail(app.alertXhrError)
         .done(function(accounts) {
-            $el.find('.bank-account select').html(accounts.map(function(a) {
+            $el.find('.bank-account select').html(_.map(accounts, function(a) {
                 return util.format('<option value="%s">%s (%s)</option>',
                     a.id, a.displayName || 'Unnamed', a.iban || a.accountNumber)
             }))
