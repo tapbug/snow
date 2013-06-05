@@ -67,7 +67,7 @@ module.exports = function(app, api, amount) {
 
         debug('market last %s', last)
         debug('*** FAKING LAST TO 760.38 ***')
-        last = 760.38
+        last = 760.3832
 
         var amount = parseAmount()
 
@@ -76,8 +76,11 @@ module.exports = function(app, api, amount) {
             return
         }
 
-        var converted = num(amount).mul(last).toString()
-        , formatted = numbers.format(converted, { ts: ' ', precision: 2 })
+        var converted = num(amount)
+        converted.set_precision(8) // TODO: Remove magic number
+        converted = converted.div(last).toString()
+
+        var formatted = numbers.format(converted, { ts: ' ', precision: 3 })
         $converted.find('input').val(formatted)
     }
 
@@ -109,14 +112,14 @@ module.exports = function(app, api, amount) {
 
         setTimeout(function() {
             $el.toggleClass('is-step-estimate is-step-payment')
-            var converted = $converted.find('input').val()
-            $el.find('.payment-step .amount-converted').html(converted)
+            var amount = $amount.find('input').val()
+            $el.find('.payment-step .amount').html(amount)
         }, 750)
     })
 
     if (amount == 'any') {
         $el.toggleClass('is-step-estimate is-step-payment')
-        $el.find('.payment-step .amount-converted').closest('tr').hide()
+        $el.find('.payment-step .amount').closest('tr').hide()
     }
 
     $amount.find('input').focusSoon()
