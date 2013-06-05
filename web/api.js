@@ -51,6 +51,7 @@ module.exports = function() {
         return api.call('v1/whoami', null, { key: key })
         .then(function(user) {
             $.cookie('apiKey', key)
+            $.cookie('existingUser', true, { expires: 365 * 10 })
             api.key = key
             app.user(user)
         })
