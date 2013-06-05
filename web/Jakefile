@@ -22,13 +22,13 @@ task('app', [
     'build/img/flags',
     'build/img/flags/NO.png',
     'build/img/flags/US.png',
-    'build/img/flags/ES.png'
-//    'build/what-is-bitcoin.mp4',
-//    'build/what-is-ripple.mp4',
-//    'build/landing.mp4',
-//    'build/what-is-bitcoin.ogv',
-//    'build/what-is-ripple.ogv',
-//    'build/landing.ogv'
+    'build/img/flags/ES.png',
+    'build/what-is-bitcoin.mp4',
+    'build/what-is-ripple.mp4',
+    'build/landing.mp4',
+    'build/what-is-bitcoin.ogv',
+    'build/what-is-ripple.ogv',
+    'build/landing.ogv'
 ])
 
 task('dist', [
@@ -42,13 +42,13 @@ task('dist', [
     'build/img/flags',
     'build/img/flags/NO.png',
     'build/img/flags/ES.png',
-    'build/img/flags/US.png'
-//    'build/what-is-bitcoin.mp4',
-//    'build/what-is-ripple.mp4',
-//    'build/landing.mp4',
-//    'build/what-is-bitcoin.ogv',
-//    'build/what-is-ripple.ogv',
-//    'build/landing.ogv'
+    'build/img/flags/US.png',
+    'build/what-is-bitcoin.mp4',
+    'build/what-is-ripple.mp4',
+    'build/landing.mp4',
+    'build/what-is-bitcoin.ogv',
+    'build/what-is-ripple.ogv',
+    'build/landing.ogv'
 ])
 
 directory('build')
@@ -78,12 +78,12 @@ file('build/raven.min.js', ['vendor/raven.min.js'], cpTask)
 file('build/img/registerbg.jpg', ['assets/img/registerbg.jpg'], cpTask)
 file('build/img/flags/NO.png', ['assets/img/flags/NO.png'], cpTask)
 file('build/img/flags/US.png', ['assets/img/flags/US.png'], cpTask)
-//file('build/landing.mp4', ['assets/landing.mp4'], cpTask)
-//file('build/what-is-bitcoin.mp4', ['assets/what-is-bitcoin.mp4'], cpTask)
-//file('build/what-is-ripple.mp4', ['assets/what-is-ripple.mp4'], cpTask)
-//file('build/landing.ogv', ['assets/landing.ogv'], cpTask)
-//file('build/what-is-bitcoin.ogv', ['assets/what-is-bitcoin.ogv'], cpTask)
-//file('build/what-is-ripple.ogv', ['assets/what-is-ripple.ogv'], cpTask)
+file('build/landing.mp4', ['assets/landing.mp4'], cpTask)
+file('build/what-is-bitcoin.mp4', ['assets/what-is-bitcoin.mp4'], cpTask)
+file('build/what-is-ripple.mp4', ['assets/what-is-ripple.mp4'], cpTask)
+file('build/landing.ogv', ['assets/landing.ogv'], cpTask)
+file('build/what-is-bitcoin.ogv', ['assets/what-is-bitcoin.ogv'], cpTask)
+file('build/what-is-ripple.ogv', ['assets/what-is-ripple.ogv'], cpTask)
 file('build/img/flags/ES.png', ['assets/img/flags/ES.png'], cpTask)
 
 function cpTask() {
