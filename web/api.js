@@ -32,7 +32,7 @@ module.exports = function() {
         }
 
         if (_.size(options.qs)) {
-            settings.url += '?' + _.map(options.qs, function(v, k) {
+            settings.url += '?' + _(options.qs).map(function(v, k) {
                 // this is a little hackish. to send a key without a value
                 if (v === null) return null
                 if (_.isString(v) && !v.length) return k
