@@ -124,10 +124,10 @@ if (apiKey) {
 } else {
     debug('no cached credentials')
     startRouter()
-}
 
-if ($.cookie('existingUser')) {
-    app.router.go('login')
+    if ($.cookie('existingUser')) {
+        app.router.go('login')
+    }
 }
 
 $(window).on('hashchange', function() {
