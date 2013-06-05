@@ -126,6 +126,10 @@ if (apiKey) {
     startRouter()
 }
 
+if ($.cookie('existingUser')) {
+    app.router.go('login')
+}
+
 function startRouter() {
     debug('starting router')
     var router = require('./router')()
