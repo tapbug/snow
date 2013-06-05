@@ -32,14 +32,18 @@ module.exports = function() {
         }
 
         if (_.size(options.qs)) {
-            settings.url += '?' + _(options.qs).map(function(v, k) {
+            var params = _.map(options.qs, function(v, k) {
                 // this is a little hackish. to send a key without a value
                 if (v === null) return null
                 if (_.isString(v) && !v.length) return k
                 return k + '=' + encodeURIComponent(v)
-            }).filter(function(x) {
+            })
+
+            params = _.filter(params, function(x) {
                 return x !== null
-            }).join('&')
+            })
+
+            settings.url += '?' + params.join('&')
         }
 
         var xhr = $.ajax(settings)
