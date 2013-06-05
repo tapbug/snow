@@ -1,4 +1,5 @@
 var Player = require('./Player')
+, _ = require('lodash')
 
 module.exports = function(hash) {
     var $el = $(require('./template.html')({ hash: hash }))
@@ -95,6 +96,12 @@ module.exports = function(hash) {
         e.preventDefault()
         window.location.hash = '#register'
     })
+
+    if (typeof analytics != 'undefined') {
+        analytics.trackLink($signup, 'Clicked Start with Justcoin')
+        analytics.trackLink($el.find('.what-is-bitcoin'), 'Clicked What is Bitcoin')
+        analytics.trackLink($el.find('.what-is-ripple'), 'Clicked What is Ripple')
+    }
 
     setTimeout(resize, 0)
 
