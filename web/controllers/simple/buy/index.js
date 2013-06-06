@@ -108,7 +108,7 @@ module.exports = function(app, api, amount) {
         }
 
         $form.find('.continue-button').loading(true)
-        $amount.enabled(false)
+        $amount.find('input').enabled(false)
 
         setTimeout(function() {
             $el.toggleClass('is-step-estimate is-step-payment')

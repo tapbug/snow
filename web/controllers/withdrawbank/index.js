@@ -28,7 +28,7 @@ module.exports = function(app, api, currency) {
 
     $form.on('submit', function(e) {
         e.preventDefault()
-        api.call('v1/withdraws/norway', {
+        api.call('v1/withdraws/bank', {
             amount: $amount.val(),
             bankAccount: +$bankAccount.val(),
             currency: 'NOK'

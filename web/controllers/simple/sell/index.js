@@ -118,18 +118,18 @@ module.exports = function(app, api) {
 
     refreshMarkets()
 
-    var $bankAccount = $form.find('.bank-account')
+    var $bankAccounts = $form.find('.bank-accounts')
 
     api.call('v1/users/bankAccounts')
     .fail(app.alertXhrError)
     .done(function(accounts) {
-        if (true || !accounts.length) {
+        if (!accounts.length) {
             $el.find('.no-bank-accounts-error').show()
             $el.find('.sell-form-container').hide()
             return
         }
 
-        $bankAccount.html(accounts.map(function(a) {
+        $bankAccounts.find('select').html(accounts.map(function(a) {
             return format('<option class="bank-account" value="%s">%s</option>',
                 a.id, a.accountNumber)
         }))
@@ -147,13 +147,20 @@ module.exports = function(app, api) {
         }
 
         $form.find('.sell-button').loading(true)
-        $amount.enabled(false)
+        $amount.find('input')
+        .add($bankAccounts.find('select'))
+        .enabled(false)
 
-        setTimeout(function() {
-            $el.toggleClass('is-step-estimate is-step-payment')
-            var converted = $converted.find('input').val()
-            $el.find('.payment-step .amount-converted').html(converted)
-        }, 750)
+        api.call('v1/simple/convertAndWithdraw', {
+            amount: $amount.find('input').val(),
+            bankAccount: +$bankAccounts.find('select').val(),
+            currency: 'NOK'
+        })
+        .fail(app.alertXhrError)
+        .done(function() {
+            alert('TODO')
+            window.location.hash = '#simple'
+        })
     })
 
     $amount.find('input').focusSoon()
