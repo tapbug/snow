@@ -15,7 +15,7 @@ module.exports = function(app, api) {
     , $form = $el.find('.sell-form')
     , $amount = $el.find('.amount')
     , $converted = $el.find('.amount-converted')
-    , last
+    , bid
     , balance
     , $balance = $el.find('.balance')
     , amountValidateTimer
@@ -80,19 +80,17 @@ module.exports = function(app, api) {
 
     function marketsUpdated(markets) {
         var market = _.find(markets, { id: 'BTCNOK' })
-        last = market.last
+        bid = market.bid
         recalculate()
     }
 
     function recalculate() {
-        if (!last) {
-            debug('cannot convert without a last price')
+        if (!bid) {
+            debug('cannot convert without a bid price')
             return
         }
 
-        debug('market last %s', last)
-        debug('*** FAKING LAST TO 760.38 ***')
-        last = 760.38
+        debug('market bid %s', bid)
 
         var amount = parseAmount()
 
@@ -101,7 +99,8 @@ module.exports = function(app, api) {
             return
         }
 
-        var converted = num(amount).mul(last).toString()
+        // convert and subtract 0.5% fee
+        var converted = num(amount).mul(bid).mul(0.995).toString()
         , formatted = numbers.format(converted, { ts: ' ', precision: 2 })
         $converted.find('input').val(formatted)
     }
@@ -157,8 +156,8 @@ module.exports = function(app, api) {
             currency: 'NOK'
         })
         .fail(app.alertXhrError)
-        .done(function() {
-            alert('TODO')
+        .done(function(res) {
+            alert('Uttak av ' + res.amount + ' NOK bekreftet.')
             window.location.hash = '#simple'
         })
     })
