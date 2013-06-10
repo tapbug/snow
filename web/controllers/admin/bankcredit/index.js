@@ -20,13 +20,11 @@ module.exports = function(app, api, userId) {
             user_id: userId,
             amount: $el.find('.amount input').val(),
             reference: $el.find('.reference input').val(),
-            currency_id: $el.find('.currency input').val(),
-            bank_account_id: $el.find('.bank-account select').val()
+            currency_id: $el.find('.currency input').val()
         }
 
         if (!body.amount) return alert('amount id not set')
         if (!body.currency_id) return alert('currency_id not set')
-        if (!body.bank_account_id) return alert('bank_account_id not set')
         if (!body.reference) return alert('reference not set')
 
         $el.addClass('is-loading').enabled(false)
@@ -48,27 +46,6 @@ module.exports = function(app, api, userId) {
             $el.find('.user input').focusSoon()
         })
     })
-
-    $el.on('click', '.add-bank-account', function(e) {
-        e.preventDefault()
-        var modal = require('./addaccount')(app, api, userId)
-        modal.$el.on('added', refreshBankAccounts)
-    })
-
-    debug('looking up bank accounts for %s...', userId)
-
-    function refreshBankAccounts() {
-        api.call('admin/users/' + userId + '/bankAccounts')
-        .fail(app.alertXhrError)
-        .done(function(accounts) {
-            $el.find('.bank-account select').html(_.map(accounts, function(a) {
-                return util.format('<option value="%s">%s (%s)</option>',
-                    a.id, a.displayName || 'Unnamed', a.iban || a.accountNumber)
-            }))
-        })
-    }
-
-    refreshBankAccounts()
 
     app.section('admin')
     $el.find('.nav a[href="#admin/credit"]').parent().addClass('active')
