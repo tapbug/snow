@@ -1,31 +1,42 @@
 <div class="container withdraw-btc">
-    <h3><%= i18n('withdrawbank.heading') %></h3>
+    <div class="row">
+        <div class="span6">
+            <h3><%= i18n('withdrawbank.heading') %></h3>
 
-    <p><%= i18n('withdrawbank.intro') %></p>
+            <p><%= i18n('withdrawbank.intro') %></p>
 
-    <p class="no-bank-accounts error" style="display:none;">
-        <%- i18n('withdrawbank.no bank account error') %>
-    </p>
-
-    <form class="form-horizontal well span6">
-        <div class="control-group">
-            <label class="control-label"><%- i18n('withdrawbank.bank account.label') %></label>
-            <div class="controls">
-                <select name="bankAccount" class="bank-account"></select>
+            <div class="no-bank-accounts error" style="display:none;">
+                <p>
+                    <%- i18n('withdrawbank.no bank account error') %>
+                    <a href="#bankaccounts"><%- i18n('withdrawbank.no bank account add') %></a>
+                </p>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="amount"><%= i18n('amount') %></label>
-            <div class="controls">
-                <input class="amount" type="text" id="amount" placeholder="<%= i18n('amount') %>" />
-            </div>
-        </div>
+            <form class="form-horizontal well">
+                <div class="control-group">
+                    <label class="control-label"><%- i18n('withdrawbank.bank account.label') %></label>
+                    <div class="controls">
+                        <select name="bankAccount" class="bank-account"></select>
 
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary" type="submit" value="<%- i18n('withdrawbank.submit') %>" />
-            </div>
+                        <span class="help-inline">
+                            <a href="#bankaccounts"><%- i18n('withdrawbank.no bank account manage') %></a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="amount"><%= i18n('amount') %></label>
+                    <div class="controls">
+                        <input class="amount" type="text" id="amount" placeholder="<%= i18n('amount') %>" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary"><%- i18n('withdrawbank.submit') %></button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>

@@ -13,6 +13,10 @@ module.exports = function(app, api, currency) {
     api.call('v1/users/bankAccounts')
     .fail(app.alertXhrError)
     .done(function(accounts) {
+        accounts = _.filter(accounts, function(a) {
+            return a.verified
+        })
+
         if (!accounts.length) {
             // TODO: use classes for state, not show/hide
             $el.find('.no-bank-accounts').show()

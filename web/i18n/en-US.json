@@ -188,7 +188,9 @@
 
     "withdrawbank.heading": "Withdraw to a bank account",
     "withdrawbank.intro": "Please note that bank withdraws are handled manually.",
-    "withdrawbank.no bank account error": "You have no verified bank accounts. To verify a bank account, simply make a 1 NOK deposit from it.",
+    "withdrawbank.no bank account error": "You have no verified bank accounts.",
+    "withdrawbank.no bank account add": "Add bank account",
+    "withdrawbank.no bank account manage": "Manage",
     "withdrawbank.bank account.label": "Bank account",
     "withdrawbank.submit": "Withdraw",
 

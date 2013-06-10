@@ -19,6 +19,7 @@ var markets = require('../controllers/markets')
 , changepassword = require('../controllers/changepassword')
 , depositltc = require('../controllers/depositltc')
 , withdrawbank = require('../controllers/withdrawbank')
+, bankaccounts = require('../controllers/bankaccounts')
 
 module.exports = function(app, api, router) {
     var $section = $('#section')
@@ -74,6 +75,10 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         $section.html(withdrawbtc(app, api).$el)
         app.section('withdrawbtc')
+    })
+    .add(/^bankaccounts$/, function() {
+        if (!app.authorize()) return
+        app.page(bankaccounts(app, api), 'bankaccounts')
     })
     .add(/^withdrawltc$/, function() {
         if (!app.authorize()) return
