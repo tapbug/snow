@@ -54,10 +54,15 @@ module.exports = function(app, api) {
 
     // Verify account
     $el.on('click', '.account .verify', function() {
-        var $code = $(this).siblings('.code')
+        var $code = $(this).closest('td').find('.code')
         , $verify = $(this).loading(true, 'Verifying...')
         , $account = $(this).closest('.account')
-        , id = $account.attr('data-id')
+
+        if (!$code.val()) {
+            return alert('Code missing')
+        }
+
+        var id = $account.attr('data-id')
 
         api.call('v1/bankAccounts/' + id + '/verify', { code: $code.val() },  { type: 'POST' })
         .fail(function(xhr) {
