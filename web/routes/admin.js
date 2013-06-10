@@ -2,6 +2,7 @@ var adminBalances = require('../controllers/admin/balances')
 , adminUsers = require('../controllers/admin/users')
 , adminUser = require('../controllers/admin/user')
 , adminWithdraws = require('../controllers/admin/withdraws')
+, adminUserBankAccounts = require('../controllers/admin/user/bankaccounts')
 , adminBankCredit = require('../controllers/admin/bankcredit')
 
 module.exports = {
@@ -10,6 +11,10 @@ module.exports = {
         .add(/^admin\/users\/(\d+)$/, function(userId) {
             if (!app.authorize()) return
             $section.html(adminUser(app, api, userId).$el)
+        })
+        .add(/^admin\/users\/(\d+)\/bank-accounts$/, function(userId) {
+            if (!app.authorize()) return
+            app.page(adminUserBankAccounts(app, api, userId), 'admin')
         })
         .add(/^admin\/balances$/, function() {
             if (!app.authorize()) return

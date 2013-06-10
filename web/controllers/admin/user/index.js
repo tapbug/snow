@@ -3,18 +3,14 @@ var util = require('util')
 , _= require('lodash')
 
 module.exports = function(app, api, userId) {
-    var $el =$(require('./template.html')())
+    var $el =$(require('./template.html')({
+        userId: userId
+    }))
     , controller = {
         $el: $el
     }
 
     $el.find('.nav-container').html(require('../nav.html')())
-
-    // Tab activation (from Bootstrap docs)
-    $el.find('#admin-user-tabs a').click(function(e) {
-        e.preventDefault()
-        $(this).tab('show')
-    })
 
     $el.find('#admin-user-tabs').on('shown', function(e) {
         var href = $(e.target).attr('href')
