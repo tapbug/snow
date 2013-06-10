@@ -15,7 +15,7 @@ module.exports = function(app, api, amount) {
     , $form = $el.find('.estimate-form')
     , $amount = $el.find('.amount')
     , $converted = $el.find('.amount-converted')
-    , last
+    , ask
     , amountValidateTimer
     , marketsTimer
 
@@ -60,16 +60,16 @@ module.exports = function(app, api, amount) {
 
     function marketsUpdated(markets) {
         var market = _.find(markets, { id: 'BTCNOK' })
-        last = market.last
+        ask = market.ask
         recalculate()
     }
 
     function recalculate() {
-        if (!last) {
-            return debug('cannot convert without a last price')
+        if (!ask) {
+            return debug('cannot convert without a ask price')
         }
 
-        debug('market last %s', last)
+        debug('market ask %s', ask)
 
         var amount = parseAmount()
 
@@ -80,7 +80,7 @@ module.exports = function(app, api, amount) {
 
         var converted = num(amount)
         converted.set_precision(8) // TODO: Remove magic number
-        converted = converted.div(last).toString()
+        converted = converted.div(ask).toString()
 
         var formatted = numbers.format(converted, { ts: ' ', precision: 3 })
         $converted.find('input').val(formatted)
