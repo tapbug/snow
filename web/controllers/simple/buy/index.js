@@ -2,7 +2,8 @@ var num = require('num')
 , _ = require('lodash')
 , numbers = require('../../../util/numbers')
 , debug = require('debug')('simple-buy')
-, headerTemplate = require('../header.html')
+, footerTemplate = require('../footer.html')
+, header = require('../header')
 
 module.exports = function(app, api, amount) {
     var $el = $(require('./template.html')({
@@ -16,9 +17,13 @@ module.exports = function(app, api, amount) {
     , $converted = $el.find('.amount-converted')
     , last
     , amountValidateTimer
+    , marketsTimer
 
     // Insert header
-    $el.find('.header-placeholder').replaceWith(headerTemplate())
+    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+
+    // Insert footer
+    $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
     function validateAmount(emptyIsError) {
         var amount = $amount.find('input').val().replace(',', '.')
@@ -61,13 +66,10 @@ module.exports = function(app, api, amount) {
 
     function recalculate() {
         if (!last) {
-            debug('cannot convert without a last price')
-            return
+            return debug('cannot convert without a last price')
         }
 
         debug('market last %s', last)
-        debug('*** FAKING LAST TO 760.38 ***')
-        last = 760.3832
 
         var amount = parseAmount()
 
@@ -89,7 +91,7 @@ module.exports = function(app, api, amount) {
 
         api.call('v1/markets')
         .always(function() {
-            setTimeout(refreshMarkets, 30e3)
+            marketsTimer = setTimeout(refreshMarkets, 30e3)
         })
         .then(marketsUpdated)
     }
@@ -120,6 +122,12 @@ module.exports = function(app, api, amount) {
     if (amount == 'any') {
         $el.toggleClass('is-step-estimate is-step-payment')
         $el.find('.payment-step .amount').closest('tr').hide()
+    }
+
+    controller.destroy = function() {
+        debug('destroying')
+        marketsTimer && clearTimeout(marketsTimer)
+        amountValidateTimer && clearTimeout(amountValidateTimer)
     }
 
     $amount.find('input').focusSoon()

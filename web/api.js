@@ -67,10 +67,11 @@ module.exports = function() {
         return api.loginWithKey(key)
     }
 
-    api.register = function(email, password) {
+    api.register = function(email, password, simple) {
         return api.call('v1/users', {
             email: email,
-            key: api.keyFromCredentials(email, password)
+            key: api.keyFromCredentials(email, password),
+            simple: simple
         })
         .then(function() {
             return api.login(email, password)

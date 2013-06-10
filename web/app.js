@@ -11,6 +11,23 @@ app.user = function(value) {
     return app._user
 }
 
+// get/set current page. destroys old
+app.page = (function() {
+    var page
+    return function(val, section) {
+        if (!_.isUndefined(val)) {
+            if (page && page.destroy) {
+                debug('destroying old page')
+                page.destroy()
+            }
+            page = val
+            $('#section').html(page.$el)
+            section && app.section(section)
+        }
+        return val || null
+    }
+})();
+
 app.section = function(name) {
     $('.top .nav .' + name).addClass('active').siblings().removeClass('active')
     var $app = $('body')

@@ -3,16 +3,19 @@ require('../../vendor/shake')
 var _ = require('lodash')
 
 module.exports = function(app, api) {
-    var controller = {
-        $el: $(require('./template.html')())
+    var $el = $(require('./template.html')())
+    , controller = {
+        $el: $el
     }
     , i18n = app.i18n
-    , $form = controller.$el.find('.register')
+    , $form = $el.find('.register-form')
     , $email = $form.find('.control-group.email')
     , $password = $form.find('.control-group.password')
     , $repeat = $form.find('.control-group.repeat')
     , $submit = $form.find('button')
     , $validation = $form.find('.validation')
+    , $advanced = $el.find('.modal.advanced')
+
     $email.find('.help-inline').html(i18n('register.hints.email'))
     $password.find('.help-inline').html(i18n('register.hints.password'))
     $repeat.find('.help-inline').html(i18n('register.hints.repeat'))
@@ -148,7 +151,8 @@ module.exports = function(app, api) {
             if ($e.hasClass('is-valid')) return
             $submit.shake()
             $e.find('input').focus()
-            return invalid = true
+            invalid = true
+            return
         })
 
         if (invalid) return
@@ -157,7 +161,15 @@ module.exports = function(app, api) {
         .addClass('is-loading')
         .html(i18n('register.create button.creating'))
 
-        api.register($email.find('input').val(), $password.find('input').val())
+
+        $advanced.modal({
+            keyboard: false,
+            backdrop: 'static'
+        })
+    })
+
+    function register(simple) {
+        api.register($email.find('input').val(), $password.find('input').val(), simple)
         .always(function() {
             $submit.prop('disabled', false)
             .removeClass('is-loading')
@@ -182,6 +194,18 @@ module.exports = function(app, api) {
 
             app.alertXhrError(xhr)
         })
+    }
+
+    $advanced.on('click', '.normal-user', function(e) {
+        e.preventDefault()
+        $advanced.modal('hide')
+        register(true)
+    })
+
+    $advanced.on('click', '.expert-user', function(e) {
+        e.preventDefault()
+        $advanced.modal('hide')
+        register(false)
     })
 
     $email.find('input').focusSoon()

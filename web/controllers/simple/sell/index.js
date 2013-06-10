@@ -2,7 +2,8 @@ var num = require('num')
 , _ = require('lodash')
 , numbers = require('../../../util/numbers')
 , debug = require('debug')('simple-buy')
-, headerTemplate = require('../header.html')
+, footerTemplate = require('../footer.html')
+, header = require('../header')
 , format = require('util').format
 
 module.exports = function(app, api) {
@@ -19,6 +20,7 @@ module.exports = function(app, api) {
     , balance
     , $balance = $el.find('.balance')
     , amountValidateTimer
+    , marketsTimer
 
     function balancesUpdated(balances) {
         var indexed = balances.reduce(function(p, c) {
@@ -35,7 +37,10 @@ module.exports = function(app, api) {
     app.balances() && balancesUpdated(app.balances())
 
     // Insert header
-    $el.find('.header-placeholder').replaceWith(headerTemplate())
+    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+
+    // Insert footer
+    $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
     function validateAmount(emptyIsError) {
         var amount = $amount.find('input').val().replace(',', '.')
@@ -86,8 +91,7 @@ module.exports = function(app, api) {
 
     function recalculate() {
         if (!bid) {
-            debug('cannot convert without a bid price')
-            return
+            return debug('cannot convert without a bid price')
         }
 
         debug('market bid %s', bid)
@@ -110,7 +114,7 @@ module.exports = function(app, api) {
 
         api.call('v1/markets')
         .always(function() {
-            setTimeout(refreshMarkets, 30e3)
+            marketsTimer = setTimeout(refreshMarkets, 30e3)
         })
         .then(marketsUpdated)
     }
@@ -163,6 +167,12 @@ module.exports = function(app, api) {
     })
 
     $amount.find('input').focusSoon()
+
+    controller.destroy = function() {
+        amountValidateTimer && clearTimeout(amountValidateTimer)
+        marketsTimer && clearTimeout(marketsTimer)
+
+    }
 
     return controller
 }

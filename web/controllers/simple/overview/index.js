@@ -2,7 +2,8 @@ var num = require('num')
 , _ = require('lodash')
 , numbers = require('../../../util/numbers')
 , debug = require('debug')('simple')
-, headerTemplate = require('../header.html')
+, footerTemplate = require('../footer.html')
+, header = require('../header')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')())
@@ -14,8 +15,12 @@ module.exports = function(app, api) {
     , $address = $el.find('.address')
     , balance
     , last
+    , marketsTimer
 
-    $el.find('.header-placeholder').replaceWith(headerTemplate())
+    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+
+    // Insert footer
+    $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -49,17 +54,14 @@ module.exports = function(app, api) {
 
     function recalculate() {
         if (!last) {
-            debug('cannot convert without a last price')
-            return
+            return debug('cannot convert without a last price')
         }
 
         debug('market last %s', last)
-        debug('*** FAKING LAST TO 760.38 ***')
-        last = 760.38
 
         var converted = num(balance).mul(last).toString()
         , formatted = numbers.format(converted, { ts: ' ', precision: 2 })
-        $converted.html('tilsvarer ' + formatted + ' NOK')
+        $converted.html(app.i18n('simple.overview.approx', formatted))
     }
 
     function refreshMarkets() {
@@ -67,7 +69,7 @@ module.exports = function(app, api) {
 
         api.call('v1/markets')
         .always(function() {
-            setTimeout(refreshMarkets, 30e3)
+            marketsTimer = setTimeout(refreshMarkets, 30e3)
         })
         .then(marketsUpdated)
     }
@@ -78,6 +80,10 @@ module.exports = function(app, api) {
     })
 
     refreshMarkets()
+
+    controller.destroy = function() {
+        marketsTimer && clearTimeout(marketsTimer)
+    }
 
     return controller
 }

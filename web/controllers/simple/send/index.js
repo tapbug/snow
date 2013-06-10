@@ -2,7 +2,8 @@ var num = require('num')
 , _ = require('lodash')
 , numbers = require('../../../util/numbers')
 , debug = require('debug')('simple-send')
-, headerTemplate = require('../header.html')
+, footerTemplate = require('../footer.html')
+, header = require('../header')
 
 module.exports = function(app, api) {
     var $el = $(require('./template.html')())
@@ -19,7 +20,11 @@ module.exports = function(app, api) {
     , $button = $el.find('.sell-button')
 
     // Insert header
-    $el.find('.header-placeholder').replaceWith(headerTemplate())
+    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+
+    // Insert footer
+    $el.find('.footer-placeholder').replaceWith(footerTemplate())
+
 
     function balancesUpdated(balances) {
         var indexed = balances.reduce(function(p, c) {
@@ -133,6 +138,13 @@ module.exports = function(app, api) {
             window.location.hash = '#simple'
         })
     })
+
+    controller.destroy = function() {
+        addressValidateTimer && clearTimeout(addressValidateTimer)
+        amountValidateTimer && clearTimeout(amountValidateTimer)
+    }
+
+    $amount.find('input').focusSoon()
 
     return controller
 }

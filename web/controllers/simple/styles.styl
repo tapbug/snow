@@ -1,7 +1,9 @@
-.is-section-simple-overview,
-.is-section-simple-send,
-.is-section-simple-sell,
+.is-section-simple-overview
+.is-section-simple-send
+.is-section-simple-sell
 .is-section-simple-buy
+.is-section-simple-terms
+.is-section-simple-activities
     .navbar
         display none
 
@@ -18,6 +20,11 @@
             font-weight: normal
             color: #333
 
+        color #ccc
+
+        a
+            font-size 0.75em
+
     .nav
         margin-top: 10px;
 
@@ -25,17 +32,7 @@
             font-size: 0.8em;
             line-height: 0.8em;
 
-    footer
-        margin-top: 100px
-
-        .links
-            text-align: center
-        a
-            color: #00BBCC
-
     &.overview
-        text-align center
-
         .balances
             text-align: right
 
@@ -45,6 +42,25 @@
 
         .balance-converted
             font-size: 20px;
+
+    .footer
+        margin-top 60px
+        text-align center
+
+        &:hover .contact, &:hover a
+            color #333
+
+        &, a
+            color #eee
+            line-height normal
+            font-size 0.8em
+
+        a
+            text-decoration underline
+            margin-right 10px
+
+        .contact
+            color #eee
 
 @import "send/styles.styl"
 @import "buy/styles.styl"

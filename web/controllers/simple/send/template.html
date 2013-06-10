@@ -1,9 +1,11 @@
 <div class="container simple send">
     <div class="header-placeholder"></div>
 
+    <h3><%- i18n('simple.send.heading') %></h3>
+
     <div class="balances row-fluid">
         <div class="span6">
-            <p style="padding-bottom: 15px;">Du kan sende opp til <span class="balance"></span></p>
+            <p style="padding-bottom: 15px;"><%- i18n('simple.send.intro') %> <span class="balance"></span></p>
         </div>
     </div>
 
@@ -11,19 +13,21 @@
         <div class="span6">
             <form class="send-form form-horizontal well">
                 <div class="control-group amount">
-                    <label class="control-label" for="amount">Antall</label>
+                    <label class="control-label" for="amount"><%- i18n('simple.send.amount') %></label>
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" class="input-small" name="amount" id="amount" value="0.01" />
+                            <input type="text" class="input-small" name="amount" id="amount" />
                             <span class="add-on">BTC</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="control-group address">
-                    <label class="control-label" for="address">Send til</label>
+                    <label class="control-label" for="address">
+                        <%- i18n('simple.address.label') %>
+                    </label>
                     <div class="controls">
-                        <input type="text" class="" style="width:300px;" placeholder="Bitcoin-adresse" name="address" id="address" value="1abrknajSFpnz7MHjLkVnuvCbwd96wSYt" />
+                        <input type="text" class="" style="width:300px;" placeholder="<%- i18n('simple.address.placeholder') %>" name="address" id="address" />
                     </div>
                 </div>
 
@@ -31,15 +35,17 @@
                     <label class="control-label"></label>
                     <div class="controls form-inline">
                         <button type="submit" class="send-button btn btn-large btn-success">
-                            Send Bitcoin
+                            <%- i18n('simple.send.send-button') %>
                         </button>
 
                         <div style="display:inline-block;margin-left:25px;">
-                            <a href="#simple">Tilbake</a>
+                            <a href="#simple"><%- i18n('simple.send.back') %></a>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <div class="footer-placeholder"></div>
 </div>

@@ -1,7 +1,7 @@
 <div class="register container">
     <h3><%= i18n('register.heading') %></h3>
     <p><a href="#login" style="position:relative; top:-15px;"><%= i18n('register.existing user login') %></a></p>
-    <form class="register">
+    <form class="register-form">
         <div class="control-group email">
             <label class="control-label"><%= i18n('register.email.label') %></label>
             <div class="controls">
@@ -29,4 +29,17 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade hide advanced">
+        <div class="modal-header">
+            <h3><%- i18n('register.advanced.label') %></h3>
+        </div>
+        <div class="modal-body">
+            <%- i18n('register.advanced.intro') %>
+        </div>
+        <div class="modal-footer">
+            <button class="normal-user btn btn-success btn-large"><%- i18n('register.use-bitcoin-button') %></button>
+            <button class="expert-user btn"><%- i18n('register.expert-user-button') %></button>
+        </div>
+    </div>
 </div>
