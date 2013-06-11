@@ -24,7 +24,7 @@ module.exports = function(app, api) {
         api.call('admin/users', null, { qs: query })
         .fail(app.alertXhrError)
         .always(function() {
-                $form.removeClass('is-loading')
+            $form.removeClass('is-loading')
         })
         .done(itemsChanged)
     }
