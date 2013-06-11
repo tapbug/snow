@@ -4,3 +4,4 @@ phantomjs.exe
 build/
 config.dev.json
 components/
+/*.ps1
