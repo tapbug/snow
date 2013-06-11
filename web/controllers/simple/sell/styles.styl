@@ -1,10 +1,84 @@
-.container.simple.sell
-    .sell-form
-        label
-            width 100px
-
-        .controls
-            margin-left 150px
-
-    .no-bank-accounts-error
+.simple.sell
+    .sell-form-container
         display none
+
+        .sell-form
+            .control-label
+                width 100px
+
+            .controls
+                margin-left 150px
+
+    .user-cannot-sell
+        .sell-checklist
+            width auto
+
+            .complete, .wait, .verify, .action
+                display none
+
+            .identify-user .action
+                display block
+
+    &.is-bank-account-verified.is-user-identified
+        .user-cannot-sell
+            display none
+
+        .sell-form-container
+            display block
+
+    // User is not identified
+    &:not(.is-user-identified)
+        .sell-checklist .identify-user
+            .incomplete, .action
+                display block
+
+    // User is identified
+    &.is-user-identified
+        .sell-checklist .identify-user
+            .complete, .description
+                display block
+
+            .incomplete, .action
+                display none
+
+    // Bank account is not added
+    &:not(.is-bank-account-added)
+        .sell-checklist .add-bank-account
+            .description
+                display none
+
+            .action
+                display block
+
+    // Bank account is added (not verifying)
+    &.is-bank-account-added:not(.is-bank-account-verifying)
+        .sell-checklist .add-bank-account
+            .incomplete
+                display none
+            .complete
+                display block
+
+        .sell-checklist .verify-bank-account
+            .wait
+                display block
+            .description
+                display none
+
+    // Bank account is verifying
+    &.is-bank-account-verifying:not(.is-bank-account-verified)
+        .sell-checklist .verify-bank-account
+            .description
+                display none
+            .verify
+                display block
+/*
+    // Bank account is verified
+    &.is-bank-account-verified
+        .sell-checklist .verify-bank-account
+            .complete
+                display block
+
+            .incomplete, .wait
+                display none
+
+*/

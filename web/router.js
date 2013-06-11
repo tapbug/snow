@@ -10,7 +10,7 @@ module.exports = function() {
         return add
     }
 
-    add.now = function() {
+    add.now = add.refresh = function() {
         var hash = window.location.hash.substr(1)
 
         debug('routing %s', hash)
@@ -24,6 +24,7 @@ module.exports = function() {
     }
 
     add.go = function(hash) {
+        if (hash == window.location.hash) return
         window.location.hash = hash
     }
 
