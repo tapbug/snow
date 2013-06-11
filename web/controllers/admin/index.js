@@ -11,39 +11,19 @@ module.exports = function(app, api) {
     // Header
     $el.find('.header-placeholder').replaceWith(header('overview').$el)
 
-    function refreshInternalBtcHeight() {
+    function refreshBtcHeight() {
         api.call('admin/btc/height')
         .fail(app.alertXhrError)
         .done(function(res) {
-            $el.find('.internal-btc-height').html(res.height)
+            $el.find('.btc-height').html(res.height)
         })
     }
 
-    function refreshExternalBtcHeight() {
-        $.ajax({
-            url: 'http://www.corsproxy.com/blockchain.info/latestblock'
-        })
-        .fail(app.alertXhrError)
-        .done(function(res) {
-            $el.find('.external-btc-height').html(res.height)
-        })
-    }
-
-    function refreshInternalLtcHeight() {
+    function refreshLtcHeight() {
         api.call('admin/ltc/height')
         .fail(app.alertXhrError)
         .done(function(res) {
-            $el.find('.internal-ltc-height').html(res.height)
-        })
-    }
-
-    function refreshExternalLtcHeight() {
-        $.ajax({
-            url: 'http://www.corsproxy.com/explorer.litecoin.net/chain/Litecoin/q/getblockcount'
-        })
-        .fail(app.alertXhrError)
-        .done(function(res) {
-            $el.find('.external-ltc-height').html(res)
+            $el.find('.ltc-height').html(res.height)
         })
     }
 
@@ -55,7 +35,7 @@ module.exports = function(app, api) {
 
             if (accounts.length) {
                 $accounts.html(accounts.map(function(a) {
-                    var template = _.template('<a href="#admin/users/<%= user_id %>/bank-accounts"><%= account_number %></a>')
+                    var template = _.template('<a href="#admin/users/<%= user_id %>/bank-accounts"><%= account_number %></a>&nbsp;')
                     return $(template(a))
                 }))
             } else {
@@ -64,10 +44,8 @@ module.exports = function(app, api) {
         })
     }
 
-    refreshInternalBtcHeight()
-    refreshExternalBtcHeight()
-    refreshInternalLtcHeight()
-    refreshExternalLtcHeight()
+    refreshBtcHeight()
+    refreshLtcHeight()
     refreshBankAccountsPendingVerify()
 
     return controller
