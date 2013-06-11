@@ -6,10 +6,15 @@ var adminBalances = require('../controllers/admin/balances')
 , adminUserWithdrawRequests = require('../controllers/admin/user/withdrawrequests')
 , adminUserActivity = require('../controllers/admin/user/activity')
 , adminUserBankCredit = require('../controllers/admin/user/bankcredit')
+, admin = require('../controllers/admin')
 
 module.exports = {
     configure: function(app, api, router, $section) {
         router
+        .add(/^admin$/, function() {
+            if (!app.authorize()) return
+            $section.html(admin(app, api).$el)
+        })
         .add(/^admin\/users\/(\d+)$/, function(userId) {
             if (!app.authorize()) return
             $section.html(adminUser(app, api, userId).$el)
