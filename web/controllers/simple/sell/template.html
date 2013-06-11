@@ -1,14 +1,75 @@
-<div class="container simple sell">
+<div class="container">
     <div class="header-placeholder"></div>
 
     <h3><%- i18n('simple.sell.heading') %></h3>
 
-    <div class="no-bank-accounts-error" style="max-width: 550px">
-        <p><%- i18n('simple.sell.no-bank-accounts-error') %></p>
+    <div class="user-cannot-sell">
+        <p>To withraw to a bank account, we need to make sure it's yours. We do this in three easy steps:</p>
 
-        <p>
-            <a href="#simple/buy?any" class="btn btn-success"><%- i18n('simple.sell.register-bank-account') %></a>
-        </p>
+        <table class="sell-checklist table table-bordered">
+            <tr class="identify-user">
+                <td class="status">
+                    <span class="complete">&#x2713;</span>
+                    <span class="incomplete">1</span>
+                </td>
+                <td>
+                    <div class="action">
+                        <a href="#identity?after=#simple/sell" class="btn btn-success identify">
+                            Tell us about yourself
+                        </a>
+                    </div>
+                    <div class="description">
+                        Tell us about yourself
+                    </div>
+                </td>
+            </tr>
+            <tr class="add-bank-account">
+                <td class="status">
+                    <span class="complete">&#x2713;</span>
+                    <span class="incomplete">2</span>
+                </td>
+                <td>
+                    <div class="description">
+                            Say where you want the funds
+                    </div>
+                    <div class="action">
+                        <a href="#add-bank-account" class="btn btn-success add-bank-account">
+                            Add bank account
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <tr class="verify-bank-account">
+                <td class="status">
+                    <span class="complete">&#x2713;</span>
+                    <span class="incomplete">3</span>
+                </td>
+                <td>
+                    <div class="description">
+                            Prove that you own the bank account
+                    </div>
+                    <div class="wait">
+                        We will send a small amount to your bank account to verify it.<br />
+                        Please check back later.
+                    </div>
+                    <div class="verify">
+                        <p>
+                            We have sent a small amount to your bank account.<br />
+                            Enter the 4 letter code from the message.
+                        </p>
+
+                        <form class="verify-form">
+                            <div class="input-append">
+                                <input type="text" name="code" class="code input-small" placeholder="Code" />
+                                <div class="btn-group">
+                                    <button type="submit" class="btn">Verify bank account</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div class="row sell-form-container">
@@ -40,12 +101,12 @@
                     </div>
                 </div>
 
-                <div class="control-group bank-accounts">
+                <div class="control-group bank-account">
                     <label class="control-label">
                         <%- i18n('simple.sell.to-account.label') %>
                     </label>
                     <div class="controls">
-                        <select></select>
+                        <label class="account-number control-label"></label>
                     </div>
                 </div>
 
@@ -71,4 +132,30 @@
     </div>
 
     <div class="footer-placeholder"></div>
+</div>
+
+<div class="modal hide add-bank-account-modal">
+    <div class="modal-header">
+        <h3>Add bank account</h3>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-block">
+            The account must be in your own name.
+        </p>
+
+        <form class="bank-account-form form-horizontal">
+            <div class="control-group account-number">
+                <label class="control-label">Account #</label>
+                <div class="controls">
+                    <input type="text" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="add-button btn btn-success">Add bank account</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

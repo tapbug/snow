@@ -1,6 +1,6 @@
 var util = require('util')
 , format = util.format
-, header = require('../header.html')
+, header = require('../header')
 
 module.exports = function(app, api, userId) {
     var itemTemplate = require('./item.html')
@@ -11,10 +11,7 @@ module.exports = function(app, api, userId) {
     , $items = controller.$el.find('.accounts')
 
     // Insert header
-    $el.find('.header-placeholder').replaceWith(header({
-        userId: userId,
-        tab: 'bank-accounts'
-    }))
+    $el.find('.header-placeholder').replaceWith(header(userId, 'bank-accounts').$el)
 
     function itemsChanged(items) {
         $items.html($.map(items, function(item) {

@@ -7,20 +7,20 @@ var num = require('num')
 , format = require('util').format
 
 module.exports = function(app, api) {
-    var $el = $(require('./template.html')({
-        messageToRecipient: app.user().id * 1234
-    }))
+    var $el = $('<div class="simple sell">')
     , controller = {
         $el: $el
     }
-    , $form = $el.find('.sell-form')
-    , $amount = $el.find('.amount')
-    , $converted = $el.find('.amount-converted')
+    , $form
+    , $amount
+    , $converted
     , bid
     , balance
-    , $balance = $el.find('.balance')
+    , $balance
     , amountValidateTimer
     , marketsTimer
+    , bankAccounts
+    , $bankAccount
 
     function balancesUpdated(balances) {
         var indexed = balances.reduce(function(p, c) {
@@ -31,16 +31,6 @@ module.exports = function(app, api) {
         balance = indexed.BTC
         $balance.html(numbers.format(balance, { ts: ',', maxPrecision: 8 }) + ' BTC')
     }
-
-    app.on('balances', balancesUpdated)
-
-    app.balances() && balancesUpdated(app.balances())
-
-    // Insert header
-    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
-
-    // Insert footer
-    $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
     function validateAmount(emptyIsError) {
         var amount = $amount.find('input').val().replace(',', '.')
@@ -69,13 +59,6 @@ module.exports = function(app, api) {
         return true
     }
 
-    $amount.on('change keyup leave', function() {
-        $amount.removeClass('error is-invalid is-empty')
-        amountValidateTimer && clearTimeout(amountValidateTimer)
-        amountValidateTimer = setTimeout(validateAmount, 750)
-        recalculate()
-    })
-
     function parseAmount() {
         var result = $amount.find('input').val()
         result = result.replace(/,/g, '.')
@@ -90,7 +73,7 @@ module.exports = function(app, api) {
     }
 
     function recalculate() {
-        if (!bid) {
+        if (!+bid) {
             return debug('cannot convert without a bid price')
         }
 
@@ -119,60 +102,163 @@ module.exports = function(app, api) {
         .then(marketsUpdated)
     }
 
-    refreshMarkets()
-
-    var $bankAccounts = $form.find('.bank-accounts')
-
-    api.call('v1/users/bankAccounts')
-    .fail(app.alertXhrError)
-    .done(function(accounts) {
-        if (!accounts.length) {
-            $el.find('.no-bank-accounts-error').show()
-            $el.find('.sell-form-container').hide()
-            return
-        }
-
-        $bankAccounts.find('select').html(accounts.map(function(a) {
-            return format('<option class="bank-account" value="%s">%s</option>',
-                a.id, a.accountNumber)
-        }))
-    })
-
-    $form.on('submit', function(e) {
-        e.preventDefault()
-
-        if (!validateAmount(true)) {
-            $amount.find('input').focus()
-        }
-
-        if ($form.find('.is-empty, .is-invalid').length) {
-            return
-        }
-
-        $form.find('.sell-button').loading(true)
-        $amount.find('input')
-        .add($bankAccounts.find('select'))
-        .enabled(false)
-
-        api.call('v1/simple/convertAndWithdraw', {
-            amount: $amount.find('input').val(),
-            bankAccount: +$bankAccounts.find('select').val(),
-            currency: 'NOK'
-        })
-        .fail(app.alertXhrError)
-        .done(function(res) {
-            alert('Uttak av ' + res.amount + ' NOK bekreftet.')
-            window.location.hash = '#simple'
-        })
-    })
-
-    $amount.find('input').focusSoon()
-
     controller.destroy = function() {
         amountValidateTimer && clearTimeout(amountValidateTimer)
         marketsTimer && clearTimeout(marketsTimer)
-
     }
+
+    function refreshBankAccounts() {
+        return api.call('v1/bankAccounts')
+        .fail(app.alertXhrError)
+        .done(function(accounts) {
+            bankAccounts = accounts
+            render()
+        })
+    }
+
+    function render() {
+        var bankAccountVerified = !!_.where(bankAccounts, { verified: true }).length
+        , identityVerified = !!app.user().lastName
+        , canSell = bankAccountVerified && identityVerified
+
+        $el.toggleClass('is-user-identified', identityVerified)
+        $el.toggleClass('is-bank-account-added', !!bankAccounts.length)
+        $el.toggleClass('is-bank-account-verified', bankAccountVerified)
+        $el.toggleClass('is-bank-account-verifying', !!_.where(bankAccounts, { verified: false, verifying: true }).length)
+
+        $el.html(require('./template.html')({
+            messageToRecipient: app.user().id * 1234,
+            identified: app.user().lastName,
+            bankAccountAdded: !!bankAccounts.length,
+            bankAccountVerified: !!_.where(bankAccounts, { verified: true }).length
+        }))
+
+        $form = $el.find('.sell-form')
+        $amount = $el.find('.amount')
+        $converted = $el.find('.amount-converted')
+        $balance = $el.find('.balance')
+        $bankAccount = $form.find('.bank-account')
+
+        // Insert header
+        $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+
+        // Insert footer
+        $el.find('.footer-placeholder').replaceWith(footerTemplate())
+
+        if (canSell) {
+            $bankAccount.find('.account-number')
+            .html(bankAccounts[0].accountNumber)
+
+            refreshMarkets()
+        }
+
+        $form.on('submit', function(e) {
+            e.preventDefault()
+
+            if (!validateAmount(true)) {
+                $amount.find('input').focus()
+            }
+
+            if ($form.find('.is-empty, .is-invalid').length) {
+                return
+            }
+
+            $form.find('.sell-button').loading(true)
+            $amount.find('input')
+            .enabled(false)
+
+            api.call('v1/simple/convertAndWithdraw', {
+                amount: $amount.find('input').val(),
+                bankAccount: bankAccounts[0].account_number,
+                currency: 'NOK'
+            })
+            .fail(app.alertXhrError)
+            .done(function(res) {
+                alert('Uttak av ' + res.amount + ' NOK bekreftet.')
+                window.location.hash = '#simple'
+            })
+        })
+
+        $amount.on('change keyup leave', function() {
+            $amount.removeClass('error is-invalid is-empty')
+            amountValidateTimer && clearTimeout(amountValidateTimer)
+            amountValidateTimer = setTimeout(validateAmount, 750)
+            recalculate()
+        })
+
+        app.on('balances', balancesUpdated)
+
+        app.balances() && balancesUpdated(app.balances())
+
+        $amount.find('input').focusSoon()
+    }
+
+    $el.on('click', '.add-bank-account', function(e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        var $modal = $('.add-bank-account-modal').modal()
+
+        $modal.on('click', '.add-button', function(e) {
+            e.preventDefault()
+            var $accountNumber = $modal.find('.account-number input')
+            , accountNumber = $accountNumber.val()
+            , $addButton = $modal.find('.add-button')
+
+            if (!accountNumber.length) {
+                $modal.modal('hide')
+                return
+            }
+
+            $addButton.loading(true, 'Adding...')
+            $modal.modal('hide')
+
+            api.call('v1/bankAccounts', {
+                accountNumber: accountNumber
+            }, { type: 'POST' })
+            .always(function() {
+                $addButton.loading(false)
+            })
+            .fail(app.alertXhrError)
+            .done(function() {
+                // Refresh
+                app.router.refresh()
+            })
+        })
+
+        $modal.find('.account-number input').focusSoon()
+    })
+
+    // Verify account
+    $el.on('submit', '.verify-form', function(e) {
+        e.preventDefault()
+
+        var $code = $(this).closest('td').find('.code')
+        , $verify = $(this).find('button').loading(true, 'Verifying...')
+        , code = $code.val()
+
+        if (!code) {
+            return alert('Code missing')
+        }
+
+        if (code.length != 4) {
+            return alert('Code must be exactly 4 characters')
+        }
+
+        var id = bankAccounts[0].id
+
+        api.call('v1/bankAccounts/' + id + '/verify', { code: $code.val() },  { type: 'POST' })
+        .always(function() {
+            $verify.loading(false)
+        })
+        .fail(app.alertXhrError)
+        .done(function() {
+            // Refresh
+            app.router.refresh()
+        })
+    })
+
+    refreshBankAccounts()
 
     return controller
 }

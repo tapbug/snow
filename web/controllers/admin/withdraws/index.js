@@ -8,7 +8,7 @@ module.exports = function(app, api) {
     }
     , $withdraws = controller.$el.find('.withdraws')
 
-    $el.filter('.nav-container').html(require('../nav.html')())
+    $el.filter('.nav-container').html(require('../header')('withdraw-requests').$el)
 
     function itemsChanged(items) {
         $withdraws.html($.map(items, function(item) {

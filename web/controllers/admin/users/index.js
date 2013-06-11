@@ -8,7 +8,7 @@ module.exports = function(app, api) {
     , $form = $el.find('.search-form')
 
     // Navigation partial
-    $el.find('.nav-container').html(require('../nav.html')())
+    $el.find('.nav-container').html(require('../header')('users').$el)
 
     function itemsChanged(items) {
         $items.html($.map(items, function(item) {

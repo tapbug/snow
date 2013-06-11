@@ -1,44 +1,48 @@
-<div data-user-id="<%= user_id %>" class="user">
-    <table class="table table-bordered table-striped">
-        <tr>
-            <td>User #</td>
-            <td><%= user_id %></td>
-        </tr>
-        <tr>
-            <td>First name</td>
-            <td><%= first_name || '' %></td>
-        </tr>
-        <tr>
-            <td>Last name</td>
-            <td><%= last_name || '' %></td>
-        </tr>
-        <tr>
-            <td>Created</td>
-            <td><%= created %></td>
-        </tr>
-        <tr>
-            <td>Phone</td>
-            <td><%= phone_number || '' %></td>
-        </tr>
-        <tr>
-            <td>Country</td>
-            <td><%= country || '' %></td>
-        </tr>
-        <tr>
-            <td>City</td>
-            <td><%= city || '' %></td>
-        </tr>
-        <tr>
-            <td>Postal Area</td>
-            <td><%= postal_area || '' %></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td><%- address ? address.replace('\n', '<br />') : '' %></td>
-        </tr>
-    </table>
+<div data-user-id="<%= user_id %>" class="user container">
+    <div class="row">
+        <div class="span8">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>User #</td>
+                    <td><%= user_id %></td>
+                </tr>
+                <tr>
+                    <td>First name</td>
+                    <td><%= first_name || '' %></td>
+                </tr>
+                <tr>
+                    <td>Last name</td>
+                    <td><%= last_name || '' %></td>
+                </tr>
+                <tr>
+                    <td>Created</td>
+                    <td><%= created %></td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td><%= phone_number || '' %></td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td><%= country || '' %></td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td><%= city || '' %></td>
+                </tr>
+                <tr>
+                    <td>Postal Area</td>
+                    <td><%= postal_area || '' %></td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td><%- address ? address.replace('\n', '<br />') : '' %></td>
+                </tr>
+            </table>
 
-    <div>
-        <button<%= email_verified_at ? ' disabled="disabled"' : '' %> class="send-email-verification btn<%= email_verified_at ? ' disabled' : '' %>">Send e-mail verification code</button>
+            <div>
+                <button<%= email_verified_at ? ' disabled="disabled"' : '' %> class="send-email-verification btn<%= email_verified_at ? ' disabled' : '' %>">Send e-mail verification code</button>
+            </div>
+        </div>
     </div>
 </div>
