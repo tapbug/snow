@@ -1,5 +1,3 @@
-var util = require('util')
-
 module.exports = function(app, api) {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
@@ -8,7 +6,7 @@ module.exports = function(app, api) {
     }
     , $balances = $el.find('.balances')
 
-    $el.filter('.nav-container').html(require('../nav.html')())
+    $el.filter('.header-placeholder').html(require('../header')('balances').$el)
 
     function itemsChanged(items) {
         $balances.html($.map(items, function(item) {
@@ -25,6 +23,7 @@ module.exports = function(app, api) {
     refresh()
 
     app.section('admin')
+
     $el.find('.nav a[href="#admin/balances"]').parent().addClass('active')
 
     return controller

@@ -1,15 +1,17 @@
 var util = require('util')
 , _ = require('lodash')
-, debug = require('../../../util/debug')('admin:bankcredit')
+, debug = require('../../../../util/debug')('admin:bankcredit')
+, header = require('../header')
+, template = require('./template.html')
 
 module.exports = function(app, api, userId) {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class="admin-bank-credit">').html(template())
     , controller = {
         $el: $el
     }
 
     // Navigation partial
-    $el.filter('.nav-container').html(require('../nav.html')())
+    $el.find('.nav-container').replaceWith(header(userId, 'bank-credit').$el)
 
     $el.on('submit', 'form', function(e) {
         e.preventDefault()
@@ -47,7 +49,6 @@ module.exports = function(app, api, userId) {
         })
     })
 
-    app.section('admin')
     $el.find('.nav a[href="#admin/credit"]').parent().addClass('active')
 
     return controller

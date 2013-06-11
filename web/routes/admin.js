@@ -3,7 +3,9 @@ var adminBalances = require('../controllers/admin/balances')
 , adminUser = require('../controllers/admin/user')
 , adminWithdraws = require('../controllers/admin/withdraws')
 , adminUserBankAccounts = require('../controllers/admin/user/bankaccounts')
-, adminBankCredit = require('../controllers/admin/bankcredit')
+, adminUserWithdrawRequests = require('../controllers/admin/user/withdrawrequests')
+, adminUserActivity = require('../controllers/admin/user/activity')
+, adminUserBankCredit = require('../controllers/admin/user/bankcredit')
 
 module.exports = {
     configure: function(app, api, router, $section) {
@@ -16,6 +18,18 @@ module.exports = {
             if (!app.authorize()) return
             app.page(adminUserBankAccounts(app, api, userId), 'admin')
         })
+        .add(/^admin\/users\/(\d+)\/withdraw-requests$/, function(userId) {
+            if (!app.authorize()) return
+            app.page(adminUserWithdrawRequests(app, api, userId), 'admin')
+        })
+        .add(/^admin\/users\/(\d+)\/activity$/, function(userId) {
+            if (!app.authorize()) return
+            app.page(adminUserActivity(app, api, userId), 'admin')
+        })
+        .add(/^admin\/users\/(\d+)\/bank-credit$/, function(userId) {
+            if (!app.authorize()) return
+            app.page(adminUserBankCredit(app, api, userId), 'admin')
+        })
         .add(/^admin\/balances$/, function() {
             if (!app.authorize()) return
             $section.html(adminBalances(app, api).$el)
@@ -27,10 +41,6 @@ module.exports = {
         .add(/^admin\/withdraws$/, function() {
             if (!app.authorize()) return
             $section.html(adminWithdraws(app, api).$el)
-        })
-        .add(/^admin\/bankcredit\/(\d+)$/, function(userId) {
-            if (!app.authorize()) return
-            $section.html(adminBankCredit(app, api, userId).$el)
         })
     }
 }
