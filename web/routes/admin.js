@@ -4,6 +4,7 @@ var adminBalances = require('../controllers/admin/balances')
 , adminWithdraws = require('../controllers/admin/withdraws')
 , adminUserBankAccounts = require('../controllers/admin/user/bankaccounts')
 , adminUserWithdrawRequests = require('../controllers/admin/user/withdrawrequests')
+, adminUserAccounts = require('../controllers/admin/user/accounts')
 , adminUserActivity = require('../controllers/admin/user/activity')
 , adminUserBankCredit = require('../controllers/admin/user/bankcredit')
 , admin = require('../controllers/admin')
@@ -22,6 +23,10 @@ module.exports = {
         .add(/^admin\/users\/(\d+)\/bank-accounts$/, function(userId) {
             if (!app.authorize()) return
             app.page(adminUserBankAccounts(app, api, userId), 'admin')
+        })
+        .add(/^admin\/users\/(\d+)\/accounts$/, function(userId) {
+            if (!app.authorize()) return
+            app.page(adminUserAccounts(app, api, userId), 'admin')
         })
         .add(/^admin\/users\/(\d+)\/withdraw-requests$/, function(userId) {
             if (!app.authorize()) return

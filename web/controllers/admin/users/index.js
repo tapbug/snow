@@ -42,8 +42,6 @@ module.exports = function(app, api) {
         })
     })
 
-    refresh()
-
     app.section('admin')
     $el.find('.nav a[href="#admin/users"]').parent().addClass('active')
 
