@@ -30,51 +30,41 @@ module.exports = function(app, api, router) {
             if (app.user().simple) {
                 router.go('simple')
             } else {
-                $section.html(dashboard(app, api).$el)
-                app.section('dashboard')
+                app.page(dashboard(app, api))
             }
         } else {
-            $section.html(home().$el)
-            app.section('home')
+            app.page(home())
         }
     })
     .add(/^markets$/, function() {
-        $section.html(markets(app, api).$el)
-        app.section('markets')
+        app.page(markets(app, api), 'markets')
     })
     .add(/^apiKeys$/, function() {
-        $section.html(apiKeys(app, api).$el)
-        app.section('home')
+        app.page(apiKeys(app, api), 'home')
     })
     .add(/^resetPassword$/, function() {
-        $section.html(resetPassword(app, api).$el)
-        app.section('resetPassword')
+        app.page(resetPassword(app, api), 'resetPassword')
     })
     .add(/^signOut$/, function() {
         $.removeCookie('apiKey')
         window.location = '/'
     })
     .add(/^markets\/(.+)$/, function(id) {
-        $section.html(market(app, api, id).$el)
-        app.section('market')
+        app.page(market(app, api, id), 'market')
     })
     .add(/^register$/, function() {
-        $section.html(register(app, api).$el)
-        app.section('register')
+        app.page(register(app, api), 'register')
     })
     .add(/^login(?:\?after=(.+))?$/, function(after) {
-        $section.html(login(app, api, after).$el)
-        app.section('login')
+        app.page(login(app, api, after), 'login')
     })
     .add(/^orders$/, function() {
         if (!app.authorize()) return
-        $section.html(orders(app, api).$el)
-        app.section('orders')
+        app.page(orders(app, api), 'orders')
     })
     .add(/^withdrawbtc$/, function() {
         if (!app.authorize()) return
-        $section.html(withdrawbtc(app, api).$el)
-        app.section('withdrawbtc')
+        app.page(withdrawbtc(app, api), 'withdrawbtc')
     })
     .add(/^bankaccounts$/, function() {
         if (!app.authorize()) return
@@ -82,46 +72,37 @@ module.exports = function(app, api, router) {
     })
     .add(/^withdrawltc$/, function() {
         if (!app.authorize()) return
-        $section.html(withdrawltc(app, api).$el)
-        app.section('withdrawltc')
+        app.page(withdrawltc(app, api), 'withdrawltc')
     })
     .add(/^withdrawripple$/, function() {
         if (!app.authorize()) return
-        $section.html(withdrawripple(app, api).$el)
-        app.section('withdrawripple')
+        app.page(withdrawripple(app, api), 'withdrawripple')
     })
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
         if (!app.authorize()) return
-        $section.html(identity(app, api, after).$el)
-        app.section('identity')
+        app.page(identity(app, api, after), 'identity')
     })
     .add(/^depositbtc$/, function() {
         if (!app.authorize()) return
-        $section.html(depositbtc(app, api).$el)
-        app.section('depositbtc')
+        app.page(depositbtc(app, api), 'depositbtc')
     })
     .add(/^changepassword$/, function() {
         if (!app.authorize()) return
-        $section.html(changepassword(app, api).$el)
-        app.section('changepassword')
+        app.page(changepassword(app, api), 'changepassword')
     })
     .add(/^terms$/, function() {
-        $section.html(terms(app, api).$el)
-        app.section('terms')
+        app.page(terms(app, api), 'terms')
     })
     .add(/^privacy$/, function() {
-        $section.html(privacy(app, api).$el)
-        app.section('privacy')
+        app.page(privacy(app, api), 'privacy')
     })
     .add(/^depositltc$/, function() {
         if (!app.authorize()) return
-        $section.html(depositltc(app, api).$el)
-        app.section('depositltc')
+        app.page(depositltc(app, api), 'depositltc')
     })
     .add(/^withdrawbank\?currency=([A-Z]{3})$/, function(currency) {
         if (!app.authorize()) return
-        $section.html(withdrawbank(app, api, currency).$el)
-        app.section('withdrawbank')
+        app.page(withdrawbank(app, api, currency), 'withdrawbank')
     })
     .add(/^depositnok$/, function() {
         if (!app.authorize()) return
@@ -129,8 +110,7 @@ module.exports = function(app, api, router) {
             window.location.hash = '#identity?after=depositnok'
             return
         }
-        $section.html(depositnok(app, api).$el)
-        app.section('depositnok')
+        app.page(depositnok(app, api), 'depositnok')
     })
 
     require('./admin').configure(app, api, router, $section)
@@ -138,6 +118,6 @@ module.exports = function(app, api, router) {
 
     router
     .add(/^(.+)$/, function(hash) {
-        $section.html(notfound(hash).$el)
+        app.page(notfound(hash))
     })
 }
