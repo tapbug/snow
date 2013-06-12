@@ -1,0 +1,29 @@
+states(states...) {
+    for state in states {
+        .visible-{state} {
+            display: block
+        }
+
+        .is-{state},
+        .has-{state} {
+            .visible-{state} {
+                display: none
+            }
+
+            // Include this to support table rows
+            tr.visible-{state} {
+                display: table-row
+            }
+        }
+
+        .is-{state},
+        .has-{state} {
+            .hidden-{state} {
+                display: none
+            }
+        }
+    }
+}
+
+// Global states
+states(empty)
