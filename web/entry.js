@@ -95,21 +95,41 @@ function i18n() {
     $.fn.i18n = function() {
         $(this).html(app.i18n.apply(app.i18n, arguments))
     }
+
+    if (!language) {
+        api.call('v1/language')
+        .fail(app.reportErrorFromXhr)
+        .done(function(res) {
+            if (!res.language) {
+                debug('API failed to guess our language')
+            } else {
+                $.cookie('language', res.language, { expires: 365 * 10 })
+
+                if (res.language.toLowerCase() == app.i18n.lang.toLowerCase()) {
+                    debug('Already using the language suggested by the API')
+                } else {
+                    debug('Should switch language to %s', res.language)
+                    setLanguageAndRefresh(res.language)
+                }
+            }
+        })
+    }
 }
 
 i18n()
 
-
 var top = require('./controllers/top')(app, api)
 $app.find('.top').replaceWith(top.$el)
+
+function setLanguageAndRefresh(language) {
+    debug('changing language to ' + language + ' with cookie')
+    $.cookie('language', language, { expires: 365 * 10 })
+    window.location.reload()
+}
 
 $app.on('click', 'a[href="#set-language"]', function(e) {
     e.preventDefault()
     var language = $(this).attr('data-language')
-    debug('changing language to ' + language + ' with cookie')
-    $.cookie('language', language, { expires: 365 * 10 })
-
-    window.location.reload ? window.location.reload() : window.location = '/'
 })
 
 var apiKey = $.cookie('apiKey')

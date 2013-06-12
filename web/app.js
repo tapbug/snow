@@ -49,6 +49,11 @@ app.balances = function(value) {
 }
 
 app.alertXhrError = function(xhr) {
+    if (xhr.readyState === 0) {
+        debug('Not alerting aborted request')
+        return
+    }
+
     app.reportErrorFromXhr(xhr)
     alert(JSON.stringify(app.bodyFromXhr(xhr), null, 4))
 }
@@ -60,6 +65,11 @@ app.authorize = function() {
 }
 
 app.reportErrorFromXhr = function(xhr) {
+    if (xhr.readyState === 0) {
+        debug('Not reporting aborted request')
+        return
+    }
+
     if (typeof Raven != 'undefined') {
         var tags = {
             hash: window.location.hash,
@@ -68,6 +78,8 @@ app.reportErrorFromXhr = function(xhr) {
             status: xhr.status,
             request: xhr.settings
         }
+
+        debug(new Error().stack)
 
         debug('Sending message to Raven', tags)
 
