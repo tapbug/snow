@@ -1,5 +1,4 @@
 var util = require('util')
-, format = util.format
 , header = require('../header')
 
 module.exports = function(app, api, userId) {
@@ -8,7 +7,7 @@ module.exports = function(app, api, userId) {
     , controller = {
         $el: $el
     }
-    , $items = controller.$el.find('.accounts')
+    , $items = controller.$el.find('.withdraw-requests')
 
     // Insert header
     $el.find('.header-placeholder').replaceWith(header(userId, 'withdraw-requests').$el)
@@ -23,10 +22,10 @@ module.exports = function(app, api, userId) {
         api.call('admin/users/' + userId + '/withdrawRequests').done(itemsChanged)
     }
 
-    $el.on('click', '#withdraw-requests .withdraw .cancel', function(e) {
+    $el.on('click', '.withdraw-requests .withdraw-request .cancel', function(e) {
         e.preventDefault()
 
-        var id = $(this).closest('.withdraw').attr('data-id')
+        var id = $(this).closest('.withdraw-request').attr('data-id')
         , $btn = $(this)
 
         alertify.prompt('Why is the request being cancelled? The user will see this.', function(ok, error) {
@@ -40,11 +39,11 @@ module.exports = function(app, api, userId) {
             api.call('admin/withdraws/' + id, { state: 'cancelled', error: error || null }, { type: 'PATCH' })
             .fail(function(xhr) {
                 app.alertXhrError(xhr)
-                refreshWithdrawRequests()
+                refresh()
             })
             .done(function() {
                 alertify.log(util.format('Order #%s cancelled.', id), 'success', 30e3)
-                refreshWithdrawRequests()
+                refresh()
             })
         })
     })
