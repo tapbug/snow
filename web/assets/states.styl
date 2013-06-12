@@ -1,0 +1,17 @@
+states(states...)
+    for state in states
+        .visible-{state}
+            display none
+
+        .is-{state},
+        .has-{state}
+            .visible-{state}
+                display block
+
+            tr.visible-{state}
+                display table-row
+
+            .hidden-{state}
+                display none
+
+states(empty)
