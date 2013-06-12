@@ -17,6 +17,8 @@ var markets = require('../controllers/markets')
 , resetPassword = require('../controllers/resetPassword')
 , apiKeys = require('../controllers/apiKeys')
 , changepassword = require('../controllers/changepassword')
+, createvoucher = require('../controllers/vouchers/create')
+, redeemvoucher = require('../controllers/vouchers/redeem')
 , depositltc = require('../controllers/depositltc')
 , withdrawbank = require('../controllers/withdrawbank')
 , bankaccounts = require('../controllers/bankaccounts')
@@ -61,6 +63,14 @@ module.exports = function(app, api, router) {
     .add(/^orders$/, function() {
         if (!app.authorize()) return
         app.page(orders(app, api), 'orders')
+    })
+    .add(/^vouchers\/create$/, function() {
+        if (!app.authorize()) return
+        app.page(createvoucher(app, api))
+    })
+    .add(/^vouchers\/redeem$/, function() {
+        if (!app.authorize()) return
+        app.page(redeemvoucher(app, api))
     })
     .add(/^withdrawbtc$/, function() {
         if (!app.authorize()) return

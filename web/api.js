@@ -49,6 +49,7 @@ module.exports = function() {
 
         var xhr = $.ajax(settings)
         xhr.settings = settings
+
         return xhr
     }
 
@@ -81,6 +82,35 @@ module.exports = function() {
     api.balances = function() {
         api.call('v1/balances')
         .done(_.bind(app.balances, app))
+    }
+
+    // curl -H "Content-type: application/json" -X POST \
+    // -d '{ "amount": "123.45", "currency": "BTC" }' \
+    // https://api.justcoin.com/v1/vouchers
+    //
+    // { "voucher": "A1B2C3E4F5FF" }
+    api.createVoucher = function(amount, currency) {
+        return api.call('v1/vouchers', {
+            amount: amount,
+            currency: currency
+        }).then(function(res) {
+            return res.voucher
+        })
+    }
+
+    // curl -X POST https://api.justcoin.com/v1/vouchers/A1B2C3E4F5FF/redeem
+    //
+    // 200: { "amount": "123.45", "currency": "BTC" }
+    // 204: (voucher cancelled)
+    api.redeemVoucher = function(code) {
+        return api.call('v1/vouchers/' + code + '/redeem', null, { type: 'POST' })
+        .then(function(body, status, xhr) {
+            if (xhr.status == 204) {
+                return null
+            }
+
+            return body
+        })
     }
 
     return api
