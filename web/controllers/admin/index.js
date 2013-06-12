@@ -32,6 +32,7 @@ module.exports = function(app, api) {
         .fail(app.alertXhrError)
         .done(function(accounts) {
             var $accounts = $el.find('.bank-accounts-pending-verify .bank-accounts')
+            $accounts.toggleClass('is-empty', !accounts.length)
 
             $accounts
             .toggleClass('is-empty', !!accounts.length)

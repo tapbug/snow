@@ -28,7 +28,8 @@ task('app', [
     'build/landing.mp4',
     'build/what-is-bitcoin.ogv',
     'build/what-is-ripple.ogv',
-    'build/landing.ogv'
+    'build/landing.ogv',
+    'build/vendor.js'
 ])
 
 task('dist', [
@@ -48,7 +49,8 @@ task('dist', [
     'build/landing.mp4',
     'build/what-is-bitcoin.ogv',
     'build/what-is-ripple.ogv',
-    'build/landing.ogv'
+    'build/landing.ogv',
+    'build/vendor.min.js'
 ])
 
 directory('build')
@@ -91,6 +93,7 @@ function cpTask() {
 }
 
 file('build/scripts.min.js', ['build/scripts.js'], compressJs)
+file('build/vendor.min.js', ['build/vendor.js'], compressJs)
 file('build/head.min.js', ['build/head.js'], compressJs)
 file('build/styles.min.css', ['build/styles.css'], compressCss)
 
@@ -99,6 +102,7 @@ file('build/index.html', ['build'], function() {
     ejs.render(cat('assets/index.ejs'), {
         minifyHead: false,
         minifyScripts: false,
+        minifyVendorScripts: false,
         minifyCss: false,
         segment: segment
     })
@@ -111,6 +115,7 @@ file('build/index.min.html', ['build'], function() {
         minifyHead: true,
         minifyScripts: false,
         minifyCss: true,
+        minifyVendorScripts: true,
         segment: segment
     })
     .to(this.name)
@@ -127,12 +132,16 @@ file('build/styles.css', ['build'], function() {
 })
 
 file('build/scripts.js', ['build'].concat(vendor), function() {
-    var v = vendor.reduce(function(p, c) {
+    var bundle = exec('browserify -d -t ./node_modules/browserify-ejs ./entry.js')
+    bundle.to(this.name)
+})
+
+file('build/vendor.js', ['build'].concat(vendor), function() {
+    vendor
+    .reduce(function(p, c) {
         return p + ';' + cat(c)
     }, '')
-    , bundle = exec('browserify -d -t ./node_modules/browserify-ejs ./entry.js')
-    , scripts = v + ';' + bundle
-    scripts.to(this.name)
+    .to(this.name)
 })
 
 file('build/head.js', ['build'].concat(head), function() {
@@ -183,6 +192,7 @@ function publish(hostname, cb) {
     , files = {
         'head.min.js': null,
         'scripts.js': null,
+        'vendor.min.js': null,
         'styles.min.css': null,
         'index.min.html': 'index.html',
         'ripple.txt': 'ripple.txt',

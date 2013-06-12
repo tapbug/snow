@@ -63,6 +63,12 @@
         </div>
     </footer>
 
+    <% if (minifyVendorScripts) { %>
+        <script src="vendor.min.js"></script>
+    <% } else { %>
+        <script src="vendor.js"></script>
+    <% } %>
+
     <% if (minifyScripts) { %>
         <script src="scripts.min.js"></script>
     <% } else { %>

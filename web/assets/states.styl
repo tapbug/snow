@@ -1,29 +1,15 @@
-states(states...) {
-    for state in states {
-        .visible-{state} {
-            display: block
-        }
+states(states...)
+    for state in states
+        .visible-{state}
+            display none
 
         .is-{state},
-        .has-{state} {
-            .visible-{state} {
-                display: none
-            }
+        .has-{state}
+            .visible-{state}
+                display block
 
-            // Include this to support table rows
-            tr.visible-{state} {
-                display: table-row
-            }
-        }
+            tr.visible-{state}
+                display table-row
 
-        .is-{state},
-        .has-{state} {
-            .hidden-{state} {
-                display: none
-            }
-        }
-    }
-}
-
-// Global states
-states(empty)
+            .hidden-{state}
+                display none
