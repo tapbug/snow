@@ -37,9 +37,6 @@ module.exports = function(app, api) {
         controller.updateAvailable()
     }
 
-    app.balances() && controller.onBalancesUpdated(app.balances())
-    app.on('balances', controller.onBalancesUpdated)
-
     // Update the user's available in the selected currency
     controller.updateAvailable = function() {
         if (!balances) return
@@ -51,6 +48,9 @@ module.exports = function(app, api) {
         var formatted = numbers.formatAmount(available)
         $amount.find('.available').html(formatted + ' ' + currency)
     }
+
+    app.balances() && controller.onBalancesUpdated(app.balances())
+    app.on('balances', controller.onBalancesUpdated)
 
     $form.on('change keyup', '.currency select', controller.updateAvailable)
 
@@ -126,11 +126,12 @@ module.exports = function(app, api) {
             var formatted = voucher.substr(0, 4) + '-' + voucher.substr(4, 4) + '-' + voucher.substr(8, 4)
             alert('Voucher created: ' + formatted)
             $form.field('amount').val('').focus()
+            api.balances()
         })
     })
 
     controller.destroy = function() {
-        app.off('balances', controller.onBalancesUpdated)
+        app.removeListener('balances', controller.onBalancesUpdated)
     }
 
     $form.field('amount').focusSoon()

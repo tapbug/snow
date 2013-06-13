@@ -1,6 +1,8 @@
 {
+    "top.vouchers": "Vouchers",
+
     "home.heading": "Welcome to Justcoin!",
-    "home.sub-heading": "Justcoin is a virtual currency exchange and Ripple gateway. We currently support Bitcoin, Litecoin and ripples (XRP)",
+    "home.sub-heading": "Justcoin is a digital currency exchange and Ripple gateway. We currently support Bitcoin, Litecoin and ripples (XRP)",
     "home.call to action": "Sign up now",
     "home.bitcoin.heading": "Bitcoin",
     "home.bitcoin.body": "You can deposit and withdraw BTC (three confirmations)",

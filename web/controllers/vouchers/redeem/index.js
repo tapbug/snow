@@ -88,6 +88,7 @@ module.exports = function(app, api) {
             }
 
             $form.field('code').val('').focus()
+            api.balances()
         })
     })
 

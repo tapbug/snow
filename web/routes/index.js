@@ -19,6 +19,7 @@ var markets = require('../controllers/markets')
 , changepassword = require('../controllers/changepassword')
 , createvoucher = require('../controllers/vouchers/create')
 , redeemvoucher = require('../controllers/vouchers/redeem')
+, vouchers = require('../controllers/vouchers/index')
 , depositltc = require('../controllers/depositltc')
 , withdrawbank = require('../controllers/withdrawbank')
 , bankaccounts = require('../controllers/bankaccounts')
@@ -64,6 +65,10 @@ module.exports = function(app, api, router) {
         if (!app.authorize()) return
         app.page(orders(app, api), 'orders')
     })
+    .add(/^vouchers$/, function() {
+        if (!app.authorize()) return
+        app.page(vouchers(app, api))
+    })
     .add(/^vouchers\/create$/, function() {
         if (!app.authorize()) return
         app.page(createvoucher(app, api))
@@ -78,6 +83,7 @@ module.exports = function(app, api, router) {
     })
     .add(/^bankaccounts$/, function() {
         if (!app.authorize()) return
+        if (!app.requireUserIdentity()) return
         app.page(bankaccounts(app, api), 'bankaccounts')
     })
     .add(/^withdrawltc$/, function() {
@@ -112,14 +118,13 @@ module.exports = function(app, api, router) {
     })
     .add(/^withdrawbank\?currency=([A-Z]{3})$/, function(currency) {
         if (!app.authorize()) return
+        if (!app.requireUserIdentity()) return
+
         app.page(withdrawbank(app, api, currency), 'withdrawbank')
     })
     .add(/^depositnok$/, function() {
         if (!app.authorize()) return
-        if (!app.user().firstName) {
-            window.location.hash = '#identity?after=depositnok'
-            return
-        }
+        if (!app.requireUserIdentity()) return
         app.page(depositnok(app, api), 'depositnok')
     })
 
