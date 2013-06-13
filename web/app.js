@@ -11,6 +11,16 @@ app.user = function(value) {
     return app._user
 }
 
+app.userIdentity = function() {
+    var user = app.user()
+    return user && user.firstName ? user : false
+}
+
+app.requireUserIdentity = function() {
+    if (app.userIdentity()) return true
+    app.router.go('identity?after=' + window.location.hash.substr(1))
+}
+
 // get/set current page. destroys old
 app.page = (function() {
     var page
