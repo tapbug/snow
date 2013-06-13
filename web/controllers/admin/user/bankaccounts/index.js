@@ -36,6 +36,19 @@ module.exports = function(app, api, userId) {
         })
     })
 
+    $items.on('click', '.set-verified', function(e) {
+        e.preventDefault()
+        var id = $(this).closest('tr').attr('data-id')
+        $(this).enabled(false).loading(true, 'Starting verify...')
+        var url = format('admin/users/%s/bankAccounts/%s/setVerified', userId, id)
+
+        api.call(url, null, { type: 'POST' })
+        .fail(app.alertXhrError)
+        .done(function() {
+            refresh()
+        })
+    })
+
     refresh()
 
     return controller

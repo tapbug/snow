@@ -12,5 +12,8 @@
         <% if (!verified_at && !verify_started_at) { %>
             <button class="start-verify btn">Start verify</button>
         <% } %>
+        <% if (!verified_at) { %>
+            <button class="set-verified btn btn-warning">Set verified</button>
+        <% } %>
     </td>
 </tr>
