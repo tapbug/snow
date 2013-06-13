@@ -9,6 +9,8 @@ module.exports = function(app, api) {
         $items.append($.map(items, function(item) {
             var $el = $(itemTemplate(item))
             $el.attr('data-id', item.id)
+
+
             return $el
         }))
     }
