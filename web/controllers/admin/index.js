@@ -1,6 +1,7 @@
 var template = require('./template.html')
 , header = require('./header')
 , _ = require('underscore')
+, itemTemplate = require('./bank-account-pending-verify.html')
 
 module.exports = function(app, api) {
     var $el = $('<div class="admin">').html(template())
@@ -32,15 +33,15 @@ module.exports = function(app, api) {
         .fail(app.alertXhrError)
         .done(function(accounts) {
             var $accounts = $el.find('.bank-accounts-pending-verify .bank-accounts')
-            $accounts.toggleClass('is-empty', !accounts.length)
+
+            $el.find('.bank-accounts-pending-verify').toggleClass('is-empty', !accounts.length)
 
             $accounts
             .toggleClass('is-empty', !!accounts.length)
 
             if (accounts.length) {
                 $accounts.html(accounts.map(function(a) {
-                    var template = _.template('<li><a href="#admin/users/<%= user_id %>/bank-accounts"><%= account_number %></a></li>')
-                    return $(template(a))
+                    return $(itemTemplate(a))
                 }))
             }
         })
