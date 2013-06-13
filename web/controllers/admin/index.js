@@ -40,7 +40,7 @@ module.exports = function(app, api) {
             .toggleClass('is-empty', !!accounts.length)
 
             if (accounts.length) {
-                $accounts.html(accounts.map(function(a) {
+                $accounts.html(_.map(accounts, function(a) {
                     return $(itemTemplate(a))
                 }))
             }
