@@ -25,7 +25,6 @@ module.exports = function() {
 
         if (code.length != 12) {
             $code.addClass('is-invalid error')
-            alert('length is bad')
             return
         }
 
@@ -35,8 +34,6 @@ module.exports = function() {
 
         if (hex.substr(0, 2) != code.substr(10, 2)) {
             $code.addClass('is-invalid error')
-            alert('checksum is bad ' + 'est ' +
-                hex.substr(0, 2) + ' vs ' + code.substr(10, 2))
             return
         }
 
