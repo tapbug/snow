@@ -1,14 +1,13 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var controller = {
         $el: $(require('./template.html')())
     }
     , $address = controller.$el.find('.address')
 
-    app.bitcoinAddress().done(function(address) {
+    caches.bitcoinAddress().done(function(address) {
         $address.html($('<a href="bitcoin:' + address + '">' + address + '</a>'))
     })
-
-    app.section('dashboard')
 
     return controller
 }

@@ -1,6 +1,6 @@
 var _ = require('lodash')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var balanceTemplate = require('./balance.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -27,7 +27,8 @@ module.exports = function(app, api) {
             })
 
             _.each(changed, function(x) {
-                var $available = $balances.find('.balance[data-currency="' + x.currency + '"] .available')
+                var $available = $balances.find('.balance[data-currency="' +
+                    x.currency + '"] .available')
                 $available.addClass('flash')
             })
         }
@@ -35,15 +36,15 @@ module.exports = function(app, api) {
         oldBalances = balances
     }
 
-    app.on('balances', function(balances) {
+    caches.balances.on('change', function(balances) {
         balancesChanged(balances)
         balancesTimer && clearTimeout(balancesTimer)
-        balancesTimer = setTimeout(api.balances, 30e3)
+        balancesTimer = setTimeout(caches.balances.refresh, 30e3)
     })
 
-    app.on('user', function(user) {
+    user.on('change', function(changes, user) {
         $summary.find('.email').html(user.email)
-        api.balances()
+        caches.balances.refresh()
     })
 
     return controller

@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var itemTemplate = require('./item.html')
     , controller = {
         $el: $(require('./template.html')())
@@ -17,7 +18,7 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('v1/orders')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(itemsChanged)
     }
 
@@ -26,16 +27,15 @@ module.exports = function(app, api) {
         var $item = $(e.target).closest('.item')
 
         api.call('v1/orders/' + $item.attr('data-id'), null, { type: 'DELETE' })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
+            // TODO: Rename api.balances
             api.balances()
             $item.remove()
         })
     })
 
     refresh()
-
-    app.section('orders')
 
     return controller
 }

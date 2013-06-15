@@ -1,9 +1,9 @@
-var _ = require('lodash')
-, num = require('num')
+var num = require('num')
 , Activities = require('../activities')
 , Withdraws = require('./withdraws')
+, format = require('util').format
 
-module.exports = function(app, api) {
+module.exports = function() {
     var template = require('./template.html')
     , controller = {
         $el: $('<div class="dashboard container"></div>').html(template())
@@ -13,8 +13,8 @@ module.exports = function(app, api) {
     , $ltc = $balances.find('.ltc')
     , $xrp = $balances.find('.xrp')
     , $nok = $balances.find('.nok')
-    , activities = Activities(app, api)
-    , withdraws = Withdraws(app, api)
+    , activities = Activities()
+    , withdraws = Withdraws()
     , $activities = controller.$el.find('.activities')
     , $withdraws = controller.$el.find('.withdraws')
     , $depositXrp = controller.$el.find('.deposit-xrp')
@@ -29,7 +29,7 @@ module.exports = function(app, api) {
     })
 
     function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
     function formatNumber(n, p) {
@@ -38,25 +38,23 @@ module.exports = function(app, api) {
     }
 
     function balancesUpdated(balances) {
-        var indexed = _.reduce(balances, function(p, c) {
-            p[c.currency] = c.available
-            return p
-        }, {})
-
-        $btc.find('.available').html(formatNumber(indexed['BTC']) + ' BTC')
-        $ltc.find('.available').html(formatNumber(indexed['LTC']) + ' LTC')
-        $xrp.find('.available').html(formatNumber(indexed['XRP']) + ' XRP')
-        $nok.find('.available').html(formatNumber(indexed['NOK']) + ' NOK')
+        $btc.find('.available').html(formatNumber(balances['BTC'].available) + ' BTC')
+        $ltc.find('.available').html(formatNumber(balances['LTC'].available) + ' LTC')
+        $xrp.find('.available').html(formatNumber(balances['XRP'].available) + ' XRP')
+        $nok.find('.available').html(formatNumber(balances['NOK'].available) + ' NOK')
     }
 
-    app.balances() && balancesUpdated(app.balances())
-    app.on('balances', balancesUpdated)
+    caches.balances.on('change', balancesUpdated.bind(this, caches.balances))
+    caches.balances.refresh()
 
-    app.rippleAddress().done(function(address) {
-        $depositXrp.attr('href', 'https://ripple.com//send?to=' + address + '&dt=' + app.user().id)
+    caches.rippleAddress().done(function(address) {
+        $depositXrp.attr('href', format('https://ripple.com//send?to=%s&dt=%s',
+            address, user.id))
     })
 
-    app.section('dashboard')
+    // TODO: Leaking timers
+
+    caches.balances.refresh()
 
     return controller
 }

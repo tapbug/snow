@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -22,7 +23,7 @@ module.exports = function(app, api) {
         $form.addClass('is-loading')
 
         api.call('admin/users', null, { qs: query })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .always(function() {
             $form.removeClass('is-loading')
         })
@@ -31,7 +32,7 @@ module.exports = function(app, api) {
 
     $form.on('submit', function(e) {
         function parseField(val) {
-            var val = val.replace(/^\s+|\s+$/g, '')
+            val = val.replace(/^\s+|\s+$/g, '')
             return val.length ? val : null
         }
 
@@ -42,7 +43,6 @@ module.exports = function(app, api) {
         })
     })
 
-    app.section('admin')
     $el.find('.nav a[href="#admin/users"]').parent().addClass('active')
 
     $el.find('.query').focusSoon()

@@ -1,13 +1,12 @@
 var num = require('num')
 , _ = require('lodash')
-, numbers = require('../../../util/numbers')
 , debug = require('debug')('simple-buy')
 , footerTemplate = require('../footer.html')
 , header = require('../header')
 
-module.exports = function(app, api, amount) {
+module.exports = function(amount) {
     var $el = $(require('./template.html')({
-        messageToRecipient: app.user().id * 1234
+        messageToRecipient: user.id * 1234
     }))
     , controller = {
         $el: $el
@@ -20,7 +19,7 @@ module.exports = function(app, api, amount) {
     , marketsTimer
 
     // Insert header
-    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+    $el.find('.header-placeholder').replaceWith(header().$el)
 
     // Insert footer
     $el.find('.footer-placeholder').replaceWith(footerTemplate())
@@ -54,7 +53,7 @@ module.exports = function(app, api, amount) {
     function parseAmount() {
         var result = $amount.find('input').val()
         result = result.replace(/,/g, '.')
-        if (!(+result) > 0) return null
+        if (result <= 0 || isNaN(result)) return null
         return result
     }
 
@@ -73,7 +72,7 @@ module.exports = function(app, api, amount) {
 
         var amount = parseAmount()
 
-        if (!(+amount > 0)) {
+        if (amount <= 0 || isNaN(amount)) {
             $converted.find('input').val('')
             return
         }

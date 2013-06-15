@@ -2,7 +2,7 @@ var util = require('util')
 , format = util.format
 , header = require('../header')
 
-module.exports = function(app, api, userId) {
+module.exports = function(userId) {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -30,7 +30,7 @@ module.exports = function(app, api, userId) {
         var url = format('admin/users/%s/bankAccounts/%s/startVerify', userId, id)
 
         api.call(url, {}, { type: 'POST' })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             refresh()
         })
@@ -43,7 +43,7 @@ module.exports = function(app, api, userId) {
         var url = format('admin/users/%s/bankAccounts/%s/setVerified', userId, id)
 
         api.call(url, null, { type: 'POST' })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             refresh()
         })

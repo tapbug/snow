@@ -1,11 +1,7 @@
-var _ = require('lodash')
-, template = require('./template.html')
-, format = require('util').format
-, num = require('num')
-, numbers = require('../../../util/numbers')
+var template = require('./template.html')
 , sjcl = require('../../../vendor/sjcl')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $('<div class="redeem-voucher">').html(template())
     , controller = {
         $el: $el
@@ -39,7 +35,8 @@ module.exports = function(app, api) {
 
         if (hex.substr(0, 2) != code.substr(10, 2)) {
             $code.addClass('is-invalid error')
-            alert('checksum is bad ' + 'est ' + hex.substr(0, 2) + ' vs ' + code.substr(10, 2))
+            alert('checksum is bad ' + 'est ' +
+                hex.substr(0, 2) + ' vs ' + code.substr(10, 2))
             return
         }
 
@@ -77,12 +74,13 @@ module.exports = function(app, api) {
             .enabled(true)
             $submit.loading(false)
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function(body) {
             if (body) {
                 $el.addClass('is-redeemed')
                 .find('.credit')
-                .html(numbers.formatAmount(body.amount, body.currency) + ' ' + body.currency)
+                .html(numbers.formatAmount(body.amount, body.currency) +
+                    ' ' + body.currency)
             } else {
                 $el.addClass('is-cancelled')
             }
@@ -94,7 +92,7 @@ module.exports = function(app, api) {
 
     $el.on('click', 'a[href="#reload"]', function(e) {
         e.preventDefault()
-        app.router.refresh()
+        window.location.reload()
     })
 
     $form.field('code').focusSoon()

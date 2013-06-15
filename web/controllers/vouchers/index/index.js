@@ -1,8 +1,8 @@
-var _ = require('lodash')
-, template = require('./template.html')
+/* global alertify */
+var template = require('./template.html')
 , itemTemplate = require('./item.html')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $('<div class="vouchers">').html(template())
     , controller = {
         $el: $el
@@ -11,7 +11,7 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('v1/vouchers')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(itemsUpdated)
     }
 
@@ -27,12 +27,13 @@ module.exports = function(app, api) {
 
         var $item = $(this).closest('.voucher')
         , $button = $(this).loading(true)
+        , url = 'v1/vouchers/' + $item.attr('data-id') + '/redeem'
 
-        api.call('v1/vouchers/' + $item.attr('data-id') + '/redeem', null, { type: 'POST' })
+        api.call(url, null, { type: 'POST' })
         .always(function() {
             $button.loading(false)
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             $item.fadeAway()
             alertify.log('Voucher cancelled and funds returned to your account.')

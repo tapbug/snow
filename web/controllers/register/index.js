@@ -1,19 +1,20 @@
 require('../../vendor/shake')
 
 var _ = require('lodash')
+, validateEmailTimer
+, validatePasswordTimer
+, validateRepeatTimer
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
     }
-    , i18n = app.i18n
     , $form = $el.find('.register-form')
     , $email = $form.find('.control-group.email')
     , $password = $form.find('.control-group.password')
     , $repeat = $form.find('.control-group.repeat')
     , $submit = $form.find('button')
-    , $validation = $form.find('.validation')
     , $advanced = $el.find('.modal.advanced')
 
     $email.find('.help-inline').html(i18n('register.hints.email'))
@@ -103,39 +104,30 @@ module.exports = function(app, api) {
         return valid
     }
 
-    ;(function() {
-        var timer
-        $email.on('change keyup blur', 'input', function(e) {
-            if (e.which == 9) return
-            timer && clearTimeout(timer)
-            timer = setTimeout(function() {
-                validateEmail()
-            }, 750)
-        })
-    })()
+    $email.on('change keyup blur', 'input', function(e) {
+        if (e.which == 9) return
+        validateEmailTimer && clearTimeout(validateEmailTimer)
+        validateEmailTimer = setTimeout(function() {
+            validateEmail()
+        }, 750)
+    })
 
-    ;(function() {
-        var timer
-        $password.on('change keyup blur', 'input', function(e) {
-            if (e.which == 9) return
-            timer && clearTimeout(timer)
-            timer = setTimeout(function() {
-                validatePassword()
-                validateRepeat()
-            }, 750)
-        })
-    })()
+    $password.on('change keyup blur', 'input', function(e) {
+        if (e.which == 9) return
+        validatePasswordTimer && clearTimeout(validatePasswordTimer)
+        validatePasswordTimer = setTimeout(function() {
+            validatePassword()
+            validateRepeat()
+        }, 750)
+    })
 
-    ;(function() {
-        var timer
-        $repeat.on('change keyup blur', 'input', function(e) {
-            if (e.which == 9) return
-            timer && clearTimeout(timer)
-            timer = setTimeout(function() {
-                validateRepeat()
-            }, 750)
-        })
-    })()
+    $repeat.on('change keyup blur', 'input', function(e) {
+        if (e.which == 9) return
+        validateRepeatTimer && clearTimeout(validateRepeatTimer)
+        validateRepeatTimer = setTimeout(function() {
+            validateRepeat()
+        }, 750)
+    })
 
     $form.on('submit', function(e) {
         e.preventDefault()
@@ -177,7 +169,7 @@ module.exports = function(app, api) {
         }).done(function() {
             window.location.hash = '#'
         }).fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
+            var err = errors.fromXhr(xhr)
 
             if (err !== null && err.name == 'EmailFailedCheck') {
                 $email.find('input').focus()
@@ -192,7 +184,7 @@ module.exports = function(app, api) {
                 return
             }
 
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
         })
     }
 

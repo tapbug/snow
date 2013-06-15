@@ -1,11 +1,10 @@
 var num = require('num')
 , _ = require('lodash')
-, numbers = require('../../../util/numbers')
 , debug = require('debug')('simple')
 , footerTemplate = require('../footer.html')
 , header = require('../header')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -17,13 +16,13 @@ module.exports = function(app, api) {
     , last
     , marketsTimer
 
-    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+    $el.find('.header-placeholder').replaceWith(header().$el)
 
     // Insert footer
     $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
     function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
     function formatNumber(n, p) {
@@ -32,7 +31,7 @@ module.exports = function(app, api) {
     }
 
     function balancesUpdated(balances) {
-        var indexed = balances.reduce(function(p, c) {
+        var indexed = _.reduce(balances, function(p, c) {
             p[c.currency] = c.available
             return p
         }, {})
@@ -42,9 +41,8 @@ module.exports = function(app, api) {
         recalculate()
     }
 
-    app.on('balances', balancesUpdated)
-
-    app.balances() && balancesUpdated(app.balances())
+    caches.balances.on('change', balancesUpdated)
+    balancesUpdated(caches.balances)
 
     function marketsUpdated(markets) {
         var market = _.find(markets, { id: 'BTCNOK' })
@@ -61,7 +59,7 @@ module.exports = function(app, api) {
 
         var converted = num(balance).mul(last).toString()
         , formatted = numbers.format(converted, { ts: ' ', precision: 2 })
-        $converted.html(app.i18n('simple.overview.approx', formatted))
+        $converted.html(i18n('simple.overview.approx', formatted))
     }
 
     function refreshMarkets() {
@@ -74,7 +72,7 @@ module.exports = function(app, api) {
         .then(marketsUpdated)
     }
 
-    app.bitcoinAddress().done(function(address) {
+    caches.bitcoinAddress().done(function(address) {
         $address.attr('href', 'bitcoin:' + address)
         .html(address)
     })

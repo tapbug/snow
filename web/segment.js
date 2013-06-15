@@ -1,40 +1,39 @@
-var _ = require('lodash')
-, debug = require('./util/debug')('segment')
+var debug = require('./util/debug')('segment')
 
-module.exports = function(app, api) {
-    function attach(user) {
-        debug('Fetching Intercom settings')
-        api.call('v1/intercom')
-        .fail(function(xhr) {
-            app.reportErrorFromXhr(xhr)
+function attach() {
+    user.removeListener('change', attach)
+
+    debug('Fetching Intercom settings')
+    api.call('v1/intercom')
+    .fail(errors.reportFromXhr)
+    .done(function(settings) {
+        debug('Intercom settings', settings)
+        debug('Identifying with segment.io')
+
+        analytics.identify(user.id.toString(), {
+            email: user.email,
+            created: settings.created_at
+        }, {
+            intercom: settings
         })
-        .done(function(settings) {
-            debug('Intercom settings', settings)
-            debug('Identifying with segment.io')
-
-            analytics.identify(user.id.toString(), {
-                email: user.email,
-                created: settings.created_at
-            }, {
-                intercom: settings
-            })
-        })
-    }
-
-    function verifiedphone(phone) {
-        if (typeof Intercom == 'undefined' || !Intercom) {
-            debug('Will not update Intercom with phone because it\'s disabled')
-            return
-        }
-
-        debug('updating Intercom with phone number and time of verification')
-
-        Intercom('update', {
-            phone: phone,
-            phone_verified_at: Math.round(+new Date() / 1e3)
-        })
-    }
-
-    app.on('user', attach)
-    app.on('verifiedphone', verifiedphone)
+    })
 }
+
+function verifiedphone(e) {
+    if (typeof Intercom == 'undefined' || !Intercom) {
+        debug('Will not update Intercom with phone because it\'s disabled')
+        return
+    }
+
+    debug('updating Intercom with phone number and time of verification')
+
+    Intercom('update', {
+        phone: e.number,
+        phone_verified_at: Math.round(+new Date() / 1e3)
+    })
+
+    debug('intercom update started')
+}
+
+user.on('change', attach)
+$app.on('verifiedphone', verifiedphone)

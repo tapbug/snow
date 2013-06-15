@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -7,7 +8,7 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('v1/keys')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(renderKeys)
     }
 
@@ -22,17 +23,21 @@ module.exports = function(app, api) {
 
     // Add API key
     $add.on('click', function(e) {
+        e.preventDefault()
+
         $add.loading(true, 'Adding...')
         api.call('v1/keys', {}, { type: 'POST' })
         .always(function() {
             $add.loading(false)
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(refresh)
     })
 
     // Remove API key
     $el.on('click', '.key .remove', function(e) {
+        e.preventDefault()
+
         var $remove = $(this).loading(true, 'Deleting...')
         , $key = $(this).closest('.key')
         , id = $key.attr('data-id')
@@ -40,7 +45,7 @@ module.exports = function(app, api) {
         api.call('v1/keys/' + id, null, { type: 'DELETE' })
         .fail(function(xhr) {
             $remove.loading(false)
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
         })
         .done(function() {
             $key.fadeAway()

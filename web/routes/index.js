@@ -1,4 +1,5 @@
-var markets = require('../controllers/markets')
+var master = require('../controllers/master')
+, markets = require('../controllers/markets')
 , home = require('../controllers/home')
 , orders = require('../controllers/orders')
 , withdrawbtc = require('../controllers/withdrawbtc')
@@ -23,116 +24,115 @@ var markets = require('../controllers/markets')
 , depositltc = require('../controllers/depositltc')
 , withdrawbank = require('../controllers/withdrawbank')
 , bankaccounts = require('../controllers/bankaccounts')
+, authorize = require('../authorize')
 
-module.exports = function(app, api, router) {
-    var $section = $('#section')
-
+module.exports = function() {
     router
     .add(/^$/, function() {
-        if (app.user()) {
-            if (app.user().simple) {
+        if (user()) {
+            if (user.simple) {
                 router.go('simple')
             } else {
-                app.page(dashboard(app, api))
+                master(dashboard())
             }
         } else {
-            app.page(home())
+            master(home())
         }
     })
     .add(/^markets$/, function() {
-        app.page(markets(app, api), 'markets')
+        master(markets(), 'markets')
     })
     .add(/^apiKeys$/, function() {
-        app.page(apiKeys(app, api), 'home')
+        master(apiKeys(), 'home')
     })
     .add(/^resetPassword$/, function() {
-        app.page(resetPassword(app, api), 'resetPassword')
+        master(resetPassword(), 'resetPassword')
     })
     .add(/^signOut$/, function() {
         $.removeCookie('apiKey')
         window.location = '/'
     })
     .add(/^markets\/(.+)$/, function(id) {
-        app.page(market(app, api, id), 'market')
+        master(market(id), 'market')
     })
     .add(/^register$/, function() {
-        app.page(register(app, api), 'register')
+        master(register(), 'register')
     })
     .add(/^login(?:\?after=(.+))?$/, function(after) {
-        app.page(login(app, api, after), 'login')
+        master(login(after), 'login')
     })
     .add(/^orders$/, function() {
-        if (!app.authorize()) return
-        app.page(orders(app, api), 'orders')
+        if (!authorize.user()) return
+        master(orders(), 'orders')
     })
     .add(/^vouchers$/, function() {
-        if (!app.authorize()) return
-        app.page(vouchers(app, api))
+        if (!authorize.user()) return
+        master(vouchers())
     })
     .add(/^vouchers\/create$/, function() {
-        if (!app.authorize()) return
-        app.page(createvoucher(app, api))
+        if (!authorize.user()) return
+        master(createvoucher())
     })
     .add(/^vouchers\/redeem$/, function() {
-        if (!app.authorize()) return
-        app.page(redeemvoucher(app, api))
+        if (!authorize.user()) return
+        master(redeemvoucher())
     })
     .add(/^withdrawbtc$/, function() {
-        if (!app.authorize()) return
-        app.page(withdrawbtc(app, api), 'withdrawbtc')
+        if (!authorize.user()) return
+        master(withdrawbtc(), 'withdrawbtc')
     })
     .add(/^bankaccounts$/, function() {
-        if (!app.authorize()) return
+        if (!authorize.user()) return
         if (!app.requireUserIdentity()) return
-        app.page(bankaccounts(app, api), 'bankaccounts')
+        master(bankaccounts(), 'bankaccounts')
     })
     .add(/^withdrawltc$/, function() {
-        if (!app.authorize()) return
-        app.page(withdrawltc(app, api), 'withdrawltc')
+        if (!authorize.user()) return
+        master(withdrawltc(), 'withdrawltc')
     })
     .add(/^withdrawripple$/, function() {
-        if (!app.authorize()) return
-        app.page(withdrawripple(app, api), 'withdrawripple')
+        if (!authorize.user()) return
+        master(withdrawripple(), 'withdrawripple')
     })
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
-        if (!app.authorize()) return
-        app.page(identity(app, api, after), 'identity')
+        if (!authorize.user()) return
+        master(identity(after), 'identity')
     })
     .add(/^depositbtc$/, function() {
-        if (!app.authorize()) return
-        app.page(depositbtc(app, api), 'depositbtc')
+        if (!authorize.user()) return
+        master(depositbtc(), 'depositbtc')
     })
     .add(/^changepassword$/, function() {
-        if (!app.authorize()) return
-        app.page(changepassword(app, api), 'changepassword')
+        if (!authorize.user()) return
+        master(changepassword(), 'changepassword')
     })
     .add(/^terms$/, function() {
-        app.page(terms(app, api), 'terms')
+        master(terms(), 'terms')
     })
     .add(/^privacy$/, function() {
-        app.page(privacy(app, api), 'privacy')
+        master(privacy(), 'privacy')
     })
     .add(/^depositltc$/, function() {
-        if (!app.authorize()) return
-        app.page(depositltc(app, api), 'depositltc')
+        if (!authorize.user()) return
+        master(depositltc(), 'depositltc')
     })
     .add(/^withdrawbank\?currency=([A-Z]{3})$/, function(currency) {
-        if (!app.authorize()) return
-        if (!app.requireUserIdentity()) return
+        if (!authorize.user()) return
+        if (!authorize.identity()) return
 
-        app.page(withdrawbank(app, api, currency), 'withdrawbank')
+        master(withdrawbank(currency), 'withdrawbank')
     })
     .add(/^depositnok$/, function() {
-        if (!app.authorize()) return
-        if (!app.requireUserIdentity()) return
-        app.page(depositnok(app, api), 'depositnok')
+        if (!authorize.user()) return
+        if (!authorize.identity()) return
+        master(depositnok(), 'depositnok')
     })
 
-    require('./admin').configure(app, api, router, $section)
-    require('./simple').configure(app, api, router, $section)
+    require('./admin').configure()
+    require('./simple').configure()
 
     router
     .add(/^(.+)$/, function(hash) {
-        app.page(notfound(hash))
+        master(notfound(hash))
     })
 }

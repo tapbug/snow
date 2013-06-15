@@ -1,10 +1,9 @@
+/* global alertify */
 var util = require('util')
-, _ = require('lodash')
-, debug = require('../../../../util/debug')('admin:bankcredit')
 , header = require('../header')
 , template = require('./template.html')
 
-module.exports = function(app, api, userId) {
+module.exports = function(userId) {
     var $el = $('<div class="admin-bank-credit">').html(template())
     , controller = {
         $el: $el
@@ -35,7 +34,7 @@ module.exports = function(app, api, userId) {
         .always(function() {
             $el.removeClass('is-loading').enabled(true)
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             alertify.log(util.format(
                 'User #%s credited with %s %s (%s)',

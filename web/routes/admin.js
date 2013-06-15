@@ -8,49 +8,51 @@ var adminBalances = require('../controllers/admin/balances')
 , adminUserActivity = require('../controllers/admin/user/activity')
 , adminUserBankCredit = require('../controllers/admin/user/bankcredit')
 , admin = require('../controllers/admin')
+, authorize = require('../authorize')
+, master = require('../controllers/master')
 
 module.exports = {
-    configure: function(app, api, router, $section) {
+    configure: function() {
         router
         .add(/^admin$/, function() {
-            if (!app.authorize()) return
-            $section.html(admin(app, api).$el)
+            if (!authorize.admin()) return
+            master(admin(), 'admin')
         })
         .add(/^admin\/users\/(\d+)$/, function(userId) {
-            if (!app.authorize()) return
-            $section.html(adminUser(app, api, userId).$el)
+            if (!authorize.admin()) return
+            master(adminUser(userId), 'admin')
         })
         .add(/^admin\/users\/(\d+)\/bank-accounts$/, function(userId) {
-            if (!app.authorize()) return
-            app.page(adminUserBankAccounts(app, api, userId), 'admin')
+            if (!authorize.admin()) return
+            master(adminUserBankAccounts(userId), 'admin')
         })
         .add(/^admin\/users\/(\d+)\/accounts$/, function(userId) {
-            if (!app.authorize()) return
-            app.page(adminUserAccounts(app, api, userId), 'admin')
+            if (!authorize.admin()) return
+            master(adminUserAccounts(userId), 'admin')
         })
         .add(/^admin\/users\/(\d+)\/withdraw-requests$/, function(userId) {
-            if (!app.authorize()) return
-            app.page(adminUserWithdrawRequests(app, api, userId), 'admin')
+            if (!authorize.admin()) return
+            master(adminUserWithdrawRequests(userId), 'admin')
         })
         .add(/^admin\/users\/(\d+)\/activity$/, function(userId) {
-            if (!app.authorize()) return
-            app.page(adminUserActivity(app, api, userId), 'admin')
+            if (!authorize.admin()) return
+            master(adminUserActivity(userId), 'admin')
         })
         .add(/^admin\/users\/(\d+)\/bank-credit$/, function(userId) {
-            if (!app.authorize()) return
-            app.page(adminUserBankCredit(app, api, userId), 'admin')
+            if (!authorize.admin()) return
+            master(adminUserBankCredit(userId), 'admin')
         })
         .add(/^admin\/balances$/, function() {
-            if (!app.authorize()) return
-            $section.html(adminBalances(app, api).$el)
+            if (!authorize.admin()) return
+            master(adminBalances(), 'admin')
         })
         .add(/^admin\/users$/, function() {
-            if (!app.authorize()) return
-            $section.html(adminUsers(app, api).$el)
+            if (!authorize.admin()) return
+            master(adminUsers(), 'admin')
         })
         .add(/^admin\/withdraws$/, function() {
-            if (!app.authorize()) return
-            $section.html(adminWithdraws(app, api).$el)
+            if (!authorize.admin()) return
+            master(adminWithdraws(), 'admin')
         })
     }
 }

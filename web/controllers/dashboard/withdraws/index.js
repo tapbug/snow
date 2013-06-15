@@ -1,7 +1,6 @@
 var moment = require('moment')
-, format = require('util').format
 
-module.exports = function(app, api) {
+module.exports = function() {
     var itemTemplate = require('./item.html')
     , controller = {
         $el: $(require('./template.html')())
@@ -19,17 +18,18 @@ module.exports = function(app, api) {
             }
 
             if (item.state == 'completed') {
-                item.status = app.i18n('withdraws.states.completed', moment(item.completed).fromNow())
+                item.status = i18n('withdraws.states.completed',
+                    moment(item.completed).fromNow())
                 item.good = true
             } else if (item.state == 'processing') {
-                item.status = app.i18n('withdraws.states.processing')
+                item.status = i18n('withdraws.states.processing')
             } else if (item.state == 'requested') {
-                item.status = app.i18n('withdraws.states.requested')
-            } else if (item.state = 'cancelled') {
+                item.status = i18n('withdraws.states.requested')
+            } else if (item.state == 'cancelled') {
                 if (item.error) {
                     item.status = i18n('withdraws.states.cancelled.error', item.error)
                     item.bad = true
-                } else if (item.error == null) {
+                } else if (item.error === null) {
                     item.status = i18n('withdraws.states.cancelled')
                 }
             } else {
@@ -46,7 +46,7 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('v1/withdraws')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(itemsChanged)
     }
 
@@ -55,7 +55,7 @@ module.exports = function(app, api) {
         var $item = $(e.target).closest('.item')
 
         api.call('v1/withdraws/' + $item.attr('data-id'), null, { type: 'DELETE' })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             api.balances()
             refresh()

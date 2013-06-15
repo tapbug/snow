@@ -1,8 +1,6 @@
-var util = require('util')
-, _= require('lodash')
-, header = require('./header')
+var header = require('./header')
 
-module.exports = function(app, api, userId) {
+module.exports = function(userId) {
     var $el = $(require('./template.html')({
         userId: userId
     }))
@@ -19,7 +17,7 @@ module.exports = function(app, api, userId) {
 
     function refresh() {
         api.call('admin/users/' + userId)
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(userRetrieved)
     }
 
@@ -27,8 +25,10 @@ module.exports = function(app, api, userId) {
         e.preventDefault()
         var userId = $(e.target).closest('.user').attr('data-user-id')
 
-        api.call('admin/users/' + userId + '/sendVerificationEmail', null, { type: 'POST' })
-        .fail(app.alertXhrError)
+        var url = 'admin/users/' + userId + '/sendVerificationEmail'
+
+        api.call(url, null, { type: 'POST' })
+        .fail(errors.alertFromXhr)
         .done(function() {
             alert('Done')
         })

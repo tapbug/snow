@@ -1,11 +1,10 @@
+/* global alertify */
 var num = require('num')
 , _ = require('lodash')
-, numbers = require('../../../util/numbers')
-, debug = require('debug')('simple-send')
 , footerTemplate = require('../footer.html')
 , header = require('../header')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -20,14 +19,14 @@ module.exports = function(app, api) {
     , $button = $el.find('.sell-button')
 
     // Insert header
-    $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+    $el.find('.header-placeholder').replaceWith(header().$el)
 
     // Insert footer
     $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
 
     function balancesUpdated(balances) {
-        var indexed = balances.reduce(function(p, c) {
+        var indexed = _.reduce(balances, function(p, c) {
             p[c.currency] = c.available
             return p
         }, {})
@@ -36,9 +35,8 @@ module.exports = function(app, api) {
         $balance.html(numbers.format(balance, { ts: ',', maxPrecision: 8 }) + ' BTC')
     }
 
-    app.on('balances', balancesUpdated)
-
-    app.balances() && balancesUpdated(app.balances())
+    caches.balances.on('change', balancesUpdated)
+    balancesUpdated(caches.balances)
 
     function validateAmount(emptyIsError) {
         var amount = $amount.find('input').val()
@@ -51,7 +49,7 @@ module.exports = function(app, api) {
         }
 
         // NaN or <= 0
-        if (!(+amount > 0)) {
+        if (amount <= 0 || isNaN(amount)) {
             $amount.addClass('is-invalid error')
             return
         }
@@ -124,16 +122,9 @@ module.exports = function(app, api) {
             amount: $amount.find('input').val(),
             address: $address.find('input').val()
         })
-        .fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-
-            if (err) {
-            }
-
-            app.alertXhrError(xhr)
-        })
+        .fail(errors.alertFromXhr)
         .done(function() {
-            alertify.log(app.i18n('withdrawbtc.confirmation'))
+            alertify.log(i18n('withdrawbtc.confirmation'))
             api.balances()
             window.location.hash = '#simple'
         })

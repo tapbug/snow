@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -16,13 +17,11 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('admin/balances')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(itemsChanged)
     }
 
     refresh()
-
-    app.section('admin')
 
     $el.find('.nav a[href="#admin/balances"]').parent().addClass('active')
 

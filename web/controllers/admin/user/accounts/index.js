@@ -1,8 +1,6 @@
-var util = require('util')
-, format = util.format
-, header = require('../header')
+var header = require('../header')
 
-module.exports = function(app, api, userId) {
+module.exports = function(userId) {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {

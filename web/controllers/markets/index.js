@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var itemTemplate = require('./item.html')
     , controller = {
         $el: $(require('./template.html')())
@@ -13,13 +14,11 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('v1/markets')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(marketsChanged)
     }
 
     refresh()
-
-    app.section('markets')
 
     return controller
 }
