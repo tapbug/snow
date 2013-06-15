@@ -3,16 +3,16 @@ require('../../vendor/shake')
 var _ = require('lodash')
 , debug = require('../../util/debug')('login')
 
-module.exports = function(app, api, after) {
+module.exports = function(after) {
     var controller = {
         $el: $(require('./template.html')())
     }
-    , i18n = app.i18n
     , $form = controller.$el.find('.login')
     , $email = $form.find('.control-group.email')
     , $password = $form.find('.control-group.password')
     , $submit = $form.find('button')
-    , $validation = $form.find('.validation')
+    , validatePasswordTimer
+    , validateEmailTimer
 
     $email.add($password)
     .on('keyup', function(e) {
@@ -65,27 +65,21 @@ module.exports = function(app, api, after) {
         return valid
     }
 
-    ;(function() {
-        var timer
-        $email.on('change keyup blur', 'input', function(e) {
-            if (e.which == 9) return
-            timer && clearTimeout(timer)
-            timer = setTimeout(function() {
-                validateEmail()
-            }, 750)
-        })
-    })()
+    $email.on('change keyup blur', 'input', function(e) {
+        if (e.which == 9) return
+        validateEmailTimer && clearTimeout(validateEmailTimer)
+        validateEmailTimer = setTimeout(function() {
+            validateEmail()
+        }, 750)
+    })
 
-    ;(function() {
-        var timer
-        $password.on('change keyup blur', 'input', function(e) {
-            if (e.which == 9) return
-            timer && clearTimeout(timer)
-            timer = setTimeout(function() {
-                validatePassword()
-            }, 750)
-        })
-    })()
+    $password.on('change keyup blur', 'input', function(e) {
+        if (e.which == 9) return
+        validatePasswordTimer && clearTimeout(validatePasswordTimer)
+        validatePasswordTimer = setTimeout(function() {
+            validatePassword()
+        }, 750)
+    })
 
     $form.on('submit', function(e) {
         e.preventDefault()
@@ -100,7 +94,8 @@ module.exports = function(app, api, after) {
             if ($e.hasClass('is-valid')) return
             $submit.shake()
             $e.find('input').focus()
-            return invalid = true
+            invalid = true
+            return true
         })
 
         if (invalid) return
@@ -119,18 +114,16 @@ module.exports = function(app, api, after) {
         }).done(function() {
             debug('login success')
             window.location.hash = '#' + (after || '')
-        }).fail(function(xhr) {
-            var err = app.errorFromXhr(xhr)
-
+        }).fail(function(err) {
             if (err !== null && err.name == 'UnknownApiKey') {
                 $email
                 .addClass('error')
                 .find('.help-inline')
-                .html(app.i18n('login.errors.wrong username or password'))
+                .html(i18n('login.errors.wrong username or password'))
                 return
             }
 
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(err)
         })
     })
 

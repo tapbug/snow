@@ -1,9 +1,7 @@
 require('../../vendor/shake')
 
-var _ = require('lodash')
-, debug = require('../../util/debug')('login')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -30,7 +28,7 @@ module.exports = function(app, api) {
         $button.html('Emailing you...').addClass('is-loading')
 
         api.call('v1/resetPassword', { email: email }, { type: 'POST' })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             $button.html('Check your email').removeClass('btn-primary')
 
@@ -62,12 +60,13 @@ module.exports = function(app, api) {
         e.preventDefault()
 
         var password = $password.find('input').val()
-        , key = api.keyFromCredentials(email, password)
 
-        api.call('v1/resetPassword/end', { email: email, code: phoneCode, key: key }, { type: 'POST' })
-        .fail(app.alertXhrError)
+        api.resetPasswordEnd(email, phoneCode, password)
+        .fail(errors.alertFromXhr)
         .done(function() {
-            alert('Reset complete. Please do not forget your password again. International calls are expensive.')
+            // TODO: i18n
+            alert('Reset complete. Please do not forget your password again.' +
+                'International calls are expensive.')
             window.location = '/'
         })
     })

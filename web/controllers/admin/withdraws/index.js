@@ -1,6 +1,7 @@
+/* global alertify */
 var util = require('util')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -16,9 +17,14 @@ module.exports = function(app, api) {
 
             var $item = $(itemTemplate(item))
 
-            $item.find('.process').enabled(item.state == 'requested')
-            $item.find('.complete').enabled(item.state == 'processing')
-            $item.find('.cancel').enabled(item.state == 'requested' || item.state == 'processing')
+            $item.find('.process')
+            .enabled(item.state == 'requested')
+
+            $item.find('.complete')
+            .enabled(item.state == 'processing')
+
+            $item.find('.cancel')
+            .enabled(item.state == 'requested' || item.state == 'processing')
 
             $item.attr('data-id', item.request_id)
 
@@ -28,38 +34,35 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('admin/withdraws')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(itemsChanged)
     }
 
     $el.on('click', '.cancel', function() {
         var id = $(this).closest('.withdraw').attr('data-id')
         , $el = $(this)
+        , message = 'Why is the request being cancelled? The user will see this.'
 
-        alertify.prompt('Why is the request being cancelled? The user will see this.', function(ok, error) {
+        alertify.prompt(message, function(ok, error) {
             if (!ok) return
 
             $el.addClass('is-loading')
             .enabled(false)
             .siblings().enabled(false)
 
+            var url = 'admin/withdraws/' + id
+            , data = { state: 'cancelled', error: error || null }
 
-            api.call('admin/withdraws/' + id, { state: 'cancelled', error: error || null }, { type: 'PATCH' })
+            api.call(url, data, { type: 'PATCH' })
             .done(function() {
                 alertify.log(util.format('Order #%s cancelled.', id), 'success', 30e3)
                 $el.closest('.withdraw').fadeAway()
             })
             .fail(function(xhr) {
-                app.alertXhrError(xhr)
+                errors.alertFromXhr(xhr)
                 refresh()
             })
         })
-    })
-
-    $el.on('click', 'a[href="#user"]', function(e) {
-        e.preventDefault()
-        var id = $(this).closest('a').attr('data-user-id')
-        , modal = require('../user')(app, api, +id)
     })
 
     $el.on('click', '.process', function() {
@@ -77,7 +80,7 @@ module.exports = function(app, api) {
             refresh()
         })
         .fail(function(xhr) {
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
             refresh()
         })
     })
@@ -90,20 +93,23 @@ module.exports = function(app, api) {
         .enabled(false)
         .siblings().enabled(false)
 
-        api.call('admin/withdraws/' + id, { state: 'completed' }, { type: 'PATCH' })
+        var url = 'admin/withdraws/' + id
+
+        api.call(url, { state: 'completed' }, { type: 'PATCH' })
         .done(function() {
-            alertify.log(util.format('Order #%s marked as completed.', id), 'success', 30e3)
+            var msg = util.format('Order #%s marked as completed.', id)
+            alertify.log(msg, 'success', 30e3)
+
             $el.closest('.withdraw').fadeAway()
         })
         .fail(function(xhr) {
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
             refresh()
         })
     })
 
     refresh()
 
-    app.section('admin')
     $el.find('.nav a[href="#admin/withdraws"]').parent().addClass('active')
 
     return controller

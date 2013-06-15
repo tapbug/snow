@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -8,7 +9,7 @@ module.exports = function(app, api) {
 
     function refresh() {
         api.call('v1/bankAccounts')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(renderAccounts)
     }
 
@@ -23,6 +24,8 @@ module.exports = function(app, api) {
 
     // Add account
     $add.on('click', function(e) {
+        e.preventDefault()
+
         var $modal = $(addModalTemplate())
         $modal.modal()
 
@@ -45,7 +48,7 @@ module.exports = function(app, api) {
             .always(function() {
                 $add.loading(false)
             })
-            .fail(app.alertXhrError)
+            .fail(errors.alertFromXhr)
             .done(refresh)
         })
 
@@ -63,11 +66,12 @@ module.exports = function(app, api) {
         }
 
         var id = $account.attr('data-id')
+        , url = 'v1/bankAccounts/' + id + '/verify'
 
-        api.call('v1/bankAccounts/' + id + '/verify', { code: $code.val() },  { type: 'POST' })
+        api.call(url, { code: $code.val() },  { type: 'POST' })
         .fail(function(xhr) {
             $verify.loading(false)
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
         })
         .done(function() {
             refresh()

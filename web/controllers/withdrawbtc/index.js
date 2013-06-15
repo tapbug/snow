@@ -1,4 +1,5 @@
-module.exports = function(app, api) {
+
+module.exports = function() {
     var controller = {
         $el: $(require('./template.html')())
     }
@@ -12,15 +13,13 @@ module.exports = function(app, api) {
             amount: $amount.val(),
             address: $address.val()
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
-            alert(app.i18n('withdrawbtc.confirmation'))
+            alert(i18n('withdrawbtc.confirmation'))
             api.balances()
             window.location.hash = '#'
         })
     })
-
-    app.section('dashboard')
 
     return controller
 }

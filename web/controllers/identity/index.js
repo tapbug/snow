@@ -1,8 +1,8 @@
+/* global Intercom, alertify */
 var util = require('util')
 , _ = require('lodash')
-, debug = require('../../util/debug')('identitymodal')
 
-module.exports = function(app, api, after) {
+module.exports = function(after) {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -35,8 +35,8 @@ module.exports = function(app, api, after) {
 
         api.call('v1/users/identity', data)
         .done(function() {
-            alertify.log(app.i18n('identity.confirmation'))
-            _.extend(app.user(), data)
+            alertify.log(i18n('identity.confirmation'))
+            user(data)
 
             if (typeof Intercom != 'undefined' && Intercom) {
                 Intercom('update', {
@@ -51,7 +51,7 @@ module.exports = function(app, api, after) {
             window.location.hash = '#' + (after || '')
         })
         .fail(function(xhr) {
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
         })
     })
 

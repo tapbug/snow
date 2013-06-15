@@ -2,9 +2,8 @@ var _ = require('lodash')
 , template = require('./template.html')
 , format = require('util').format
 , num = require('num')
-, numbers = require('../../../util/numbers')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $('<div class="create-voucher is-creating">').html(template())
     , controller = {
         $el: $el
@@ -49,8 +48,8 @@ module.exports = function(app, api) {
         $amount.find('.available').html(formatted + ' ' + currency)
     }
 
-    app.balances() && controller.onBalancesUpdated(app.balances())
-    app.on('balances', controller.onBalancesUpdated)
+    controller.onBalancesUpdated(caches.balances)
+    caches.balances.on('change', controller.onBalancesUpdated)
 
     $form.on('change keyup', '.currency select', controller.updateAvailable)
 
@@ -68,7 +67,7 @@ module.exports = function(app, api) {
         amount = parseAmount()
 
         // NaN or <= 0
-        if (!(+amount > 0)) {
+        if (amount <= 0 || isNaN(amount)) {
             $amount.addClass('is-invalid error')
             return
         }
@@ -91,7 +90,7 @@ module.exports = function(app, api) {
     function parseAmount() {
         var result = $form.field('amount').val()
         result = result.replace(/,/g, '.')
-        if (!(+result) > 0) return null
+        if (result <= 0 || isNaN(result)) return null
         return result
     }
 
@@ -121,9 +120,14 @@ module.exports = function(app, api) {
             .enabled(true)
             $submit.loading(false)
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function(voucher) {
-            var formatted = voucher.substr(0, 4) + '-' + voucher.substr(4, 4) + '-' + voucher.substr(8, 4)
+            var formatted = [
+                voucher.substr(0, 4),
+                voucher.substr(4, 4),
+                voucher.substr(8, 4)
+            ].join('-')
+
             alert('Voucher created: ' + formatted)
             $form.field('amount').val('').focus()
             api.balances()
@@ -131,7 +135,7 @@ module.exports = function(app, api) {
     })
 
     controller.destroy = function() {
-        app.removeListener('balances', controller.onBalancesUpdated)
+        caches.balances.removeListener('change', controller.onBalancesUpdated)
     }
 
     $form.field('amount').focusSoon()

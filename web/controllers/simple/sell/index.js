@@ -1,12 +1,10 @@
 var num = require('num')
 , _ = require('lodash')
-, numbers = require('../../../util/numbers')
 , debug = require('debug')('simple-buy')
 , footerTemplate = require('../footer.html')
 , header = require('../header')
-, format = require('util').format
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $('<div class="simple sell">')
     , controller = {
         $el: $el
@@ -23,7 +21,7 @@ module.exports = function(app, api) {
     , $bankAccount
 
     function balancesUpdated(balances) {
-        var indexed = balances.reduce(function(p, c) {
+        var indexed = _.reduce(balances, function(p, c) {
             p[c.currency] = c.available
             return p
         }, {})
@@ -41,8 +39,8 @@ module.exports = function(app, api) {
             if (emptyIsError === true) $amount.addClass('error')
             return
         }
-        // NaN or <= 0
-        if (!(+amount > 0)) {
+
+        if (amount <= 0 || isNaN(amount)) {
             $amount.addClass('is-invalid error')
             return
         }
@@ -62,7 +60,7 @@ module.exports = function(app, api) {
     function parseAmount() {
         var result = $amount.find('input').val()
         result = result.replace(/,/g, '.')
-        if (!(+result) > 0) return null
+        if (result <= 0 || isNaN(result)) return null
         return result
     }
 
@@ -73,7 +71,7 @@ module.exports = function(app, api) {
     }
 
     function recalculate() {
-        if (!+bid) {
+        if (bid <= 0 || isNaN(bid)) {
             return debug('cannot convert without a bid price')
         }
 
@@ -81,7 +79,7 @@ module.exports = function(app, api) {
 
         var amount = parseAmount()
 
-        if (!(+amount > 0)) {
+        if (amount <= 0 || isNaN(amount)) {
             $converted.find('input').val('')
             return
         }
@@ -109,7 +107,7 @@ module.exports = function(app, api) {
 
     function refreshBankAccounts() {
         return api.call('v1/bankAccounts')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function(accounts) {
             bankAccounts = accounts
             render()
@@ -118,17 +116,20 @@ module.exports = function(app, api) {
 
     function render() {
         var bankAccountVerified = !!_.where(bankAccounts, { verified: true }).length
-        , identityVerified = !!app.user().lastName
+        , identityVerified = !!user.lastName
         , canSell = bankAccountVerified && identityVerified
 
         $el.toggleClass('is-user-identified', identityVerified)
         $el.toggleClass('is-bank-account-added', !!bankAccounts.length)
         $el.toggleClass('is-bank-account-verified', bankAccountVerified)
-        $el.toggleClass('is-bank-account-verifying', !!_.where(bankAccounts, { verified: false, verifying: true }).length)
+        $el.toggleClass('is-bank-account-verifying', !!_.where(bankAccounts, {
+            verified: false,
+            verifying: true
+        }).length)
 
         $el.html(require('./template.html')({
-            messageToRecipient: app.user().id * 1234,
-            identified: app.user().lastName,
+            messageToRecipient: user.id * 1234,
+            identified: !!user.lastName,
             bankAccountAdded: !!bankAccounts.length,
             bankAccountVerified: !!_.where(bankAccounts, { verified: true }).length
         }))
@@ -140,7 +141,7 @@ module.exports = function(app, api) {
         $bankAccount = $form.find('.bank-account')
 
         // Insert header
-        $el.find('.header-placeholder').replaceWith(header(app, api).$el)
+        $el.find('.header-placeholder').replaceWith(header().$el)
 
         // Insert footer
         $el.find('.footer-placeholder').replaceWith(footerTemplate())
@@ -172,7 +173,7 @@ module.exports = function(app, api) {
                 bankAccount: bankAccounts[0].account_number,
                 currency: 'NOK'
             })
-            .fail(app.alertXhrError)
+            .fail(errors.alertFromXhr)
             .done(function(res) {
                 alert('Uttak av ' + res.amount + ' NOK bekreftet.')
                 window.location.hash = '#simple'
@@ -186,9 +187,8 @@ module.exports = function(app, api) {
             recalculate()
         })
 
-        app.on('balances', balancesUpdated)
-
-        app.balances() && balancesUpdated(app.balances())
+        caches.balances.on('change', balancesUpdated)
+        balancesUpdated(caches.balances)
 
         $amount.find('input').focusSoon()
     }
@@ -219,10 +219,9 @@ module.exports = function(app, api) {
             .always(function() {
                 $addButton.loading(false)
             })
-            .fail(app.alertXhrError)
+            .fail(errors.alertFromXhr)
             .done(function() {
-                // Refresh
-                app.router.refresh()
+                window.location.reload()
             })
         })
 
@@ -246,15 +245,15 @@ module.exports = function(app, api) {
         }
 
         var id = bankAccounts[0].id
+        , url = 'v1/bankAccounts/' + id + '/verify'
 
-        api.call('v1/bankAccounts/' + id + '/verify', { code: $code.val() },  { type: 'POST' })
+        api.call(url, { code: $code.val() }, { type: 'POST' })
         .always(function() {
             $verify.loading(false)
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
-            // Refresh
-            app.router.refresh()
+            window.location.reload()
         })
     })
 

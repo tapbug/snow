@@ -1,9 +1,7 @@
-var util = require('util')
-, format = util.format
-, header = require('../header')
+var header = require('../header')
 , formatActivity = require('../../../../activity')
 
-module.exports = function(app, api, userId) {
+module.exports = function(userId) {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -16,13 +14,14 @@ module.exports = function(app, api, userId) {
 
     function itemsChanged(items) {
         $items.html($.map(items, function(item) {
-            item.text = formatActivity(app.i18n, item)
+            item.text = formatActivity(item)
             return itemTemplate(item)
         }))
     }
 
     function refresh() {
         api.call('admin/users/' + userId + '/activity')
+        .fail(errors.alertFromXhr)
         .done(itemsChanged)
     }
 

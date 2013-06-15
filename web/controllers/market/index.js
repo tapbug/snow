@@ -1,8 +1,8 @@
+/* global alertify */
 var num = require('num')
-, util = require('util')
 , _ = require('lodash')
 
-module.exports = function(app, api, id) {
+module.exports = function(id) {
     var priceTemplate = require('./price.html')
     , base = id.substr(0, 3)
     , quote = id.substr(3)
@@ -25,7 +25,6 @@ module.exports = function(app, api, id) {
     , $sellPrice = $sell.find('*[name="price"]')
     , $sellAmount = $sell.find('*[name="amount"]')
     , $sellSummary = $sell.find('.summary')
-    , i18n = app.i18n
 
     function depthChanged(depth) {
         var combined = []
@@ -73,7 +72,7 @@ module.exports = function(app, api, id) {
 
     function refreshDepth() {
         api.call('v1/markets/' + id + '/depth')
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(depthChanged)
     }
 
@@ -122,7 +121,7 @@ module.exports = function(app, api, id) {
             price: $buyPrice.val(),
             amount: $buyAmount.val()
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function(order) {
             api.balances()
             alertify.log(i18n('market.order placed', order.id))
@@ -142,7 +141,7 @@ module.exports = function(app, api, id) {
             price: $sellPrice.val(),
             amount: $sellAmount.val()
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function(order) {
             api.balances()
             alertify.log(i18n('market.order placed', order.id))
@@ -154,27 +153,25 @@ module.exports = function(app, api, id) {
         })
     })
 
-    $buyPrice.on('keyup change', function(e) {
+    $buyPrice.on('keyup change', function() {
         $buyPrice.addClass('is-changed')
         updateBuySummary()
     })
 
-    $buyAmount.on('keyup change', function(e) {
+    $buyAmount.on('keyup change', function() {
         updateBuySummary()
     })
 
-    $sellPrice.on('keyup change', function(e) {
+    $sellPrice.on('keyup change', function() {
         $sellPrice.addClass('is-changed')
         updateSellSummary()
     })
 
-    $sellAmount.on('keyup change', function(e) {
+    $sellAmount.on('keyup change', function() {
         updateSellSummary()
     })
 
     refreshDepth()
-
-    app.section('markets')
 
     return controller
 }

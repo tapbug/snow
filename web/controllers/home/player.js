@@ -42,7 +42,7 @@ Player.prototype.enqueue = function(name) {
     return this
 }
 
-Player.prototype.onEnded = function(e) {
+Player.prototype.onEnded = function() {
     var next = this.queue.shift()
     if (next) this.play(next)
     else this.current = null
@@ -78,8 +78,9 @@ Player.prototype.resize = function() {
     , width
     , height
     , video = this.videos[this.current]
+    , isGreedy = !!video.greedy
 
-    if (wRatio > vRatio == !!video.greedy) {
+    if (wRatio > vRatio == isGreedy) {
         width = wWidth
         height = width / vRatio
     } else {

@@ -1,8 +1,9 @@
+/* global alertify */
 var util = require('util')
 , _ = require('lodash')
 , debug = require('../../util/debug')('verifyemail')
 
-module.exports = function(app, api) {
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -17,12 +18,13 @@ module.exports = function(app, api) {
     // Add countries
     var countries = require('../../assets/callingcodes.json')
     $country.append(_.map(countries, function(country) {
-        return util.format('<option value="%s">%s (%s)</option>', country.code, country.name, country.dial_code)
+        return util.format('<option value="%s">%s (%s)</option>',
+            country.code, country.name, country.dial_code)
     }))
 
     // TODO: use user language(s)
     var country = 'US'
-    , desired = app.i18n.desired ? /[a-z]{2}$/i.exec(app.i18n.desired) : null
+    , desired = i18n.desired ? /[a-z]{2}$/i.exec(i18n.desired) : null
 
     if (desired) {
         country = desired[0].toUpperCase()
@@ -62,7 +64,7 @@ module.exports = function(app, api) {
         $callForm.find('button')
         .enabled(false)
         .addClass('is-loading')
-        .html(app.i18n('verifyphone.calling you'))
+        .html(i18n('verifyphone.calling you'))
 
         $number.enabled(false)
         $country.enabled(false)
@@ -75,7 +77,7 @@ module.exports = function(app, api) {
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
     })
 
     $codeForm.on('submit', function(e) {
@@ -93,22 +95,19 @@ module.exports = function(app, api) {
         $codeForm.find('button')
         .enabled(false)
         .addClass('is-loading')
-        .html(app.i18n('verifyphone.verifying code'))
+        .html(i18n('verifyphone.verifying code'))
 
         $code.enabled(false)
 
         api.call('v1/users/verify', { code: code })
         .done(function() {
-            app.user.phone = number
-
-            app.emit('verifiedphone', number)
-
+            user('phone', number)
+            $app.trigger('verifiedphone', { number: number })
             $el.modal('hide')
-
-            alertify.log(app.i18n('verifyphone.verified', app.user.phone))
+            alertify.log(i18n('verifyphone.verified', user.phone))
         })
         .fail(function(xhr) {
-            app.alertXhrError(xhr)
+            errors.alertFromXhr(xhr)
             window.location = '/'
         })
     })

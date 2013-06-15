@@ -1,8 +1,6 @@
 require('../../vendor/shake')
 
-var _ = require('lodash')
-
-module.exports = function(app, api, after) {
+module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -28,20 +26,17 @@ module.exports = function(app, api, after) {
         $newPassword.add($newPasswordRepeat).add($button)
         .enabled(false)
 
-        if (!app.user().email) throw new Error('email is missing from user')
+        if (!user.email) throw new Error('email is missing from user')
 
-        var newKey = api.keyFromCredentials(app.user().email, newPassword)
-
-        api.call('v1/keys/replace', { key: newKey })
+        api.changePassword(newPassword)
         .always(function() {
             $newPassword.add($newPasswordRepeat).add($button)
             .enabled(true)
         }).done(function() {
             alert('Password has been changed. Please sign in again.')
+            $.removeCookie('apiKey')
             window.location = '/'
-        }).fail(function(xhr) {
-            app.alertXhrError(xhr)
-        })
+        }).fail(errors.alertFromXhr)
     })
 
     $newPassword.find('input').focusSoon()

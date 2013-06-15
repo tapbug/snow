@@ -1,7 +1,8 @@
+/* global alertify */
 var util = require('util')
 , header = require('../header')
 
-module.exports = function(app, api, userId) {
+module.exports = function(userId) {
     var itemTemplate = require('./item.html')
     , $el = $(require('./template.html')())
     , controller = {
@@ -28,17 +29,21 @@ module.exports = function(app, api, userId) {
         var id = $(this).closest('.withdraw-request').attr('data-id')
         , $btn = $(this)
 
-        alertify.prompt('Why is the request being cancelled? The user will see this.', function(ok, error) {
+        var msg = 'Why is the request being cancelled? The user will see this.'
+
+        alertify.prompt(msg, function(ok, error) {
             if (!ok) return
 
             $btn.addClass('is-loading')
             .enabled(false)
             .siblings().enabled(false)
 
+            var url = 'admin/withdraws/' + id
+            , data = { state: 'cancelled', error: error || null }
 
-            api.call('admin/withdraws/' + id, { state: 'cancelled', error: error || null }, { type: 'PATCH' })
+            api.call(url, data, { type: 'PATCH' })
             .fail(function(xhr) {
-                app.alertXhrError(xhr)
+                errors.alertFromXhr(xhr)
                 refresh()
             })
             .done(function() {

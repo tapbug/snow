@@ -4,34 +4,36 @@ var overview = require('../controllers/simple/overview')
 , terms = require('../controllers/simple/terms')
 , buy = require('../controllers/simple/buy')
 , sell = require('../controllers/simple/sell')
+, authorize = require('../authorize')
+, master = require('../controllers/master')
 
 module.exports = {
-    configure: function(app, api, router, $section) {
+    configure: function() {
         router
         .add(/^simple$/, function() {
-            if (!app.authorize()) return
-            app.page(overview(app, api), 'simple-overview')
+            if (!authorize.user()) return
+            master(overview(), 'simple-overview')
         })
         .add(/^simple\/send$/, function() {
-            if (!app.authorize()) return
-            app.page(send(app, api), 'simple-send')
+            if (!authorize.user()) return
+            master(send(), 'simple-send')
         })
         .add(/^simple\/activities$/, function() {
-            if (!app.authorize()) return
-            app.page(activities(app, api), 'simple-activities')
+            if (!authorize.user()) return
+            master(activities(), 'simple-activities')
         })
         .add(/^simple\/terms$/, function() {
-            if (!app.authorize()) return
+            if (!authorize.user()) return
             app.section('simple-terms')
-            app.page(terms(app, api), '')
+            master(terms(), '')
         })
         .add(/^simple\/buy(?:\?(any))?$/, function(amount) {
-            if (!app.authorize()) return
-            app.page(buy(app, api, amount), 'simple-buy')
+            if (!authorize.user()) return
+            master(buy(amount), 'simple-buy')
         })
         .add(/^simple\/sell$/, function() {
-            if (!app.authorize()) return
-            app.page(sell(app, api), 'simple-sell')
+            if (!authorize.user()) return
+            master(sell(), 'simple-sell')
         })
     }
 }

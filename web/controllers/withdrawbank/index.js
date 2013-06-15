@@ -1,7 +1,7 @@
 var format = require('util').format
 , _ = require('lodash')
 
-module.exports = function(app, api, currency) {
+module.exports = function(currency) {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -10,8 +10,12 @@ module.exports = function(app, api, currency) {
     , $amount = $form.find('.amount')
     , $bankAccount = $form.find('.bank-account')
 
+    if (currency !== 'NOK') {
+        throw new Error('Expected currency to equal NOK')
+    }
+
     api.call('v1/users/bankAccounts')
-    .fail(app.alertXhrError)
+    .fail(errors.alertFromXhr)
     .done(function(accounts) {
         accounts = _.filter(accounts, function(a) {
             return a.verified
@@ -37,15 +41,13 @@ module.exports = function(app, api, currency) {
             bankAccount: +$bankAccount.val(),
             currency: 'NOK'
         })
-        .fail(app.alertXhrError)
+        .fail(errors.alertFromXhr)
         .done(function() {
             alert('Request to withdraw received.')
             api.balances()
             window.location.hash = '#'
         })
     })
-
-    app.section('dashboard')
 
     return controller
 }

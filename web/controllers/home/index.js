@@ -1,5 +1,5 @@
+/* global analytics, Modernizr */
 var Player = require('./Player')
-, _ = require('lodash')
 
 module.exports = function(hash) {
     var $el = $(require('./template.html')({ hash: hash }))
@@ -111,6 +111,11 @@ module.exports = function(hash) {
     }
 
     setTimeout(resize, 0)
+
+    controller.destroy = function() {
+        taglineRotateTimer && clearInterval(taglineRotateTimer)
+        $window.off('resize', resize)
+    }
 
     return controller
 }

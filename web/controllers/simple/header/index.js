@@ -1,8 +1,4 @@
-var num = require('num')
-, _ = require('lodash')
-, debug = require('debug')('simple')
-
-module.exports = function(app, api, tab) {
+module.exports = function(tab) {
     var $el = $(require('./template.html')({
         tab: tab || null
     }))

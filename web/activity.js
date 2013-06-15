@@ -1,7 +1,7 @@
 var format = require('util').format
 , num = require('num')
 
-module.exports = function(i18n, activity) {
+module.exports = function(activity) {
     if (activity.type == 'CreateOrder') {
         return format(i18n('activities.CreateOrder'),
             (activity.details.side || activity.details.type) == 'bid' ? 'buy' : 'sell',
