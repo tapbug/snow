@@ -36,7 +36,7 @@ module.exports = function(app, api, router) {
                 app.page(dashboard(app, api))
             }
         } else {
-            app.page(home())
+            app.page(home(), 'landing')
         }
     })
     .add(/^markets$/, function() {
