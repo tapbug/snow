@@ -1,8 +1,8 @@
-/* global analytics, Modernizr */
-var Player = require('./Player')
+/* global analytics, Modernizr, bucket */
+var Player = require('./player')
 
-module.exports = function(hash) {
-    var $el = $(require('./template.html')({ hash: hash }))
+module.exports = function() {
+    var $el = $(require('./template.html')())
     , controller = {
         $el: $el
     }
@@ -17,22 +17,22 @@ module.exports = function(hash) {
         player = new Player({
             landing: {
                 sources: [
-                    'landing.mp4',
-                    'landing.ogv'
+                    bucket + 'landing.mp4',
+                    bucket + 'landing.ogv'
                 ],
                 greedy: true,
                 loop: true
             },
             bitcoin: {
                 sources: [
-                    'what-is-bitcoin.mp4',
-                    'what-is-bitcoin.ogv'
+                    bucket + 'what-is-bitcoin.mp4',
+                    bucket + 'what-is-bitcoin.ogv'
                 ]
             },
             ripple: {
                 sources: [
-                    'what-is-ripple.mp4',
-                    'what-is-ripple.ogv'
+                    bucket + 'what-is-ripple.mp4',
+                    bucket + 'what-is-ripple.ogv'
                 ]
             }
         }).play('landing').fullscreen(true)
@@ -97,11 +97,6 @@ module.exports = function(hash) {
         if (!player) return
         e.preventDefault()
         player.play('ripple').enqueue('landing')
-    })
-
-    $signup.on('click', function(e) {
-        e.preventDefault()
-        window.location.hash = '#register'
     })
 
     if (typeof analytics != 'undefined') {

@@ -1,6 +1,6 @@
-@import "../node_modules/nib/lib/nib/vendor.styl"
+@import "../../node_modules/nib/lib/nib/vendor.styl"
 @import "loading.styl"
-@import "states.styl"
+@import "../states.styl"
 @import "admin.styl"
 
 -animation()
@@ -74,7 +74,7 @@ body:not(.is-logged-in)
 
 // Registration
 .is-section-register, .is-section-login
-    background: url('/img/registerbg.jpg')  no-repeat center center fixed;
+    background: url('img/registerbg.jpg')  no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -153,13 +153,12 @@ body.is-logged-in
     .withdraws.is-empty
         display none
 
-@import "../controllers/apikeys/styles.styl"
-@import "../controllers/home/styles.styl"
-@import "../controllers/top/styles.styl"
-@import "../controllers/simple/styles.styl"
-@import "../controllers/vouchers/create/styles.styl"
-@import "../controllers/vouchers/index/styles.styl"
-@import "../controllers/vouchers/redeem/styles.styl"
+@import "../../controllers/apikeys/styles.styl"
+@import "../../controllers/top/styles.styl"
+@import "../../controllers/simple/styles.styl"
+@import "../../controllers/vouchers/create/styles.styl"
+@import "../../controllers/vouchers/index/styles.styl"
+@import "../../controllers/vouchers/redeem/styles.styl"
 
 .well
     border-radius 0px

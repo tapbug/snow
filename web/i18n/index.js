@@ -71,7 +71,7 @@ i18n.detect = function() {
             if (!res.language) {
                 debug('API failed to guess our language')
             } else {
-                $.cookie('language', res.language, { expires: 365 * 10 })
+                $.cookie('language', res.language, { path: '/', expires: 365 * 10 })
 
                 if (res.language.toLowerCase() == i18n.lang.toLowerCase()) {
                     debug('Already using the language suggested by the API')
@@ -116,6 +116,6 @@ i18n.detect = function() {
 
 i18n.setLanguageAndRefresh = function(language) {
     debug('changing language to ' + language + ' with cookie')
-    $.cookie('language', language, { expires: 365 * 10 })
+    $.cookie('language', language, { path: '/', expires: 365 * 10 })
     window.location.reload()
 }

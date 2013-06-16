@@ -18,8 +18,9 @@ var Player = module.exports = function(videos) {
 function createSourceElement(source) {
     var remaps = { 'ogv': 'ogg' }
     , url = _.isString(source) ? source : source.url
-    , extension = url.match(/\.([^\.]+)/i)[1]
+    , extension = url.match(/\.([^\.\/]+)$/i)[1]
     , type = source.type || 'video/' + (remaps[extension] || extension || 'mp4')
+
     return $(format('<source type="%s" src="%s"></source>', type, url))
 }
 
@@ -32,7 +33,7 @@ Player.prototype.play = function(name) {
     this.el.play()
     this.el.load()
     this.current = name
-    debug('loading/playing %s', name)
+    debug('loading/playing %s with sources %s', name, video.sources)
     return this
 }
 

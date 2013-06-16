@@ -7,23 +7,15 @@
     <meta name="description" content="Exchange Bitcoin, Litecoin, XRP for NOK. Acts as a Ripple gateway, issuing BTC/LTC IOUs." />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <!--[if lte IE 7]>
-        <h4 color="red">Your browser is too old</h4><p><a href="http://browsehappy.com">Upgrade now</a></p>
-    <![endif]-->
+    <script>window.bucket = '<%= bucket %>'</script>
 
-    <% if (minifyCss) { %>
-        <link href="styles.min.css" rel="stylesheet">
+    <% if (minify) { %>
+        <link href="styles.min.css?ts=<%= timestamp %>" rel="stylesheet">
+        <script src="head.min.js?ts=<%= timestamp %>"></script>
     <% } else { %>
-        <link href="styles.css" rel="stylesheet">
+        <link href="styles.css?ts=<%= timestamp %>" rel="stylesheet">
+        <script src="head.js?ts=<%= timestamp %>"></script>
     <% } %>
-
-    <% if (minifyHead) { %>
-        <script src="head.min.js"></script>
-    <% } else { %>
-        <script src="head.js"></script>
-    <% } %>
-
-    <link rel="prefetch" href="/img/registerbg.jpg" />
 
     <% if (typeof segment !== 'undefined' && segment) { %>
         <script type="text/javascript">
@@ -34,16 +26,12 @@
 </head>
 
 <body>
-    <% if (minifyVendorScripts) { %>
-        <script src="vendor.min.js"></script>
+    <% if (minify) { %>
+        <script src="vendor.min.js?ts=<%= timestamp %>"></script>
+        <script src="entry.min.js?ts=<%= timestamp %>"></script>
     <% } else { %>
-        <script src="vendor.js"></script>
-    <% } %>
-
-    <% if (minifyScripts) { %>
-        <script src="scripts.min.js"></script>
-    <% } else { %>
-        <script src="scripts.js"></script>
+        <script src="vendor.js?ts=<%= timestamp %>"></script>
+        <script src="entry.js?ts=<%= timestamp %>"></script>
     <% } %>
 </body>
 </html>

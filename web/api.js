@@ -71,7 +71,7 @@ api.loginWithKey = function(key) {
     return api.call('v1/whoami', null, { key: key })
     .then(function(u) {
         $.cookie('apiKey', key)
-        $.cookie('existingUser', true, { expires: 365 * 10 })
+        $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
         api.key = key
         $app.addClass('is-logged-in')
         user(u)

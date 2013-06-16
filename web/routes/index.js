@@ -1,6 +1,5 @@
 var master = require('../controllers/master')
 , markets = require('../controllers/markets')
-, home = require('../controllers/home')
 , orders = require('../controllers/orders')
 , withdrawbtc = require('../controllers/withdrawbtc')
 , withdrawltc = require('../controllers/withdrawltc')
@@ -36,7 +35,7 @@ module.exports = function() {
                 master(dashboard())
             }
         } else {
-            master(home())
+            master(login())
         }
     })
     .add(/^markets$/, function() {
