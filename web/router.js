@@ -1,7 +1,7 @@
 var _ = require('lodash')
 , routes = []
 , $window = $(window)
-, debug = require('debug')('snow:router')
+, debug = require('./util/debug')('snow:router')
 , router = module.exports = function(expr, fn) {
     routes.push({ expr: expr, fn: fn })
     return router
