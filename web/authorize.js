@@ -3,9 +3,9 @@ exports.user = function(register) {
     var after = window.location.hash.substr(1)
 
     // Avoid looping after-inception
-    after = after.replace(/(register|login)\?after=/, '')
+    after = after.replace(/(register|login)(\?after=)?/, '')
 
-    router.go((register ? 'register' : 'login') + '?after=' + after)
+    router.go((register ? 'register' : 'login') + (after ? '?after=' + after : ''))
 }
 
 exports.admin = function() {
