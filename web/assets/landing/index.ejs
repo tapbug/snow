@@ -7,6 +7,12 @@
     <meta name="description" content="Exchange Bitcoin, Litecoin, XRP for NOK. Acts as a Ripple gateway, issuing BTC/LTC IOUs." />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
+    <script>
+        if (document.cookie && document.cookie.match('existingUser')) {
+            window.location = '/client/#login'
+        }
+    </script>
+
     <script>window.bucket = '<%= bucket %>'</script>
 
     <% if (minify) { %>
