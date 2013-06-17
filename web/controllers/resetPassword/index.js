@@ -1,6 +1,5 @@
 require('../../vendor/shake')
 
-
 module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {
@@ -24,11 +23,21 @@ module.exports = function() {
         email = $email.find('input').val()
 
         var $button = $beginForm.find('.submit')
-        $button.add($email.find('input')).enabled(false)
-        $button.html('Emailing you...').addClass('is-loading')
+        $email.find('input').enabled(false)
+        $button.html('Emailing you...').loading(true)
 
         api.call('v1/resetPassword', { email: email }, { type: 'POST' })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            $button.html('Email me').loading(false)
+            $email.find('input').enabled(false)
+
+            if (err.name == 'UserNotFound') {
+                alertify.alert('Sorry, but the user ' + email + ' was not found.')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function() {
             $button.html('Check your email').removeClass('btn-primary')
 
