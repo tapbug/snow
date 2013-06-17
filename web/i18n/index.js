@@ -51,7 +51,9 @@ i18n.set = function(lang) {
         debug('changing language from %s to %s (refresh)', i18n.desired || '<none>', lang)
 
         if (!user()) {
-            return window.location.reload()
+            return setTimeout(function() {
+                window.location.reload()
+            })
         }
 
         debug('patching user with new language (background)')
