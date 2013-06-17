@@ -27,6 +27,8 @@ user.on('change', function() {
     $app.toggleClass('is-logged-in', !!user)
     $app.toggleClass('is-admin', user && user.admin)
 
+    debug('user has changed')
+
     if (user.language) {
         debug('user has a language, %s, setting it on i18n', user.language)
         return i18n.set(user.language)
@@ -40,7 +42,9 @@ user.on('change', function() {
     }
 
     var checkPhone = function(next) {
+        debug('checking phone')
         if (user.phone) return next()
+        debug('not ok, need top verify phone')
         var verifyphone = require('./controllers/verifyphone')()
         $app.append(verifyphone.$el)
         verifyphone.$el.modal({
@@ -51,7 +55,9 @@ user.on('change', function() {
     }
 
     var checkEmail = function(next) {
+        debug('checking email...')
         if (user.emailVerified) return next()
+        debug('not ok, need to verify email')
         var verifyemail = require('./controllers/verifyemail')()
         $app.append(verifyemail.$el)
         verifyemail.$el.modal({

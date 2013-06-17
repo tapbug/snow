@@ -32,8 +32,9 @@ module.exports = function() {
                     debug('failed to whoami for email check')
                     debug(err)
                 })
-                .done(function(user) {
-                    if (!user.emailVerified) return
+                .done(function(u) {
+                    if (!u.emailVerified) return
+                    user.emailVerified = true
                     clearInterval(timer)
                     $el.modal('hide')
                     alertify.log(i18n('verifyemail.confirmation'))
