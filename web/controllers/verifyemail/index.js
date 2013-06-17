@@ -14,14 +14,17 @@ module.exports = function() {
         e.preventDefault()
 
         $(e.target)
-        .enabled(false)
-        .addClass('is-loading')
+        .loading(true)
         .html(i18n('verifyemail.send button.sending', user.email))
 
         api.call('v1/email/verify/send', {}, { type: 'POST' })
         .fail(errors.alertFromXhr)
         .done(function() {
-            $(e.target).html(i18n('verifyemail.send button.waiting', user.email))
+            $(e.target)
+            .toggleClass('btn-success btn-primary')
+            .loading(false)
+            .enabled(false)
+            .html(i18n('verifyemail.send button.waiting', user.email))
 
             timer = setInterval(function() {
                 api.call('v1/whoami')
