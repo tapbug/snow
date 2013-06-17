@@ -24,7 +24,6 @@ module.exports = {
         })
         .add(/^simple\/terms$/, function() {
             if (!authorize.user()) return
-            app.section('simple-terms')
             master(terms(), '')
         })
         .add(/^simple\/buy(?:\?(any))?$/, function(amount) {
