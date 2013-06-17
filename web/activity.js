@@ -4,7 +4,8 @@ var format = require('util').format
 module.exports = function(activity) {
     if (activity.type == 'CreateOrder') {
         return format(i18n('activities.CreateOrder'),
-            (activity.details.side || activity.details.type) == 'bid' ? 'buy' : 'sell',
+            (activity.details.side || activity.details.type) == 'bid' ?
+                i18n('activities.CreateOrder.buy') : i18n('activities.CreateOrder.sell'),
             activity.details.volume || activity.details.amount,
             activity.details.market.substr(0, 3),
             num(activity.details.price).mul(activity.details.volume || activity.details.amount).toString(),
