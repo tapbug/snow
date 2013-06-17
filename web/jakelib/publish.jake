@@ -23,7 +23,7 @@ function publish(hostname, cb) {
 
     var cmds = []
     var baseDir = '/home/ubuntu/snow-web/public/'
-    var dirs = ['landing', 'client/img/flags']
+    var dirs = ['client/img/flags']
 
     cmds = cmds.concat(dirs.map(function(dir) {
         return 'ssh ubuntu@' + hostname + ' mkdir -p ' + baseDir + dir
