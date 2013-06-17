@@ -1,6 +1,11 @@
-exports.user = function() {
+exports.user = function(register) {
     if (user()) return true
-    router.go('login?after=' + window.location.hash.substr(1))
+    var after = window.location.hash.substr(1)
+
+    // Avoid looping after-inception
+    after = after.replace(/(register|login)\?after=/, '')
+
+    router.go((register ? 'register' : 'login') + '?after=' + after)
 }
 
 exports.admin = function() {

@@ -54,8 +54,8 @@ module.exports = function() {
     .add(/^markets\/(.+)$/, function(id) {
         master(market(id), 'market')
     })
-    .add(/^register$/, function() {
-        master(register(), 'register')
+    .add(/^register(?:\?after=(.+))?$/, function(after) {
+        master(register(after), 'register')
     })
     .add(/^login(?:\?after=(.+))?$/, function(after) {
         master(login(after), 'login')
@@ -120,6 +120,10 @@ module.exports = function() {
         if (!authorize.identity()) return
 
         master(withdrawbank(currency), 'withdrawbank')
+    })
+    .add(/^([a-z0-9]{12})$/i, function(code) {
+        if (!authorize.user(true)) return
+        master(redeemvoucher(code), 'redeem-voucher')
     })
     .add(/^depositnok$/, function() {
         if (!authorize.user()) return

@@ -25,6 +25,10 @@ module.exports = function(after) {
         .empty()
     })
 
+    if (after) {
+        controller.$el.find('.new-user').attr('href', '#register?after=' + after)
+    }
+
     function validateEmail() {
         var email = $email.find('input').val()
         , expression = /^\S+@\S+$/

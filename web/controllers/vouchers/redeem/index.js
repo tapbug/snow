@@ -1,7 +1,7 @@
 var template = require('./template.html')
 , sjcl = require('../../../vendor/sjcl')
 
-module.exports = function() {
+module.exports = function(code) {
     var $el = $('<div class="redeem-voucher">').html(template())
     , controller = {
         $el: $el
@@ -9,6 +9,9 @@ module.exports = function() {
     , $form = $el.find('.form')
     , $code = $form.find('.code')
     , $submit = $form.find('.submit')
+
+    // Pre-filled
+    code && $form.field('code').val(code)
 
     // Validation
     function validateCode(emptyIsError) {
@@ -91,6 +94,8 @@ module.exports = function() {
         e.preventDefault()
         window.location.reload()
     })
+
+
 
     $form.field('code').focusSoon()
 

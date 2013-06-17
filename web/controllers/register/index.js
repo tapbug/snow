@@ -5,7 +5,7 @@ var _ = require('lodash')
 , validatePasswordTimer
 , validateRepeatTimer
 
-module.exports = function() {
+module.exports = function(after) {
     var $el = $(require('./template.html')())
     , controller = {
         $el: $el
@@ -20,6 +20,10 @@ module.exports = function() {
     $email.find('.help-inline').html(i18n('register.hints.email'))
     $password.find('.help-inline').html(i18n('register.hints.password'))
     $repeat.find('.help-inline').html(i18n('register.hints.repeat'))
+
+    if (after) {
+        $el.find('.existing').attr('href', '#login?after=' + after)
+    }
 
     $email.add($repeat).add($password)
     .on('focus keyup', 'input', function() {
@@ -167,7 +171,7 @@ module.exports = function() {
             .removeClass('is-loading')
             .html(i18n('register.create button'))
         }).done(function() {
-            window.location.hash = '#'
+            router.go(after || '')
         }).fail(function(xhr) {
             var err = errors.fromXhr(xhr)
 

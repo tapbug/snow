@@ -87,7 +87,7 @@ if (apiKey) {
 
     if ($.cookie('existingUser')) {
         debug('routing to login (existing user cookie)')
-        router.go('login')
+        require('./authorize').user()
     } else {
         debug('routing')
         router.now()
