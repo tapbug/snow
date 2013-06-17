@@ -82,7 +82,7 @@ module.exports = function() {
     })
     .add(/^bankaccounts$/, function() {
         if (!authorize.user()) return
-        if (!app.requireUserIdentity()) return
+        if (!authorize.identity()) return
         master(bankaccounts(), 'bankaccounts')
     })
     .add(/^withdrawltc$/, function() {
