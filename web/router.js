@@ -13,7 +13,7 @@ router.now = router.reload = function() {
     var hash = window.location.hash.substr(1)
     debug('routing %s', hash)
 
-    _.some(routes, function(route) {
+    var found = _.some(routes, function(route) {
         var match = route.expr.exec(hash)
         if (!match) return
         debug('route matched %s %s', route.expr, hash)
@@ -21,7 +21,9 @@ router.now = router.reload = function() {
         return true
     })
 
-    debug('no route matched')
+    if (!found) {
+        throw new Error('No route found for hash ' + hash)
+    }
 }
 
 router.go = function(hash) {
