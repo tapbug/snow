@@ -35,7 +35,10 @@ exports.reportFromXhr = function(error) {
         error.xhr.responseText.substr(0, 200))
 
     var data = {
-        tags: ['xhr'],
+        tags: {
+            url: (error.xhr.settings.type || 'GET') + ' ' + error.xhr.settings.url,
+            user: user.id || null
+        },
         extra: {
             url: error.xhr.settings.url,
             status: error.xhr.status,
