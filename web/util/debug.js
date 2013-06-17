@@ -15,7 +15,7 @@ module.exports = function(name) {
     return function() {
         try {
             var message = util.format.apply(util, arguments)
-            console.log(message)
+            console.log('[' + name + '] ' + message)
         } catch (e) {
         }
     }
