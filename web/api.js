@@ -114,6 +114,10 @@ api.changePassword = function(newPassword) {
     return api.call('v1/keys/replace', { key: newKey })
 }
 
+api.patchUser = function(attrs) {
+    return api.call('v1/users/current', attrs, { type: 'PATCH' })
+}
+
 api.markets = function() {
     return api.call('v1/markets')
 }

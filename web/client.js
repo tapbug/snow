@@ -11,6 +11,8 @@ window.i18n = require('./i18n')
 window.caches = require('./caches')
 window.numbers = require('./util/numbers')
 
+debug('shared components inited')
+
 i18n.detect()
 
 require('./helpers/jquery')
@@ -24,6 +26,18 @@ if (window.analytics) {
 user.on('change', function() {
     $app.toggleClass('is-logged-in', !!user)
     $app.toggleClass('is-admin', user && user.admin)
+
+    if (user.language) {
+        debug('user has a language, %s, setting it on i18n', user.language)
+        return i18n.set(user.language)
+    }
+
+    if (!user.language && i18n.desired) {
+        debug('user has no language, i18n has desired. patching user')
+
+        api.patchUser({ language: i18n.desired })
+        .fail(errors.reportFromXhr)
+    }
 
     var checkPhone = function(next) {
         if (user.phone) return next()
@@ -56,7 +70,7 @@ user.on('change', function() {
 
 $app.on('click', 'a[href="#set-language"]', function(e) {
     e.preventDefault()
-    i18n.setLanguageAndRefresh($(this).attr('data-language'))
+    i18n.set($(this).attr('data-language'))
 })
 
 var apiKey = $.cookie('apiKey')

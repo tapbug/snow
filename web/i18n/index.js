@@ -6,18 +6,20 @@ var util = require('util')
     'nb-NO': require('./nb-NO.json'),
     'es-ES': require('./es-ES.json')
 }
+, fallback = 'en-US'
 , mappings = {
     '^en': 'en-US',
     '^(no|nb)': 'nb-NO',
     '^es': 'es-ES'
 }
-, fallback = 'en-US'
 , moment = require('moment')
 
 require('moment/lang/es')
 require('moment/lang/nb')
 
 var i18n = module.exports = function(key) {
+    if (!i18n.dict) throw new Error('language not set')
+
     var s = i18n.dict[key]
     if (typeof s == 'undefined') {
         debug(key + ' is not defined for ' + i18n.lang + ' falling back to ' + fallback)
@@ -29,7 +31,7 @@ var i18n = module.exports = function(key) {
         return 'translation missing!'
     }
 
-    //s = '!!' + s + '!!'
+    if (i18n.debug) s = '!!' + s + '!!'
 
     var args = _.toArray(arguments)
     args.splice(0, 1, s)
@@ -38,23 +40,71 @@ var i18n = module.exports = function(key) {
 }
 
 i18n.set = function(lang) {
-    debug('language set to %s', lang)
+    debug('setting language to %s', lang || '<null>')
 
-    var mapping = _.find(_.keys(mappings), function(m) {
-        if (new RegExp(m, 'i').test(lang)) {
-            return true
-        }
-    })
-
-    if (mapping) {
-        debug('mapping %s (%s) to %s', lang, mapping, mappings[mapping])
-        lang = mappings[mapping]
+    if (lang && $.cookie('language') != lang) {
+        debug('setting language cookie')
+        $.cookie('language', lang, { path: '/', expires: 365 * 10 })
     }
+
+    if (lang && i18n.desired !== undefined && lang !== i18n.desired) {
+        debug('changing language from %s to %s (refresh)', i18n.desired || '<none>', lang)
+
+        if (!user()) {
+            return window.location.reload()
+        }
+
+        debug('patching user with new language (background)')
+
+        return api.patchUser({ language: lang })
+        .fail(errors.reportFromXhr)
+        .done(function() {
+            debug('user has been patched. reloading')
+            return window.location.reload()
+        })
+    }
+
+    i18n.desired = lang
+
+    if (lang && user() && user.language !== lang) {
+        debug('patching user with new language (background)')
+
+        api.patchUser({ language: lang })
+        .fail(errors.reportFromXhr)
+    }
+
+    if (lang) {
+        var mapping = _.find(_.keys(mappings), function(m) {
+            if (new RegExp(m, 'i').test(lang)) {
+                return true
+            }
+        })
+
+        if (mapping) {
+            debug('language %s will be mapped to %s', lang, mappings[mapping])
+            lang = mappings[mapping]
+        }
+    }
+
+    if (!lang || !dicts[lang]) {
+        debug('language %s not available. falling back to %s', lang || '<null>', fallback)
+        lang = fallback
+    }
+
+    debug('setting language of moment')
+
+    if (i18n.lang == 'nb-NO') moment.lang('nb')
+    else if (i18n.lang == 'es-ES') moment.lang('es')
+    else moment.lang('en')
+
+    debug('changing html and content-language attributes')
+    $('html').attr('lang', lang).attr('xml:lang', lang)
+    $('meta[http-equiv="Content-Language"]').attr('content', lang)
+
+    debug('finished setting language')
 
     i18n.lang = lang
     i18n.dict = dicts[lang]
-    $('html').attr('lang', lang).attr('xml:lang', lang)
-    $('meta[http-equiv="Content-Language"]').attr('content', lang)
 }
 
 $.fn.i18n = function() {
@@ -62,60 +112,26 @@ $.fn.i18n = function() {
 }
 
 i18n.detect = function() {
-    var lang = $.cookie('language') || null
-
-    if (!lang) {
-        api.call('v1/language')
-        .fail(errors.reportFromXhr)
-        .done(function(res) {
-            if (!res.language) {
-                debug('API failed to guess our language')
-            } else {
-                $.cookie('language', res.language, { path: '/', expires: 365 * 10 })
-
-                if (res.language.toLowerCase() == i18n.lang.toLowerCase()) {
-                    debug('Already using the language suggested by the API')
-                } else {
-                    debug('Should switch language to %s', res.language)
-                    i18n.setLanguageAndRefresh(res.language)
-                }
-            }
-        })
-    }
-
+    var lang = user.language || $.cookie('language')
     if (lang) {
-        debug('using hard coded language %s', lang)
-        i18n.desired = lang
-        i18n.set(lang)
-    } else {
-        debug('user language %s', window.navigator.userLanguage || '<null>')
-        debug('navigator language %s', window.navigator.language || '<null>')
-        lang = window.navigator.userLanguage || window.navigator.language
-
-        if (lang) {
-            debug('browser language: %s', lang)
-            i18n.desired = lang
-
-            if (dicts[lang]) {
-                debug('translation exists for %s', lang)
-                i18n.set(lang)
-            } else {
-                debug('no translation for browser language')
-                i18n.set(fallback)
-            }
-        } else {
-            debug('there is no browser language')
-            i18n.set(fallback)
-        }
+        if (user.language) debug('setting language from user profile')
+        if ($.cookie('language')) debug('setting language from cookie')
+        return i18n.set(lang)
     }
 
-    if (i18n.lang == 'nb-NO') moment.lang('nb')
-    else if (i18n.lang == 'es-ES') moment.lang('es')
-    else moment.lang('en')
-}
+    // Temporary
+    debug('setting temporary language <null>')
+    i18n.set(null)
 
-i18n.setLanguageAndRefresh = function(language) {
-    debug('changing language to ' + language + ' with cookie')
-    $.cookie('language', language, { path: '/', expires: 365 * 10 })
-    window.location.reload()
+    api.call('v1/language')
+    .fail(function(err) {
+        errors.reportFromXhr(err)
+        if (!i18n.lang) i18n.set(fallback)
+    })
+    .done(function(res) {
+        if (res.language) return i18n.set(res.language)
+        lang = window.navigator.userLanguage || window.navigator.language
+        if (lang) return i18n.set(res.language)
+        i18n.set(null)
+    })
 }
