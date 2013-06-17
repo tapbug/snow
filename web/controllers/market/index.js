@@ -115,13 +115,21 @@ module.exports = function(id) {
 
     $buy.on('submit', function(e) {
         e.preventDefault()
+
         api.call('v1/orders', {
             market: id,
             type: 'bid',
             price: $buyPrice.val(),
             amount: $buyAmount.val()
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'InsufficientFunds') {
+                alertify.alert('Insufficient funds to place order.')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function(order) {
             api.balances()
             alertify.log(i18n('market.order placed', order.id))
@@ -141,7 +149,14 @@ module.exports = function(id) {
             price: $sellPrice.val(),
             amount: $sellAmount.val()
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'InsufficientFunds') {
+                alertify.alert('Insufficient funds to place order.')
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
         .done(function(order) {
             api.balances()
             alertify.log(i18n('market.order placed', order.id))
