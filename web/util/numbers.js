@@ -5,6 +5,10 @@ module.exports = {
         options || (options = {})
         options.currency
 
+        if (options.ts === true || options.ts === undefined) {
+            options.ts = i18n('numbers.thousandSeparator')
+        }
+
         var n = num(number), trim
 
         if (options.precision) {
@@ -17,25 +21,10 @@ module.exports = {
 
         var s = n.toString()
 
+        s = s.replace('.', i18n('numbers.decimalSeparator'))
+
         if (trim) {
             s = s.replace(/\.0+$/, '')
-        }
-
-        function addCommas(nStr)
-        {
-            nStr += '';
-            x = nStr.split('.');
-            x1 = x[0];
-            x2 = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-            while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + options.ts + '$2');
-            }
-            return x1 + x2;
-        }
-
-        if (options.ts) {
-            s = addCommas(s)
         }
 
         return s
@@ -44,22 +33,28 @@ module.exports = {
     formatAmount: function(number, currency) {
         return this.format(number, {
             currency: currency,
-            ts: ','
+            ts: true
         })
     },
 
     formatVolume: function(number, currency) {
         return this.format(number, {
             currency: currency,
-            ts: ',',
+            ts: true,
             maxPrecision: 8
         })
     },
 
     formatPrice: function(number) {
         return this.format(number, {
-            ts: ',',
+            ts: true,
             maxPrecision: 8
         })
+    },
+
+    parse: function(s) {
+        s = s.replace(i18n(numbers.decimalSeparator), '.')
+        s = s.replace(i18n(numbers.separatorSeparator), '')
+        return s
     }
 }

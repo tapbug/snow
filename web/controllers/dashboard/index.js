@@ -28,20 +28,11 @@ module.exports = function() {
         window.location.hash = '#depositnok'
     })
 
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    }
-
-    function formatNumber(n, p) {
-        var s = num(n).set_precision(p || 2).toString()
-        return numberWithCommas(s)
-    }
-
     function balancesUpdated(balances) {
-        $btc.find('.available').html(formatNumber(balances['BTC'].available) + ' BTC')
-        $ltc.find('.available').html(formatNumber(balances['LTC'].available) + ' LTC')
-        $xrp.find('.available').html(formatNumber(balances['XRP'].available) + ' XRP')
-        $nok.find('.available').html(formatNumber(balances['NOK'].available) + ' NOK')
+        $btc.find('.available').html(numbers.format(balances['BTC'].available, { maxPrecision: 2, ts: true }))
+        $ltc.find('.available').html(numbers.format(balances['LTC'].available, { maxPrecision: 2, ts: true }))
+        $xrp.find('.available').html(numbers.format(balances['XRP'].available, { maxPrecision: 2, ts: true }))
+        $nok.find('.available').html(numbers.format(balances['NOK'].available, { maxPrecision: 2, ts: true }))
     }
 
     caches.balances.on('change', balancesUpdated.bind(this, caches.balances))
