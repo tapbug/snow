@@ -70,7 +70,7 @@ file(base + '/index.html', function() {
 file(base + '/index.min.html', function() {
     var ejs = require('ejs')
     ejs.render(cat('assets/client/index.ejs'), {
-        minify: true,
+        minify: false,
         segment: process.env.SEGMENT,
         timestamp: +new Date(),
         bucket: process.env.BUCKET
