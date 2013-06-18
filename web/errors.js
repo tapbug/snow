@@ -37,7 +37,7 @@ exports.reportFromXhr = function(error) {
     var data = {
         tags: {
             url: (error.xhr.settings.type || 'GET') + ' ' + error.xhr.settings.url,
-            user: user.id || null
+            user: api.user.id || null
         },
         extra: {
             url: error.xhr.settings.url,
@@ -45,7 +45,7 @@ exports.reportFromXhr = function(error) {
             type: error.xhr.settings.type,
             requestData: error.xhrOptions.data || null,
             responseText: error.xhr.responseText,
-            user: user.id || null
+            user: api.user.id || null
         }
     }
 

@@ -36,16 +36,20 @@ module.exports = function() {
         oldBalances = balances
     }
 
-    caches.balances.on('change', function(balances) {
+    api.on('balances', function(balances) {
         balancesChanged(balances)
         balancesTimer && clearTimeout(balancesTimer)
-        balancesTimer = setTimeout(caches.balances.refresh, 30e3)
+        balancesTimer = setTimeout(api.balances, 30e3)
     })
 
-    user.on('change', function(changes, user) {
+    api.on('user', function(user) {
         $summary.find('.email').html(user.email)
-        caches.balances.refresh()
+        api.balances()
     })
+
+    controller.destroy = function() {
+        balancesTimer && clearTimeout(balancesTimer)
+    }
 
     return controller
 }

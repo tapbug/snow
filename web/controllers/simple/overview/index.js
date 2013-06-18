@@ -41,8 +41,8 @@ module.exports = function() {
         recalculate()
     }
 
-    caches.balances.on('change', balancesUpdated)
-    balancesUpdated(caches.balances)
+    api.on('balances', balancesUpdated)
+    api.balances()
 
     function marketsUpdated(markets) {
         var market = _.find(markets, { id: 'BTCNOK' })
@@ -72,7 +72,7 @@ module.exports = function() {
         .then(marketsUpdated)
     }
 
-    caches.bitcoinAddress().done(function(address) {
+    api.once('bitcoinAddress', function(address) {
         $address.attr('href', 'bitcoin:' + address)
         .html(address)
     })
@@ -81,6 +81,7 @@ module.exports = function() {
 
     controller.destroy = function() {
         marketsTimer && clearTimeout(marketsTimer)
+        api.off('balances', balancesUpdated)
     }
 
     return controller

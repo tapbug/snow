@@ -6,7 +6,7 @@ var num = require('num')
 
 module.exports = function(amount) {
     var $el = $(require('./template.html')({
-        messageToRecipient: user.id * 1234
+        messageToRecipient: api.user.id * 1234
     }))
     , controller = {
         $el: $el

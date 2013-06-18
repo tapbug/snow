@@ -35,8 +35,8 @@ module.exports = function() {
         $balance.html(numbers.format(balance, { ts: ',', maxPrecision: 8 }) + ' BTC')
     }
 
-    caches.balances.on('change', balancesUpdated)
-    balancesUpdated(caches.balances)
+    api.on('balances', balancesUpdated)
+    api.balances()
 
     function validateAmount(emptyIsError) {
         var amount = $amount.find('input').val()
@@ -133,6 +133,7 @@ module.exports = function() {
     controller.destroy = function() {
         addressValidateTimer && clearTimeout(addressValidateTimer)
         amountValidateTimer && clearTimeout(amountValidateTimer)
+        api.off('balances', balancesUpdated)
     }
 
     $amount.find('input').focusSoon()

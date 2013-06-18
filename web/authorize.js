@@ -1,5 +1,6 @@
 exports.user = function(register) {
-    if (user()) return true
+    if (api.user) return true
+
     var after = window.location.hash.substr(1)
 
     // Avoid looping after-inception
@@ -9,11 +10,11 @@ exports.user = function(register) {
 }
 
 exports.admin = function() {
-    if (user.admin) return true
+    if (api.user && api.user.admin) return true
     alert('Not admin')
 }
 
 exports.identity = function() {
-    if (user.firstName) return true
+    if (api.user && api.user.firstName) return true
     router.go('identity?after=' + window.location.hash.substr(1))
 }

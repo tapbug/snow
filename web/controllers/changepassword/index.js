@@ -26,7 +26,7 @@ module.exports = function() {
         $newPassword.add($newPasswordRepeat).add($button)
         .enabled(false)
 
-        if (!user.email) throw new Error('email is missing from user')
+        if (!api.user.email) throw new Error('email is missing from user')
 
         api.changePassword(newPassword)
         .always(function() {

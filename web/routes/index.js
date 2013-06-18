@@ -28,15 +28,17 @@ var master = require('../controllers/master')
 module.exports = function() {
     router
     .add(/^$/, function() {
-        if (user()) {
-            if (user.simple) {
-                router.go('simple')
+        api.once('user', function(user) {
+            if (user) {
+                if (user.simple) {
+                    router.go('simple')
+                } else {
+                    master(dashboard())
+                }
             } else {
-                master(dashboard())
+                master(login())
             }
-        } else {
-            master(login())
-        }
+        })
     })
     .add(/^markets$/, function() {
         master(markets(), 'markets')

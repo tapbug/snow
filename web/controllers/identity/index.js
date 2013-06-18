@@ -36,7 +36,7 @@ module.exports = function(after) {
         api.call('v1/users/identity', data)
         .done(function() {
             alertify.log(i18n('identity.confirmation'))
-            user(data)
+            _.extend(api.user, data)
 
             if (typeof Intercom != 'undefined' && Intercom) {
                 Intercom('update', {

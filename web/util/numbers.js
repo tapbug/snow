@@ -27,12 +27,8 @@ var numbers = module.exports = function(n, opts, currency) {
     var s = n.toString()
 
     // Trim unnecessary zeroes
-    if (opts.trim || opts.trimRight) {
-        s = s.replace(/0+$/, '')
-    }
-
-    if (opts.trim || opts.trimLeft) {
-        s = s.replace(/^0+/, '')
+    if (!opts.precision && (opts.trim || opts.trimRight)) {
+        s = s.replace(/\.?0+$/, '')
     }
 
     // Decmial separator

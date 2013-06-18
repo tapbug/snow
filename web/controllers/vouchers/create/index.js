@@ -17,7 +17,7 @@ module.exports = function() {
     var balances
     , available
 
-    controller.onBalancesUpdated = function(b) {
+    function onBalancesUpdated(b) {
         b = _.filter(b, function(balance) {
             return ~['BTC', 'XRP', 'LTC'].indexOf(balance.currency)
         })
@@ -33,11 +33,11 @@ module.exports = function() {
         }
 
         balances = b
-        controller.updateAvailable()
+        updateAvailable()
     }
 
     // Update the user's available in the selected currency
-    controller.updateAvailable = function() {
+    function updateAvailable() {
         if (!balances) return
         var currency = $form.field('currency').val()
         if (!currency) return
@@ -48,10 +48,10 @@ module.exports = function() {
         $amount.find('.available').html(numbers(available, null, currency))
     }
 
-    controller.onBalancesUpdated(caches.balances)
-    caches.balances.on('change', controller.onBalancesUpdated)
+    api.on('balances', onBalancesUpdated)
+    api.balances()
 
-    $form.on('change keyup', '.currency select', controller.updateAvailable)
+    $form.on('change keyup', '.currency select', updateAvailable)
 
     // Validation
     function validateAmount(emptyIsError) {
@@ -128,7 +128,7 @@ module.exports = function() {
     })
 
     controller.destroy = function() {
-        caches.balances.removeListener('change', controller.onBalancesUpdated)
+        api.off('balances', onBalancesUpdated)
     }
 
     $form.field('amount').focusSoon()

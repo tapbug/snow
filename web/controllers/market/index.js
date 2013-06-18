@@ -58,14 +58,14 @@ module.exports = function(id) {
         if (!$buyPrice.hasClass('is-changed')) {
             ask = _.find(combined, { type: 'ask'})
             if (ask) {
-                $buyPrice.val(ask.price)
+                $buyPrice.val(numbers(ask.price))
             }
         }
 
         if (!$sellPrice.hasClass('is-changed')) {
             bid = _.last(_.where(combined, { type: 'bid'}))
             if (bid) {
-                $sellPrice.val(bid.price)
+                $sellPrice.val(numbers(bid.price))
             }
         }
     }
@@ -77,11 +77,10 @@ module.exports = function(id) {
     }
 
     function updateBuySummary() {
-        var buyPrice = $buyPrice.val()
-        , buyAmount = $buyAmount.val()
+        var buyPrice = numbers.parse($buyPrice.val())
+        , buyAmount = numbers.parse($buyAmount.val())
 
-        // Check for <= 0 or NaN
-        if (!(+buyPrice > 0 && +buyAmount > 0)) {
+        if (!buyPrice || buyPrice < 0) {
             $buySummary.html('')
             return
         }
@@ -91,25 +90,25 @@ module.exports = function(id) {
         $buySummary.i18n('market.buy summary',
             $buyAmount.val(),
             base,
-            total.toString(),
+            numbers(total),
             quote)
     }
 
     function updateSellSummary() {
-        var sellPrice = $sellPrice.val()
-        , sellAmount = $sellAmount.val()
+        var sellPrice = numbers.parse($sellPrice.val())
+        , sellAmount = numbers.parse($sellAmount.val())
 
-        // Check for <= 0 or NaN
-        if (!(+sellPrice > 0 && +sellAmount > 0)) {
+        if (!sellPrice || sellPrice < 0) {
             $sellSummary.html('')
             return
         }
 
         var total = num(sellPrice).mul(sellAmount)
+
         $sellSummary.i18n('market.sell summary',
             $sellAmount.val(),
             base,
-            total.toString(),
+            numbers(total),
             quote)
     }
 
@@ -119,8 +118,8 @@ module.exports = function(id) {
         api.call('v1/orders', {
             market: id,
             type: 'bid',
-            price: $buyPrice.val(),
-            amount: $buyAmount.val()
+            price: numbers.parse($buyPrice.val()),
+            amount: numbers.parse($buyAmount.val())
         })
         .fail(function(err) {
             if (err.name == 'InsufficientFunds') {
@@ -146,8 +145,8 @@ module.exports = function(id) {
         api.call('v1/orders', {
             market: id,
             type: 'ask',
-            price: $sellPrice.val(),
-            amount: $sellAmount.val()
+            price: numbers.parse($sellPrice.val()),
+            amount: numbers.parse($sellAmount.val())
         })
         .fail(function(err) {
             if (err.name == 'InsufficientFunds') {

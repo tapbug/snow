@@ -1,7 +1,7 @@
 /* global sjcl */
 var _ = require('lodash')
 , emitter = require('./util/emitter')
-, api = emitter()
+, api = module.exports = emitter()
 
 function keyFromCredentials(email, password) {
     var concat = email.toLowerCase() + password
@@ -70,11 +70,12 @@ api.call = function(method, data, options) {
 
 api.loginWithKey = function(key) {
     return api.call('v1/whoami', null, { key: key })
-    .then(function(u) {
+    .then(function(user) {
         $.cookie('apiKey', key)
         $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
 
         api.key = key
+        api.user = user
         api.trigger('user', user)
 
         $app.addClass('is-logged-in')
@@ -128,7 +129,7 @@ api.resetPasswordEnd = function(email, phoneCode, newPassword) {
 }
 
 api.changePassword = function(newPassword) {
-    var newKey = keyFromCredentials(user.email, newPassword)
+    var newKey = keyFromCredentials(api.user.email, newPassword)
     return api.call('v1/keys/replace', { key: newKey })
 }
 

@@ -3,7 +3,7 @@ var debug = require('../../util/debug')('verifyemail')
 
 module.exports = function() {
     var $el = $(require('./template.html')({
-        email: user.email
+        email: api.user.email
     }))
     , controller = {
         $el: $el
@@ -15,7 +15,7 @@ module.exports = function() {
 
         $(e.target)
         .loading(true)
-        .html(i18n('verifyemail.send button.sending', user.email))
+        .html(i18n('verifyemail.send button.sending', api.user.email))
 
         api.call('v1/email/verify/send', {}, { type: 'POST' })
         .fail(errors.alertFromXhr)
@@ -34,7 +34,7 @@ module.exports = function() {
                 })
                 .done(function(u) {
                     if (!u.emailVerified) return
-                    user.emailVerified = true
+                    api.user.emailVerified = true
                     clearInterval(timer)
                     $el.modal('hide')
                     alertify.log(i18n('verifyemail.confirmation'))

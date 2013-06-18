@@ -5,7 +5,7 @@ module.exports = function() {
     }
     , $address = controller.$el.find('.address')
 
-    caches.litecoinAddress().done(function(address) {
+    api.once('litecoinAddress', function(address) {
         $address.html($('<a href="litecoin:' + address + '">' + address + '</a>'))
     })
 

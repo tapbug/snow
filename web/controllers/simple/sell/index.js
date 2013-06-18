@@ -116,7 +116,7 @@ module.exports = function() {
 
     function render() {
         var bankAccountVerified = !!_.where(bankAccounts, { verified: true }).length
-        , identityVerified = !!user.lastName
+        , identityVerified = !!api.user.lastName
         , canSell = bankAccountVerified && identityVerified
 
         $el.toggleClass('is-user-identified', identityVerified)
@@ -128,8 +128,8 @@ module.exports = function() {
         }).length)
 
         $el.html(require('./template.html')({
-            messageToRecipient: user.id * 1234,
-            identified: !!user.lastName,
+            messageToRecipient: api.user.id * 1234,
+            identified: !!api.user.lastName,
             bankAccountAdded: !!bankAccounts.length,
             bankAccountVerified: !!_.where(bankAccounts, { verified: true }).length
         }))
@@ -187,8 +187,8 @@ module.exports = function() {
             recalculate()
         })
 
-        caches.balances.on('change', balancesUpdated)
-        balancesUpdated(caches.balances)
+        api.on('balances', balancesUpdated)
+        api.balances()
 
         $amount.find('input').focusSoon()
     }

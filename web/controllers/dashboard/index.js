@@ -2,6 +2,7 @@ var num = require('num')
 , Activities = require('../activities')
 , Withdraws = require('./withdraws')
 , format = require('util').format
+, _ = require('lodash')
 
 module.exports = function() {
     var template = require('./template.html')
@@ -29,23 +30,28 @@ module.exports = function() {
     })
 
     function balancesUpdated(balances) {
-        $btc.find('.available').html(numbers.format(balances['BTC'].available, 2, 'BTC'))
-        $ltc.find('.available').html(numbers.format(balances['LTC'].available, 2, 'LTC'))
-        $xrp.find('.available').html(numbers.format(balances['XRP'].available, 2, 'XRP'))
-        $nok.find('.available').html(numbers.format(balances['NOK'].available, 2, 'NOK'))
+        var dict = _.reduce(balances, function(p, c) {
+            p[c.currency] = c
+            return p
+        }, {})
+
+        $btc.find('.available').html(numbers.format(dict['BTC'].available, 2, 'BTC'))
+        $ltc.find('.available').html(numbers.format(dict['LTC'].available, 2, 'LTC'))
+        $xrp.find('.available').html(numbers.format(dict['XRP'].available, 2, 'XRP'))
+        $nok.find('.available').html(numbers.format(dict['NOK'].available, 2, 'NOK'))
     }
 
-    caches.balances.on('change', balancesUpdated.bind(this, caches.balances))
-    caches.balances.refresh()
+    api.on('balances', balancesUpdated)
+    api.balances()
 
-    caches.rippleAddress().done(function(address) {
+    api.rippleAddress().done(function(address) {
         $depositXrp.attr('href', format('https://ripple.com//send?to=%s&dt=%s',
-            address, user.id))
+            address, api.user.id))
     })
 
-    // TODO: Leaking timers
-
-    caches.balances.refresh()
+    controller.destroy = function() {
+        api.off('balances', balancesUpdated)
+    }
 
     return controller
 }

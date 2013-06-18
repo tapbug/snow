@@ -50,7 +50,7 @@ i18n.set = function(lang) {
     if (lang && i18n.desired !== undefined && lang !== i18n.desired) {
         debug('changing language from %s to %s (refresh)', i18n.desired || '<none>', lang)
 
-        if (!user()) {
+        if (!api.user) {
             return setTimeout(function() {
                 window.location.reload()
             })
@@ -68,7 +68,7 @@ i18n.set = function(lang) {
 
     i18n.desired = lang
 
-    if (lang && user() && user.language !== lang) {
+    if (lang && api.user && api.user.language !== lang) {
         debug('patching user with new language (background)')
 
         api.patchUser({ language: lang })
@@ -114,9 +114,10 @@ $.fn.i18n = function() {
 }
 
 i18n.detect = function() {
-    var lang = user.language || $.cookie('language')
+    var lang = (api.user ? api.user.language : null) || $.cookie('language')
+
     if (lang) {
-        if (user.language) debug('setting language from user profile')
+        if (api.user && api.user.language) debug('setting language from user profile')
         if ($.cookie('language')) debug('setting language from cookie')
         return i18n.set(lang)
     }

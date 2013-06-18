@@ -20,7 +20,7 @@ if (window.analytics) {
     require('./segment')
 }
 
-user.on('change', function() {
+api.on('user', function(user) {
     $app.toggleClass('is-logged-in', !!user)
     $app.toggleClass('is-admin', user && user.admin)
 

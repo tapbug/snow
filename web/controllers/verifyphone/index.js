@@ -101,10 +101,10 @@ module.exports = function() {
 
         api.call('v1/users/verify', { code: code })
         .done(function() {
-            user('phone', number)
+            api.user.phone = number
             $app.trigger('verifiedphone', { number: number })
             $el.modal('hide')
-            alertify.log(i18n('verifyphone.verified', user.phone))
+            alertify.log(i18n('verifyphone.verified', api.user.phone))
         })
         .fail(function(xhr) {
             errors.alertFromXhr(xhr)
