@@ -29,18 +29,23 @@ exports.alertFromXhr = function(error) {
 exports.reportFromXhr = function(error) {
     if (!error.xhr.readyState || !error.xhr.status) return
 
+    var strippedUrl = error.xhr.settings.url
+
+    strippedUrl = strippedUrl.replace(/\?ts=\d+/, '')
+    strippedUrl = strippedUrl.replace(/[\?\&]key=[a-z0-9]+/i, '')
+
     var message = format('XHR Error: %s %s: %s',
-        error.xhr.settings.url.substr(0, 50),
+        strippedUrl,
         error.xhr.statusText,
         error.xhr.responseText.substr(0, 200))
 
     var data = {
         tags: {
-            url: (error.xhr.settings.type || 'GET') + ' ' + error.xhr.settings.url,
+            url: (error.xhr.settings.type || 'GET') + ' ' + strippedUrl,
             user: api.user.id || null
         },
         extra: {
-            url: error.xhr.settings.url,
+            url: strippedUrl,
             status: error.xhr.status,
             type: error.xhr.settings.type,
             requestData: error.xhrOptions.data || null,
