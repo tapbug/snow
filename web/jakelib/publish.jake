@@ -4,11 +4,11 @@ var common = require('./common')
 
 function publish(hostname, cb) {
     var files = {
-        'build/client/head.min.js': 'client/head.min.js',
-        'build/client/entry.min.js': 'client/entry.min.js',
-        'build/client/vendor.min.js': 'client/vendor.min.js',
-        'build/client/styles.min.css': 'client/styles.min.css',
-        'build/client/index.min.html': 'client/index.html',
+        'build/client/head.js': 'client/head.js',
+        'build/client/entry.js': 'client/entry.js',
+        'build/client/vendor.js': 'client/vendor.js',
+        'build/client/styles.css': 'client/styles.css',
+        'build/client/index.html': 'client/index.html',
         'assets/ripple.txt': 'ripple.txt',
         'build/client/img/registerbg.jpg': 'client/img/registerbg.jpg',
         'build/client/img/flags/NO.png': 'client/img/flags/NO.png',
