@@ -84,8 +84,8 @@ module.exports = function() {
         return true
     }
 
-    $amount.on('change keyup', validateAmount.bind(this, false))
-    $currency.on('change keyup', validateAmount.bind(this, false))
+    $amount.on('change keyup', _.bind(validateAmountthis, false))
+    $currency.on('change keyup', _.bind(validateAmount, this, false))
 
     // Submit
     $form.on('submit', function(e) {

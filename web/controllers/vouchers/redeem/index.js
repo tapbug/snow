@@ -1,5 +1,6 @@
 var template = require('./template.html')
 , sjcl = require('../../../vendor/sjcl')
+, _ = require('lodash')
 
 module.exports = function(code) {
     var $el = $('<div class="redeem-voucher">').html(template())
@@ -43,7 +44,7 @@ module.exports = function(code) {
         return true
     }
 
-    $code.on('change keyup', validateCode.bind(this, false))
+    $code.on('change keyup', _.bind(validateCode, this, false))
 
     function parseCode() {
         var result = $form.field('code').val()
