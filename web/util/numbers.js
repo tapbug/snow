@@ -1,30 +1,62 @@
-var num = require('num')
+var Num = require('num')
+, _ = require('lodash')
 
 module.exports = {
-    format: function(number, options) {
-        options || (options = {})
-        options.currency
-
-        if (options.ts === true || options.ts === undefined) {
-            options.ts = i18n('numbers.thousandSeparator')
+    format: function(n, opts, currency) {
+        if (typeof opts == 'number') {
+            opts = { precision: opts }
         }
 
-        var n = num(number), trim
+        opts = _.extend({ thousands: true, trim: true }, opts)
 
-        if (options.precision) {
-            n.set_precision(options.precision)
-        } else if (options.maxPrecision && n.get_precision() > options.maxPrecision) {
-            n.set_precision(options.maxPrecision)
-        } else {
-            trim = true
+        if (currency) {
+            opts.currency = currency
+        }
+
+        // Number might be Num
+        n = Num(n)
+
+        // Fixed, min and max precision
+        if (opts.precision !== undefined) {
+            n.set_precision(opts.precision)
+        } else if (opts.maxPrecision !== undefined && n._precision > opts.maxPrecision) {
+            n.set_precision(opts.maxPrecision)
+        } else if (opts.minPrecision !== undefined && n._precision < opts.minPrecision) {
+            n.set_precision(opts.minPrecision)
         }
 
         var s = n.toString()
 
-        s = s.replace('.', i18n('numbers.decimalSeparator'))
+        // Trim unnecessary zeroes
+        if (opts.trim || opts.trimRight) {
+            s = s.replace(/0+$/, '')
+        }
 
-        if (trim) {
-            s = s.replace(/\.0+$/, '')
+        if (opts.trim || opts.trimLeft) {
+            s = s.replace(/^0+/, '')
+        }
+
+        // Decmial separator
+        var ds = i18n('numbers.decimalSeparator') || '.'
+        s = s.replace(/\./, ds)
+
+        // Thousand separator (left)
+        var ts
+
+        if (opts.thousands === true) {
+            ts = i18n('numbers.thousandSeparator')
+        } else if (opts.thousands) {
+            ts = opts.thousands
+        }
+
+        if (ts) {
+            var parts = s.split(ds)
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ts)
+            s = parts.join(ds)
+        }
+
+        if (opts.currency) {
+            s = s + ' ' + opts.currency
         }
 
         return s
@@ -33,28 +65,45 @@ module.exports = {
     formatAmount: function(number, currency) {
         return this.format(number, {
             currency: currency,
-            ts: true
+            thousands: true
         })
     },
 
     formatVolume: function(number, currency) {
         return this.format(number, {
             currency: currency,
-            ts: true,
+            thousands: true,
             maxPrecision: 8
         })
     },
 
     formatPrice: function(number) {
         return this.format(number, {
-            ts: true,
+            thousands: true,
             maxPrecision: 8
         })
     },
 
     parse: function(s) {
-        s = s.replace(i18n(numbers.decimalSeparator), '.')
-        s = s.replace(i18n(numbers.separatorSeparator), '')
+        // Remove spaces
+        s = s.replace(/\s/g, '')
+
+        s = s.replace(new RegExp(i18n('numbers.thousandSeparator'), 'g'), '')
+
+        var allowed = [
+            '0-9',
+            '\\' + i18n('numbers.decimalSeparator'),
+            '\\' + i18n('numbers.thousandSeparator')
+        ]
+
+        var expr = '^-?[' + allowed.join('') + ']+$'
+
+        if (!new RegExp(expr).exec(s)) {
+            return null
+        }
+
+        s = s.replace(i18n('numbers.decimalSeparator'), '.')
+
         return s
     }
 }
