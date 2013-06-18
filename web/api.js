@@ -1,6 +1,7 @@
 /* global sjcl */
 var _ = require('lodash')
-, api = exports
+, emitter = require('./util/emitter')
+, api = emitter()
 
 function keyFromCredentials(email, password) {
     var concat = email.toLowerCase() + password
@@ -72,9 +73,11 @@ api.loginWithKey = function(key) {
     .then(function(u) {
         $.cookie('apiKey', key)
         $.cookie('existingUser', true, { path: '/', expires: 365 * 10 })
+
         api.key = key
+        api.trigger('user', user)
+
         $app.addClass('is-logged-in')
-        user(u)
     })
 }
 
@@ -89,17 +92,32 @@ api.register = function(email, password, simple) {
         key: keyFromCredentials(email, password),
         simple: simple
     })
-    .then(function() {
+    .done(function() {
         return api.login(email, password)
     })
 }
 
 api.balances = function() {
     return api.call('v1/balances')
+    .done(function(balances) {
+        api.trigger('balances', balances)
+    })
 }
 
 api.currencies = function() {
     return api.call('v1/currencies')
+    .done(function(currencies) {
+        api.trigger('currencies', currencies)
+    })
+}
+
+api.bootstrap = function() {
+    return $.when(
+        api.currencies(),
+        api.markets()
+    ).done(function() {
+        $app.removeClass('is-loading')
+    })
 }
 
 api.resetPasswordEnd = function(email, phoneCode, newPassword) {
@@ -120,6 +138,9 @@ api.patchUser = function(attrs) {
 
 api.markets = function() {
     return api.call('v1/markets')
+    .then(function(markets) {
+        api.trigger('markets', markets)
+    })
 }
 
 // curl -H "Content-type: application/json" -X POST \
@@ -148,5 +169,35 @@ api.redeemVoucher = function(code) {
         }
 
         return body
+    })
+}
+
+api.bitcoinAddress = function() {
+    return api.call('v1/BTC/address')
+    .then(function(result) {
+        return result.address
+    })
+    .done(function(address) {
+        api.trigger('bitcoinAddress', address)
+    })
+}
+
+api.litecoinAddress = function() {
+    return api.call('v1/LTC/address')
+    .then(function(result) {
+        return result.address
+    })
+    .done(function(address) {
+        api.trigger('litecoinAddress', address)
+    })
+}
+
+api.rippleAddress = function() {
+    return api.call('v1/ripple/address')
+    .then(function(result) {
+        return result.address
+    })
+    .done(function(address) {
+        api.trigger('rippleAddress', address)
     })
 }

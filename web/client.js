@@ -3,12 +3,10 @@ var debug = require('./util/debug')('snow:entry')
 debug('initializing shared components')
 
 window.$app = $('body')
-window.router = require('./router')
+window.router = require('./util/router')
 window.api = require('./api')
-window.user = require('./user')
 window.errors = require('./errors')
 window.i18n = require('./i18n')
-window.caches = require('./caches')
 window.numbers = require('./util/numbers')
 
 debug('shared components inited')
@@ -17,7 +15,6 @@ i18n.detect()
 
 require('./helpers/jquery')
 require('./routes')()
-require('./caches')
 
 if (window.analytics) {
     require('./segment')
@@ -79,29 +76,31 @@ $app.on('click', 'a[href="#set-language"]', function(e) {
     i18n.set($(this).attr('data-language'))
 })
 
-var apiKey = $.cookie('apiKey')
+api.bootstrap().done(function() {
+    var apiKey = $.cookie('apiKey')
 
-var master = require('./controllers/master')
-master.render()
+    var master = require('./controllers/master')
+    master.render()
 
-if (apiKey) {
-    debug('using cached credentials')
-    api.loginWithKey(apiKey)
-    .done(router.now)
-} else {
-    debug('no cached credentials')
-
-    if ($.cookie('existingUser')) {
-        debug('routing to login (existing user cookie)')
-        require('./authorize').user()
+    if (apiKey) {
+        debug('using cached credentials')
+        api.loginWithKey(apiKey)
+        .done(router.now)
     } else {
-        debug('routing')
-        router.now()
-    }
-}
+        debug('no cached credentials')
 
-$(window).on('hashchange', function() {
-    if (typeof analytics != 'undefined') {
-        analytics.pageview()
+        if ($.cookie('existingUser')) {
+            debug('routing to login (existing user cookie)')
+            require('./authorize').user()
+        } else {
+            debug('routing')
+            router.now()
+        }
     }
+
+    $(window).on('hashchange', function() {
+        if (typeof analytics != 'undefined') {
+            analytics.pageview()
+        }
+    })
 })
