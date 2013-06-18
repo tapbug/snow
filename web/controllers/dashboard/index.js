@@ -29,10 +29,10 @@ module.exports = function() {
     })
 
     function balancesUpdated(balances) {
-        $btc.find('.available').html(numbers.format(balances['BTC'].available, { maxPrecision: 2, ts: true }))
-        $ltc.find('.available').html(numbers.format(balances['LTC'].available, { maxPrecision: 2, ts: true }))
-        $xrp.find('.available').html(numbers.format(balances['XRP'].available, { maxPrecision: 2, ts: true }))
-        $nok.find('.available').html(numbers.format(balances['NOK'].available, { maxPrecision: 2, ts: true }))
+        $btc.find('.available').html(numbers.format(balances['BTC'].available, 2, 'BTC'))
+        $ltc.find('.available').html(numbers.format(balances['LTC'].available, 2, 'LTC'))
+        $xrp.find('.available').html(numbers.format(balances['XRP'].available, 2, 'XRP'))
+        $nok.find('.available').html(numbers.format(balances['NOK'].available, 2, 'NOK'))
     }
 
     caches.balances.on('change', balancesUpdated.bind(this, caches.balances))
