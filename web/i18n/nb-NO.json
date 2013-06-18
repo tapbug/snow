@@ -1,4 +1,7 @@
 {
+    "numbers.thousandSeparator": " ",
+    "numbers.decimalSeparator": ",",
+
     "home.heading": "Velkommen til Justcoin!",
     "home.sub-heading": "Justcoin er en børs for digital valuta. Hos oss kan du kjøpe og selge Bitcoin med norske kroner.<br />Vi støtter også Litecoin og ripples (XRP).",
     "home.call to action": "Registrer deg nå",

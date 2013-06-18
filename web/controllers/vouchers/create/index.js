@@ -44,8 +44,8 @@ module.exports = function() {
         var balance = _.find(balances, { currency: currency })
         if (!balance) return
         available = balance.available
-        var formatted = numbers.formatAmount(available)
-        $amount.find('.available').html(formatted + ' ' + currency)
+
+        $amount.find('.available').html(numbers(available, null, currency))
     }
 
     controller.onBalancesUpdated(caches.balances)
@@ -64,10 +64,10 @@ module.exports = function() {
             return
         }
 
-        amount = parseAmount()
+        amount = numbers.parse(amount)
 
         // NaN or <= 0
-        if (amount <= 0 || isNaN(amount)) {
+        if (+amount <= 0) {
             $amount.addClass('is-invalid error')
             return
         }
@@ -87,13 +87,6 @@ module.exports = function() {
     $amount.on('change keyup', validateAmount.bind(this, false))
     $currency.on('change keyup', validateAmount.bind(this, false))
 
-    function parseAmount() {
-        var result = $form.field('amount').val()
-        result = result.replace(/,/g, '.')
-        if (result <= 0 || isNaN(result)) return null
-        return result
-    }
-
     // Submit
     $form.on('submit', function(e) {
         e.preventDefault()
@@ -110,7 +103,7 @@ module.exports = function() {
         .add($form.field('currency'))
         .enabled(false)
 
-        var amount = parseAmount()
+        var amount = numbers.parse($form.field('amount').val())
         , currency = $form.field('currency').val()
 
         api.createVoucher(amount, currency)

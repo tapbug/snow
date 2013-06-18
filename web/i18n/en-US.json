@@ -1,4 +1,7 @@
 {
+    "numbers.thousandSeparator": ",",
+    "numbers.decimalSeparator": ".",
+
     "top.vouchers": "Vouchers",
 
     "home.heading": "Welcome to Justcoin!",

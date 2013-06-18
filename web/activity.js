@@ -3,12 +3,15 @@ var format = require('util').format
 
 module.exports = function(activity) {
     if (activity.type == 'CreateOrder') {
+        var total = num(activity.details.price).mul(activity.details.volume ||
+            activity.details.amount).toString()
+
         return format(i18n('activities.CreateOrder'),
             (activity.details.side || activity.details.type) == 'bid' ?
                 i18n('activities.CreateOrder.buy') : i18n('activities.CreateOrder.sell'),
-            activity.details.volume || activity.details.amount,
+            numbers.format(activity.details.volume || activity.details.amount),
             activity.details.market.substr(0, 3),
-            num(activity.details.price).mul(activity.details.volume || activity.details.amount).toString(),
+            numbers.format(total),
             activity.details.market.substr(3))
     }
 
@@ -18,7 +21,7 @@ module.exports = function(activity) {
 
     if (activity.type == 'BankCredit') {
         return format(i18n('activities.BankCredit'),
-            activity.details.amount,
+            numbers.format(activity.details.amount),
             activity.details.currency,
             activity.details.reference)
     }
@@ -30,17 +33,19 @@ module.exports = function(activity) {
 
     if (activity.type == 'LTCWithdraw') {
         return format(i18n('activities.LTCWithdraw'),
-            activity.details.amount, activity.details.address)
+            numbers.format(activity.details.amount), activity.details.address)
     }
 
     if (activity.type == 'BTCWithdraw') {
         return format(i18n('activities.BTCWithdraw'),
-            activity.details.amount, activity.details.address)
+            numbers.format(activity.details.amount), activity.details.address)
     }
 
     if (activity.type == 'SendToUser') {
         return format(i18n('activities.SendToUser'),
-            activity.details.amount, activity.details.currency, activity.details.to)
+            numbers.format(activity.details.amount),
+            activity.details.currency,
+            activity.details.to)
     }
 
     if (activity.type == 'Created') {
@@ -53,8 +58,10 @@ module.exports = function(activity) {
 
     if (activity.type == 'AdminBankAccountCredit') {
         return format('Admin: Credited user %s\'s bank account (#%s) with %s %s (%s)',
-            activity.details.user_id, activity.details.bank_account_id,
-            activity.details.amount, activity.details.currency_id,
+            activity.details.user_id,
+            activity.details.bank_account_id,
+            numbers.format(activity.details.amount),
+            activity.details.currency_id,
             activity.details.reference)
     }
 
@@ -68,7 +75,8 @@ module.exports = function(activity) {
     }
 
     if (activity.type == 'AdminWithdrawProcess') {
-        return format('Admin: Started processing withdraw request #%s', activity.details.id)
+        return format('Admin: Started processing withdraw request #%s',
+            activity.details.id)
     }
 
     return JSON.stringify(activity)
