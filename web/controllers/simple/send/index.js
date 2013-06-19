@@ -5,7 +5,7 @@ var num = require('num')
 , header = require('../header')
 
 module.exports = function() {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class="simple-send simple">').html($(require('./template.html')()))
     , controller = {
         $el: $el
     }
