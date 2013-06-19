@@ -175,6 +175,7 @@
     "withdrawbank.submit": "Ta ut",
 
     "top.vouchers": "Kuponger",
+    "top.send": "Send til epost",
     "register.advanced.label": "Ekspertbruker?",
     "register.advanced.intro": "<p><b>Bruk Bitcoin</b>: Enkelt å sende og motta Bitvcoin</p><p><b>Ekspertbruker</b>: Vanskelig å lære. Støtter limit-ordre, XRP, Ripple IOUs</p><p>Du kan endre dette senere.</p>",
     "register.use-bitcoin-button": "Bruk Bitcoin",

@@ -21,6 +21,7 @@ var master = require('../controllers/master')
 , redeemvoucher = require('../controllers/vouchers/redeem')
 , vouchers = require('../controllers/vouchers/index')
 , depositltc = require('../controllers/depositltc')
+, send = require('../controllers/send')
 , withdrawbank = require('../controllers/withdrawbank')
 , bankaccounts = require('../controllers/bankaccounts')
 , authorize = require('../authorize')
@@ -102,6 +103,10 @@ module.exports = function() {
     .add(/^depositbtc$/, function() {
         if (!authorize.user()) return
         master(depositbtc(), 'depositbtc')
+    })
+    .add(/^send$/, function() {
+        if (!authorize.user()) return
+        master(send(), 'send')
     })
     .add(/^changepassword$/, function() {
         if (!authorize.user()) return

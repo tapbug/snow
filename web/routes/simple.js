@@ -24,7 +24,7 @@ module.exports = {
         })
         .add(/^simple\/terms$/, function() {
             if (!authorize.user()) return
-            master(terms(), '')
+            master(terms(), 'simple-terms')
         })
         .add(/^simple\/buy(?:\?(any))?$/, function(amount) {
             if (!authorize.user()) return

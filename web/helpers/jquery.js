@@ -2,7 +2,10 @@ var _ = require('lodash')
 
 $.fn.enabled = function(value) {
     if (typeof value != 'undefined') {
-        return $(this).prop('disabled', !value)
+        if (value) $(this).removeAttr('disabled')
+        else $(this).attr('disabled', 'disabled')
+
+        return $(this)
         .toggleClass('disabled', !value)
     }
     return !this.prop('disabled')

@@ -101,6 +101,7 @@ api.register = function(email, password, simple) {
 api.balances = function() {
     return api.call('v1/balances')
     .done(function(balances) {
+        api.balances.current = balances
         api.trigger('balances', balances)
     })
 }
@@ -108,6 +109,7 @@ api.balances = function() {
 api.currencies = function() {
     return api.call('v1/currencies')
     .done(function(currencies) {
+        api.currencies.value = currencies
         api.trigger('currencies', currencies)
     })
 }
@@ -118,6 +120,15 @@ api.bootstrap = function() {
         api.markets()
     ).done(function() {
         $app.removeClass('is-loading')
+    })
+}
+
+api.sendToUser = function(email, amount, currency, allowNewUser) {
+    return api.call('v1/send', {
+        email: email,
+        amount: amount,
+        currency: currency,
+        allowNewUser: allowNewUser
     })
 }
 
