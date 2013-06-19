@@ -72,6 +72,8 @@ module.exports = function() {
         .then(marketsUpdated)
     }
 
+    api.bitcoinAddress.value || api.bitcoinAddress()
+
     api.once('bitcoinAddress', function(address) {
         $address.attr('href', 'bitcoin:' + address)
         .html(address)

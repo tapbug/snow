@@ -190,6 +190,7 @@ api.bitcoinAddress = function() {
         return result.address
     })
     .done(function(address) {
+        api.bitcoinAddress.value = address
         api.trigger('bitcoinAddress', address)
     })
 }
