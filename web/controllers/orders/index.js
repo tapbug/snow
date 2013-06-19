@@ -1,17 +1,27 @@
+var itemTemplate = require('./item.html')
+, historyItemTemplate = require('./history-item.html')
 
 module.exports = function() {
-    var itemTemplate = require('./item.html')
+    var $el = $('<div class="orders">').html(require('./template.html')())
     , controller = {
-        $el: $(require('./template.html')())
+        $el: $el
     }
-    , $items = controller.$el.find('.items')
+    , $items = $el.find('.active-orders .items')
+    , $historyItems = $el.find('.order-history .items')
 
     function itemsChanged(items) {
         $items.append($.map(items, function(item) {
             var $el = $(itemTemplate(item))
+            return $el
+        }))
+    }
+
+    function historyItemsChanged(items) {
+        $historyItems.append($.map(items, function(item) {
+            item.base = item.market.substr(0, 3)
+            item.quote = item.market.substr(3, 3)
+            var $el = $(historyItemTemplate(item))
             $el.attr('data-id', item.id)
-
-
             return $el
         }))
     }
@@ -22,6 +32,12 @@ module.exports = function() {
         .done(itemsChanged)
     }
 
+    function refreshHistory() {
+        api.call('v1/orders/history')
+        .fail(errors.alertFromXhr)
+        .done(historyItemsChanged)
+    }
+
     $items.on('click', 'button.cancel', function(e) {
         e.preventDefault()
         var $item = $(e.target).closest('.item')
@@ -29,13 +45,13 @@ module.exports = function() {
         api.call('v1/orders/' + $item.attr('data-id'), null, { type: 'DELETE' })
         .fail(errors.alertFromXhr)
         .done(function() {
-            // TODO: Rename api.balances
             api.balances()
             $item.remove()
         })
     })
 
     refresh()
+    refreshHistory()
 
     return controller
 }

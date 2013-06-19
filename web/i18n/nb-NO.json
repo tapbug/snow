@@ -233,5 +233,9 @@
     "simple.footer.nav.support": "Support",
     "simple.footer.nav.activities": "Kontohistorikk",
     "simple.terms.back": "Tilbake",
-    "simple.header.log-out": "Logg ut"
+    "simple.header.log-out": "Logg ut",
+    "orders.column headers.matched": "Handlet",
+    "orders.column headers.requested price": "Min pris",
+    "orders.column headers.average price": "Faktisk pris",
+    "orders.history heading": "Ordrehistorikk"
 }

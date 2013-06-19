@@ -114,6 +114,10 @@
     "orders.column headers.type": "Type",
     "orders.column headers.price": "Price",
     "orders.column headers.volume": "Volume",
+    "orders.column headers.matched": "Matched",
+    "orders.column headers.requested price": "Requested price",
+    "orders.column headers.average price": "Average price",
+    "orders.history heading": "Order history",
 
     "withdrawbtc.confirmation": "Withdraw requested",
     "withdrawbtc.heading": "Withdraw Bitcoin",
