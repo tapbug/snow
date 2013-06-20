@@ -18,6 +18,8 @@ require('./routes')()
 
 if (window.analytics) {
     require('./segment')
+} else {
+    debug('analytics is not defined, skipping segment.io')
 }
 
 api.on('user', function(user) {
