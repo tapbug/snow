@@ -1,6 +1,6 @@
 var debug = require('./util/debug')('segment')
 
-function attach() {
+function attach(user) {
     api.off('user', attach)
 
     debug('Fetching Intercom settings')
