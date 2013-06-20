@@ -42,7 +42,7 @@ api.on('user', function(user) {
 
     var checkPhone = function(next) {
         debug('checking phone')
-        if (user.phone) return next()
+        if (api.user.phone) return next()
         debug('not ok, need top verify phone')
         var verifyphone = require('./controllers/verifyphone')()
         $app.append(verifyphone.$el)
@@ -55,7 +55,7 @@ api.on('user', function(user) {
 
     var checkEmail = function(next) {
         debug('checking email...')
-        if (user.emailVerified) return next()
+        if (api.user.emailVerified) return next()
         debug('not ok, need to verify email')
         var verifyemail = require('./controllers/verifyemail')()
         $app.append(verifyemail.$el)

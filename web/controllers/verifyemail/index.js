@@ -24,7 +24,7 @@ module.exports = function() {
             .toggleClass('btn-success btn-primary')
             .loading(false)
             .enabled(false)
-            .html(i18n('verifyemail.send button.waiting', user.email))
+            .html(i18n('verifyemail.send button.waiting', api.user.email))
 
             timer = setInterval(function() {
                 api.call('v1/whoami')
