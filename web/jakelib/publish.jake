@@ -42,7 +42,7 @@ var segment
 
 task('pp', ['publish-prod'])
 task('publish-prod', function() {
-    segment = 'bc0p8b3ul1'
+    process.env.SEGMENT = 'bc0p8b3ul1'
     process.env.BUCKET = 'https://s3-eu-west-1.amazonaws.com/justcoin-production/'
 
     jake.Task['clean'].invoke()
