@@ -1,7 +1,7 @@
 var debug = require('./util/debug')('segment')
 
 function attach() {
-    api.off('user', attach)
+    user.removeListener('change', attach)
 
     debug('Fetching Intercom settings')
     api.call('v1/intercom')
@@ -10,8 +10,8 @@ function attach() {
         debug('Intercom settings', settings)
         debug('Identifying with segment.io')
 
-        analytics.identify(api.user.id.toString(), {
-            email: api.user.email,
+        analytics.identify(user.id.toString(), {
+            email: user.email,
             created: settings.created_at
         }, {
             intercom: settings
@@ -35,5 +35,5 @@ function verifiedphone(e) {
     debug('intercom update started')
 }
 
-api.on('user', attach)
+user.on('change', attach)
 $app.on('verifiedphone', verifiedphone)

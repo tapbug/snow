@@ -18,8 +18,6 @@ require('./routes')()
 
 if (window.analytics) {
     require('./segment')
-} else {
-    debug('analytics is not defined, skipping segment.io')
 }
 
 api.on('user', function(user) {
@@ -42,7 +40,7 @@ api.on('user', function(user) {
 
     var checkPhone = function(next) {
         debug('checking phone')
-        if (api.user.phone) return next()
+        if (user.phone) return next()
         debug('not ok, need top verify phone')
         var verifyphone = require('./controllers/verifyphone')()
         $app.append(verifyphone.$el)
@@ -55,7 +53,7 @@ api.on('user', function(user) {
 
     var checkEmail = function(next) {
         debug('checking email...')
-        if (api.user.emailVerified) return next()
+        if (user.emailVerified) return next()
         debug('not ok, need to verify email')
         var verifyemail = require('./controllers/verifyemail')()
         $app.append(verifyemail.$el)
