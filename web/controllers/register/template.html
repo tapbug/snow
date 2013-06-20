@@ -1,6 +1,10 @@
 <div class="register container">
     <h3><%= i18n('register.heading') %></h3>
-    <p><a href="#login" style="position:relative; top:-15px;" class="existing"><%= i18n('register.existing user login') %></a></p>
+
+    <p>
+        <%= i18n('register.tagline') %>
+    </p>
+
     <form class="register-form">
         <div class="control-group email">
             <label class="control-label"><%= i18n('register.email.label') %></label>
@@ -29,6 +33,10 @@
             </div>
         </div>
     </form>
+
+    <p style="padding-top:1em;">
+        <a href="#login" style="position:relative; top:-15px;" class="existing"><%= i18n('register.existing user login') %></a>
+    </p>
 
     <div class="modal fade hide advanced">
         <div class="modal-header">

@@ -32,7 +32,11 @@ directory('build/landing')
 
 var vendor = [
     'components/jquery/jquery.min.js',
-    'vendor/jquery.cookie.js'
+    'vendor/jquery.cookie.js',
+    'vendor/bigvideo/jquery.imagesloaded.min.js',
+    'vendor/bigvideo/jquery-ui-1.8.22.custom.min.js',
+    'vendor/bigvideo/video.js',
+    'vendor/bigvideo/bigvideo.js'
 ]
 
 file(base + '/head.js', head, common.concatFiles)
@@ -41,6 +45,8 @@ file(base + '/vendor.js', vendor, common.concatFiles)
 file(base + '/index.css', function() {
     common.exec('stylus assets/landing/index.styl -o build/landing');
 })
+
+process.env.BUCKET = 'https://s3-eu-west-1.amazonaws.com/justcoin-production/'
 
 file(base + '/index.html', function() {
     var ejs = require('ejs')

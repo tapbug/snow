@@ -30,6 +30,7 @@
     "top.new user": "Register",
 
     "register.heading": "Start using Justcoin.",
+    "register.tagline": "Justcoin lets you buy and sell digital currencies, like Bitcoin.",
     "register.email.label": "Email address",
     "register.password.label": "Password",
     "register.repeat.label": "Repeat password",

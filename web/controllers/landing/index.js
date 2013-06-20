@@ -1,5 +1,5 @@
 /* global analytics, Modernizr, bucket */
-var Player = require('./player')
+//var Player = require('./player')
 
 module.exports = function() {
     var $el = $(require('./template.html')())
@@ -11,42 +11,9 @@ module.exports = function() {
     , $tagline = $el.find('.tagline')
     , $signup = $el.find('.signup')
     , taglineRotateTimer = setInterval(rotateTagline, 3.5e3)
-    , player
-
-    if (Modernizr.video) {
-        player = new Player({
-            landing: {
-                sources: [
-                    bucket + 'landing.mp4',
-                    bucket + 'landing.ogv'
-                ],
-                greedy: true,
-                loop: true
-            },
-            bitcoin: {
-                sources: [
-                    bucket + 'what-is-bitcoin.mp4',
-                    bucket + 'what-is-bitcoin.ogv'
-                ]
-            },
-            ripple: {
-                sources: [
-                    bucket + 'what-is-ripple.mp4',
-                    bucket + 'what-is-ripple.ogv'
-                ]
-            }
-        }).play('landing').fullscreen(true)
-
-        $el.find('video').replaceWith(player.$el)
-
-        player.$el.on('playing', function() {
-            $el.removeClasses(/^is-playing/)
-            .addClass('is-playing-' + player.current)
-            resize()
-        })
-    }
-
-    var taglines = [
+    , bv
+    , playingLanding
+    , taglines = [
         'Your digital currency exchange',
         'Your Bitcoin exchange',
         'Your trusted, open source service',
@@ -54,6 +21,40 @@ module.exports = function() {
         'Your key to the future of money',
         'Your Litecoin exchange'
     ]
+
+    function playLanding() {
+        bv.show(bucket + 'landing.mp4', {
+            altSource: bucket + 'landing.ogv'
+        })
+        playingLanding = true
+        $el.removeClasses(/is-playing-/).addClass('is-playing-landing')
+        resize()
+    }
+
+    function playBitcoin() {
+        bv.show(bucket + 'what-is-bitcoin.mp4', {
+            altSource: bucket + 'what-is-bitcoin.ogv'
+        })
+        playingLanding = false
+        $el.removeClasses(/is-playing-/).addClass('is-playing-bitcoin')
+        resize()
+    }
+
+    function playRipple() {
+        bv.show(bucket + 'what-is-ripple.mp4', {
+            altSource: bucket + 'what-is-ripple.ogv'
+        })
+        playingLanding = false
+        $el.removeClasses(/is-playing-/).addClass('is-playing-ripple')
+        resize()
+    }
+
+    bv = new $.BigVideo()
+    bv.init()
+
+    bv.getPlayer().on('ended', playLanding)
+
+    playLanding()
 
     function rotateTagline() {
         var tagline = taglines.shift()
@@ -70,7 +71,7 @@ module.exports = function() {
             left: windowWidth / 2 - $cta.width() / 2
         })
 
-        if (!player || player.current == 'landing') {
+        if (playingLanding) {
             $cta.css({
                 top: windowHeight / 2 - $cta.height() / 2
             })
@@ -80,7 +81,7 @@ module.exports = function() {
             })
         }
 
-        if (player && player.current != 'landing') {
+        if (!playingLanding) {
             $cta.css('top', '')
         }
     }
@@ -88,15 +89,13 @@ module.exports = function() {
     $window.on('resize', resize)
 
     $el.on('click', '.what-is-bitcoin', function(e) {
-        if (!player) return
         e.preventDefault()
-        player.play('bitcoin').enqueue('landing')
+        playBitcoin()
     })
 
     $el.on('click', '.what-is-ripple', function(e) {
-        if (!player) return
         e.preventDefault()
-        player.play('ripple').enqueue('landing')
+        playRipple()
     })
 
     if (typeof analytics != 'undefined') {
