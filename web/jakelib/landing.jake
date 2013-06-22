@@ -3,7 +3,7 @@ var base = 'build/landing'
 , common = require('./common')
 
 var head = [
-    'vendor/raven.min.js',
+    'vendor/raven.js',
     'vendor/modernizr.js'
 ]
 
