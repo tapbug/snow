@@ -38,8 +38,6 @@ function publish(hostname, cb) {
 }
 
 // publishing
-var segment
-
 task('pp', ['publish-prod'])
 task('publish-prod', function() {
     process.env.SEGMENT = 'bc0p8b3ul1'
