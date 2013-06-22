@@ -61,7 +61,7 @@ api.call = function(method, data, options) {
             xhrOptions: options,
             body: body,
             name: body.name || null,
-            message: body.message | null
+            message: body && body.message || null
         }
 
         return error
