@@ -1,5 +1,6 @@
 /* global cat, cp */
 require('shelljs/global')
+var fs = require('fs')
 
 exports.compressCss = function() {
     var inputFn = this.name.replace(/min\.css$/, 'css')
@@ -28,5 +29,9 @@ exports.concatFiles = function() {
 }
 
 exports.copy = function() {
+    console.log(this.prereqs[0] + ' --> ' + this.name)
+    if (!fs.existsSync(this.prereqs[0])) {
+        throw new Error('File not found ' + this.prereqs[0])
+    }
     cp(this.prereqs[0], this.name)
 }
