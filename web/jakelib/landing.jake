@@ -32,11 +32,11 @@ directory('build/landing')
 
 var vendor = [
     'components/jquery/jquery.min.js',
-    'vendor/jquery.cookie.js',
-    'vendor/bigvideo/jquery.imagesloaded.min.js',
     'vendor/bigvideo/jquery-ui-1.8.22.custom.min.js',
     'vendor/bigvideo/video.js',
-    'vendor/bigvideo/bigvideo.js'
+    'vendor/bigvideo/jquery.imagesloaded.min.js',
+    'vendor/bigvideo/bigvideo.js',
+    'vendor/jquery.cookie.js'
 ]
 
 file(base + '/head.js', head, common.concatFiles)
