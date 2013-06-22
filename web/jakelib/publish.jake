@@ -14,11 +14,11 @@ function publish(hostname, cb) {
         'build/client/img/flags/NO.png': 'client/img/flags/NO.png',
         'build/client/img/flags/ES.png': 'client/img/flags/ES.png',
         'build/client/img/flags/US.png': 'client/img/flags/US.png',
-        'build/landing/head.min.js': 'head.min.js',
-        'build/landing/entry.min.js': 'entry.min.js',
-        'build/landing/vendor.min.js': 'vendor.min.js',
-        'build/landing/styles.min.css': 'styles.min.css',
-        'build/landing/index.min.html': 'index.html'
+        'build/landing/head.js': 'head.js',
+        'build/landing/entry.js': 'entry.js',
+        'build/landing/vendor.js': 'vendor.js',
+        'build/landing/styles.css': 'styles.css',
+        'build/landing/index.html': 'index.html'
     }
 
     var cmds = []
