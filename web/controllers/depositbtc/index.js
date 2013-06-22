@@ -9,5 +9,7 @@ module.exports = function() {
         $address.html($('<a href="bitcoin:' + address + '">' + address + '</a>'))
     })
 
+    api.bitcoinAddress.value || api.bitcoinAddress()
+
     return controller
 }
