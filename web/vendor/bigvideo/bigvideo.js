@@ -1,7 +1,7 @@
 /*
 	BigVideo - The jQuery Plugin for Big Background Video (and Images)
 	by John Polacek (@johnpolacek)
-	
+
 	Dual licensed under MIT and GPL.
 
     Dependencies: jQuery, jQuery UI (Slider), Video.js, ImagesLoaded
@@ -40,14 +40,6 @@
 			currMediaType;
 
         var settings = $.extend({}, defaults, options);
-
-        // If only using mp4s and on firefox, use flash fallback
-        var ua = navigator.userAgent.toLowerCase();
-        var isFirefox = ua.indexOf('firefox') != -1;
-        if (settings.useFlashForFirefox && (isFirefox)) {
-			VideoJS.options.techOrder = ['flash'];
-		}
-
 
 		function updateSize() {
 			var windowW = $(window).width();
