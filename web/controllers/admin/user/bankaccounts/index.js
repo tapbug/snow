@@ -1,6 +1,7 @@
 var util = require('util')
 , format = util.format
 , header = require('../header')
+, addAccount = require('./addaccount')
 
 module.exports = function(userId) {
     var itemTemplate = require('./item.html')
@@ -20,7 +21,8 @@ module.exports = function(userId) {
     }
 
     function refresh() {
-        api.call('admin/users/' + userId + '/bankAccounts').done(itemsChanged)
+        api.call('admin/users/' + userId + '/bankAccounts')
+        .done(itemsChanged)
     }
 
     $items.on('click', '.start-verify', function(e) {
@@ -45,6 +47,16 @@ module.exports = function(userId) {
         api.call(url, null, { type: 'POST' })
         .fail(errors.alertFromXhr)
         .done(function() {
+            refresh()
+        })
+    })
+
+    $el.on('click', '*[data-action="add"]', function(e) {
+        e.preventDefault()
+
+        var modal = addAccount(userId)
+
+        modal.$el.one('added', function() {
             refresh()
         })
     })

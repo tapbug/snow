@@ -1,4 +1,3 @@
-
 module.exports = function(userId) {
     var $el = $(require('./template.html')())
     , controller = {
@@ -29,7 +28,7 @@ module.exports = function(userId) {
         .fail(errors.alertFromXhr)
         .done(function() {
             $el.trigger('added')
-            $el.modal('hide')
+            $el.modal('hide').remove()
         })
     })
 
