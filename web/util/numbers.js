@@ -96,6 +96,7 @@ numbers.parse = function(s) {
     var allowed = [
         '0-9',
         '\\' + i18n('numbers.decimalSeparator'),
+        '.',
         '\\' + i18n('numbers.thousandSeparator')
     ]
 
