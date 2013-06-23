@@ -9,8 +9,11 @@ module.exports = function() {
 
     function itemsChanged(items) {
         $items.html($.map(items, function(item) {
+            var duration = +new Date() - item.created
+            if (duration < 0) duration = 0
+
             item.text = require('../../activity')(item)
-            item.ago = moment(item.created).fromNow()
+            item.ago = moment(duration).fromNow()
 
             return itemTemplate(item)
         }))
