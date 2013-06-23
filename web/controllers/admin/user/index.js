@@ -1,40 +1,131 @@
 var header = require('./header')
+, template = require('./template.html')
+, model = require('../../../util/model')
+, _ = require('lodash')
+, moment = require('moment')
 
 module.exports = function(userId) {
-    var $el = $(require('./template.html')({
+    var $el = $('<div class="admin-user-profile">').html(template({
         userId: userId
     }))
     , controller = {
         $el: $el
     }
+    , oldUser
+    , $save = $el.find('*[data-action="toggle-editing"]')
 
+    // User id is always known
+    $el.find('.userId td span').html(userId)
+
+    // Header
     $el.find('.header-placeholder').replaceWith(header(userId, 'user').$el)
 
-    function userRetrieved(user) {
-        $el.find('.user-placeholder')
-        .replaceWith(require('./user.html')(user))
+    // Link to intercom.io
+    $el.find('.intercom-link')
+    .attr('href', 'https://www.intercom.io/apps/64463fba8faa8166444bfb3c00a5e40976bd622e/users/show?user_id=' + userId)
+
+    function renderProfile(u) {
+        // Straight forward strings
+        var plains = {
+            'email': 'email',
+            'firstName': 'first_name',
+            'lastName': 'last_name',
+            'phone': 'phone_number',
+            'country': 'country',
+            'city': 'city',
+            'postalArea': 'postal_area',
+            'address': 'address'
+        }
+
+        _.each(plains, function(v, k) {
+            var $row = $el.find('.' + k)
+            $row.find('span').html((u[v] || '').replace(/\n/g, '<br />')),
+            $row.find('.field').val(u[v] || '')
+        })
+
+        $el.find('.simple span').html(u.simple ? 'Yes' : 'No')
+        $el.find('.simple .field').prop('checked', u.simple)
+
+        $el.find('.created span').html(moment(u.created_at).format('Do MMMM YYYY'))
+
+        $el.toggleClass('has-verified-email', !!u.email_verified_at)
+
+        oldUser = u
     }
 
-    function refresh() {
+    function fetchProfile() {
+        $el.addClass('is-loading')
+
         api.call('admin/users/' + userId)
+        .always(function() {
+            $el.removeClass('is-loading')
+        })
         .fail(errors.alertFromXhr)
-        .done(userRetrieved)
+        .done(renderProfile)
     }
 
-    $el.on('click', '.send-email-verification', function(e) {
+    // Begin ewdit
+    $save.on('click', function(e) {
         e.preventDefault()
-        var userId = $(e.target).closest('.user').attr('data-user-id')
+        $el.toggleClass('is-editing')
+    })
 
-        var url = 'admin/users/' + userId + '/sendVerificationEmail'
+    // Cancel edit
+    $el.on('click', '*[data-action="cancel"]', function(e) {
+        e.preventDefault()
+        renderProfile(oldUser)
+        $el.toggleClass('is-editing')
+    })
 
-        api.call(url, null, { type: 'POST' })
+    // Save
+    $el.on('submit', '.edit-form', function(e) {
+        e.preventDefault()
+        $el.addClass('is-loading is-saving')
+        $el.find('.field').enabled(false)
+
+        var patch = model.patch(oldUser, {
+            email: $el.find('.email .field').valOrNull(),
+            first_name: $el.find('.firstName .field').valOrNull(),
+            last_name: $el.find('.lastName .field').valOrNull(),
+            country: $el.find('.country .field').valOrNull(),
+            city: $el.find('.city .field').valOrNull(),
+            postal_area: $el.find('.postalArea .field').valOrNull(),
+            address: $el.find('.address .field').valOrNull(),
+            phone_number: $el.find('.phone .field').valOrNull(),
+            simple: $el.find('.simple .field').prop('checked')
+        })
+
+        if (!_.keys(patch).length) {
+            return alertify.alert('Nothing has been changed.')
+        }
+
+        api.call('admin/users/' + userId, patch, { type: 'PATCH' })
+        .always(function() {
+            $el.removeClass('is-loading is-saving')
+            $save.loading(false)
+            $el.find('.field').enabled(true)
+        })
         .fail(errors.alertFromXhr)
         .done(function() {
-            alert('Done')
+            $el.removeClass('is-editing')
+            alertify.log('Saved ' + _.keys(patch).join(', ') + ' for user #' + userId)
+            fetchProfile()
         })
     })
 
-    refresh()
+    $el.on('click', '*[data-action="send-email-verification"]', function(e) {
+        e.preventDefault()
+
+        var url = 'admin/users/' + userId + '/sendVerificationEmail'
+        api.call(url, null, { type: 'POST' })
+        .fail(errors.alertFromXhr)
+        .done(function() {
+            alertify.log('E-mail verification link sent.')
+            fetchProfile()
+        })
+    })
+
+    fetchProfile()
 
     return controller
 }

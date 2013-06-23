@@ -69,3 +69,10 @@ $.fn.removeClasses = function(re) {
     })
     return this
 }
+
+$.fn.valOrNull = function(val) {
+    if (val !== undefined) {
+        return $(this).val(val || '')
+    }
+    return $(this).val().trim() || null
+}
