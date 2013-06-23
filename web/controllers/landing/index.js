@@ -1,6 +1,4 @@
-/* global analytics, Modernizr, bucket */
-//var Player = require('./player')
-
+/* global analytics, bucket */
 module.exports = function() {
     var $el = $(require('./template.html')())
     , controller = {

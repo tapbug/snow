@@ -1,3 +1,4 @@
+/* global -router */
 var _ = require('lodash')
 , routes = []
 , $window = $(window)

@@ -1,6 +1,8 @@
+/* global -numbers */
 var Num = require('num')
 , _ = require('lodash')
 
+/* jshint maxcomplexity: 99 */
 var numbers = module.exports = function(n, opts, currency) {
     if (typeof opts == 'number') {
         opts = { precision: opts }
@@ -45,9 +47,7 @@ var numbers = module.exports = function(n, opts, currency) {
     }
 
     if (ts) {
-        var parts = s.split(ds)
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ts)
-        s = parts.join(ds)
+        numbers.addThousands(s, ds, ts)
     }
 
     if (opts.currency) {
@@ -55,6 +55,12 @@ var numbers = module.exports = function(n, opts, currency) {
     }
 
     return s
+}
+
+numbers.addThousands = function(s, ds, ts) {
+    var parts = s.split(ds)
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ts)
+    s = parts.join(ds)
 }
 
 numbers.format = numbers

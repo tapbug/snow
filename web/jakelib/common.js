@@ -9,7 +9,7 @@ exports.compressCss = function() {
 
 exports.compressJs = function() {
     var inputFn = this.name.replace(/min\.js$/, 'js')
-    var res = exports.exec('uglifyjs ' + inputFn + ' --compress warnings=false --mangle')
+    exports.exec('uglifyjs ' + inputFn + ' --compress warnings=false --mangle')
     .to(this.name)
 }
 

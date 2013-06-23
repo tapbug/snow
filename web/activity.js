@@ -1,6 +1,7 @@
 var format = require('util').format
 , num = require('num')
 
+/* jshint maxcomplexity: 99 */
 module.exports = function(activity) {
     if (activity.type == 'CreateOrder') {
         var total = num(activity.details.price).mul(activity.details.volume ||

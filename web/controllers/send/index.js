@@ -1,4 +1,3 @@
-/* global alertify */
 var template = require('./template.html')
 , format = require('util').format
 , _ = require('lodash')
@@ -23,10 +22,6 @@ module.exports = function() {
         $transferForm.field('currency').append(html)
     })
 
-    function updateAvailable() {
-        if (!api.balances.current) return
-    }
-
     function validateEmail() {
         var val = $transferForm.field('email').val()
         return $email
@@ -36,7 +31,9 @@ module.exports = function() {
 
     function validateAmount() {
         var val = numbers.parse($transferForm.field('amount').val())
-        , currency = _.find(api.currencies.value, { id: $transferForm.field('currency').val() })
+        , currency = _.find(api.currencies.value, {
+            id: $transferForm.field('currency').val()
+        })
         , precision = val ? num(val).get_precision() : null
         , empty = !val
         , invalidNumber = empty || !val || val < 0

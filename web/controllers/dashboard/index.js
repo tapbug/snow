@@ -1,5 +1,4 @@
-var num = require('num')
-, Activities = require('../activities')
+var Activities = require('../activities')
 , Withdraws = require('./withdraws')
 , format = require('util').format
 , _ = require('lodash')

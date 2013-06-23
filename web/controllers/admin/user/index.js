@@ -3,6 +3,7 @@ var header = require('./header')
 , model = require('../../../util/model')
 , _ = require('lodash')
 , moment = require('moment')
+, format = require('util').format
 
 module.exports = function(userId) {
     var $el = $('<div class="admin-user-profile">').html(template({
@@ -22,7 +23,8 @@ module.exports = function(userId) {
 
     // Link to intercom.io
     $el.find('.intercom-link')
-    .attr('href', 'https://www.intercom.io/apps/64463fba8faa8166444bfb3c00a5e40976bd622e/users/show?user_id=' + userId)
+    .attr('href', format('https://www.intercom.io/apps/%s/users/show?user_id=%s',
+        '64463fba8faa8166444bfb3c00a5e40976bd622e', userId))
 
     function renderProfile(u) {
         // Straight forward strings

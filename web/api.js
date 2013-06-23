@@ -1,5 +1,6 @@
-/* global sjcl */
+/* global -api */
 var _ = require('lodash')
+, sjcl = require('../../../vendor/sjcl')
 , emitter = require('./util/emitter')
 , api = module.exports = emitter()
 
@@ -60,6 +61,8 @@ api.call = function(method, data, options) {
             xhr: xhr,
             xhrOptions: options,
             body: body,
+            statusText: statusText,
+            status: status,
             name: body.name || null,
             message: body && body.message || null
         }
