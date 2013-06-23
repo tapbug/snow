@@ -1,5 +1,6 @@
 var format = require('util').format
 , _ = require('lodash')
+, num = require('num')
 
 module.exports = function(currency) {
     var $el = $(require('./template.html')())
@@ -36,6 +37,14 @@ module.exports = function(currency) {
 
     $form.on('submit', function(e) {
         e.preventDefault()
+
+        var amount = numbers.parse($amount.val())
+
+        if (num(amount).get_precision() > 2) {
+            alertify.alert('Sorry! Maximum 2 decimals when withdrawing to bank')
+            return
+        }
+
         api.call('v1/withdraws/bank', {
             amount: $amount.val(),
             bankAccount: +$bankAccount.val(),
