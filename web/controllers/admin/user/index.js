@@ -71,18 +71,18 @@ module.exports = function(userId) {
     })
 
     // Cancel edit
+    function cancelEdit() {
+        fetchProfile()
+        $el.removeClass('is-editing')
+    }
+
     $el.on('click', '*[data-action="cancel"]', function(e) {
         e.preventDefault()
-        renderProfile(oldUser)
-        $el.toggleClass('is-editing')
+        cancelEdit()
     })
 
     // Save
     $el.on('submit', '.edit-form', function(e) {
-        e.preventDefault()
-        $el.addClass('is-loading is-saving')
-        $el.find('.field').enabled(false)
-
         var patch = model.patch(oldUser, {
             email: $el.find('.email .field').valOrNull(),
             first_name: $el.find('.firstName .field').valOrNull(),
@@ -96,8 +96,14 @@ module.exports = function(userId) {
         })
 
         if (!_.keys(patch).length) {
-            return alertify.alert('Nothing has been changed.')
+            alertify.log('No changes saved to user #' + userId)
+            cancelEdit()
+            return
         }
+
+        e.preventDefault()
+        $el.addClass('is-loading is-saving')
+        $el.find('.field').enabled(false)
 
         api.call('admin/users/' + userId, patch, { type: 'PATCH' })
         .always(function() {
@@ -107,9 +113,8 @@ module.exports = function(userId) {
         })
         .fail(errors.alertFromXhr)
         .done(function() {
-            $el.removeClass('is-editing')
             alertify.log('Saved ' + _.keys(patch).join(', ') + ' for user #' + userId)
-            fetchProfile()
+            cancelEdit()
         })
     })
 

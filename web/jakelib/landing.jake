@@ -7,6 +7,16 @@ var head = [
     'vendor/modernizr.js'
 ]
 
+directory('build/landing')
+directory('build/icons')
+
+file('build/icons/favicon.ico', ['assets/icons/favicon.ico'], common.copy)
+file('build/icons/favicon.png', ['assets/icons/favicon.png'], common.copy)
+file('build/icons/tileicon.png', ['assets/icons/tileicon.png'], common.copy)
+file('build/icons/touch-icon-ipad-retina.png', ['assets/icons/touch-icon-ipad-retina.png'], common.copy)
+file('build/icons/touch-icon-iphone-retina.png', ['assets/icons/touch-icon-iphone-retina.png'], common.copy)
+file('build/icons/touch-icon-iphone.png', ['assets/icons/touch-icon-iphone.png'], common.copy)
+
 task('landing', [
     'build',
     base,
@@ -15,7 +25,14 @@ task('landing', [
     base + '/styles.css',
     base + '/head.js',
     base + '/index.html',
-    base + '/entry.js'
+    base + '/entry.js',
+    'build/icons',
+    'build/icons/favicon.ico',
+    'build/icons/favicon.png',
+    'build/icons/tileicon.png',
+    'build/icons/touch-icon-ipad-retina.png',
+    'build/icons/touch-icon-iphone-retina.png',
+    'build/icons/touch-icon-iphone.png'
 ])
 
 task('landing-dist', [
@@ -25,10 +42,15 @@ task('landing-dist', [
     base + '/head.min.js',
     base + '/entry.min.js',
     base + '/index.min.html',
-    base + '/entry.min.js'
+    base + '/entry.min.js',
+    'build/icons',
+    'build/icons/favicon.ico',
+    'build/icons/favicon.png',
+    'build/icons/tileicon.png',
+    'build/icons/touch-icon-ipad-retina.png',
+    'build/icons/touch-icon-iphone-retina.png',
+    'build/icons/touch-icon-iphone.png'
 ])
-
-directory('build/landing')
 
 var vendor = [
     'components/jquery/jquery.min.js',

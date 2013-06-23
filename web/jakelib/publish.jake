@@ -18,12 +18,18 @@ function publish(hostname, cb) {
         'build/landing/entry.js': 'entry.js',
         'build/landing/vendor.js': 'vendor.js',
         'build/landing/styles.css': 'styles.css',
-        'build/landing/index.html': 'index.html'
+        'build/landing/index.html': 'index.html',
+        'build/icons/favicon.ico': 'favicon.ico',
+        'build/icons/favicon.png': 'favicon.png',
+        'build/icons/tileicon.png': 'tileicon.png',
+        'build/icons/touch-icon-ipad-retina.png': 'touch-icon-ipad-retina.png',
+        'build/icons/touch-icon-iphone-retina.png': 'touch-icon-iphone-retina.png',
+        'build/icons/touch-icon-iphone.png': 'touch-icon-iphone.png'
     }
 
     var cmds = []
     var baseDir = '/home/ubuntu/snow-web/public/'
-    var dirs = ['client/img/flags']
+    var dirs = ['client/img/flags', 'icons']
 
     cmds = cmds.concat(dirs.map(function(dir) {
         return 'ssh ubuntu@' + hostname + ' mkdir -p ' + baseDir + dir

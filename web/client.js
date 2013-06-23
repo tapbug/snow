@@ -28,7 +28,7 @@ api.on('user', function(user) {
 
     if (user.language) {
         debug('user has a language, %s, setting it on i18n', user.language)
-        return i18n.set(user.language)
+        i18n.set(user.language)
     }
 
     if (!user.language && i18n.desired) {
