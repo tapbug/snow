@@ -47,7 +47,7 @@ var numbers = module.exports = function(n, opts, currency) {
     }
 
     if (ts) {
-        numbers.addThousands(s, ds, ts)
+        s = numbers.addThousands(s, ds, ts)
     }
 
     if (opts.currency) {
@@ -60,7 +60,7 @@ var numbers = module.exports = function(n, opts, currency) {
 numbers.addThousands = function(s, ds, ts) {
     var parts = s.split(ds)
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ts)
-    s = parts.join(ds)
+    return parts.join(ds)
 }
 
 numbers.format = numbers

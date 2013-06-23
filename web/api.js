@@ -1,6 +1,6 @@
 /* global -api */
 var _ = require('lodash')
-, sjcl = require('../../../vendor/sjcl')
+, sjcl = require('./vendor/sjcl')
 , emitter = require('./util/emitter')
 , api = module.exports = emitter()
 
