@@ -48,7 +48,7 @@ exports.reportFromXhr = function(error) {
             url: strippedUrl,
             status: error.xhr.status,
             type: error.xhr.settings.type,
-            requestData: error.xhrOptions.data || null,
+            requestData: error.settings.data || null,
             responseText: error.xhr.responseText,
             user: api.user.id || null
         }
