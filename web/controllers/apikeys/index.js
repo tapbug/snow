@@ -1,10 +1,10 @@
+var template = require('./template.html')
 
 module.exports = function() {
-    var $el = $(require('./template.html')())
+    var $el = $('<div class="api-keys">').html(template())
     , controller = {
         $el: $el
     }
-    , $add = $el.find('.add')
 
     function refresh() {
         api.call('v1/keys')
@@ -18,20 +18,41 @@ module.exports = function() {
         , $items = $.map(keys, function(key) {
             return $(itemTemplate(key))
         })
+
         $keys.html($items)
     }
 
-    // Add API key
-    $add.on('click', function(e) {
+    // Show/hide add
+    $el.on('click', '.show-add, .hide-add', function(e) {
         e.preventDefault()
+        $el.toggleClass('is-showing-add')
+    })
 
-        $add.loading(true, 'Adding...')
-        api.call('v1/keys', {}, { type: 'POST' })
+    var $addForm = $el.on('.add-form')
+    , $addButton = $addForm.find('.add-button')
+
+    $addForm.on('submit', '.add-form', function(e) {
+        e.preventDefault()
+        $addButton.loading(true, 'Adding...')
+
+        api.call('v1/keys', {
+            canTrade: $addForm.field('canTrade').prop('checked'),
+            canDeposit: $addForm.field('canDeposit').prop('checked'),
+            canWithdraw: $addForm.field('canWithdraw').prop('checked')
+        }, { type: 'POST' })
         .always(function() {
-            $add.loading(false)
+            $addButton.loading(false)
         })
         .fail(errors.alertFromXhr)
-        .done(refresh)
+        .done(function() {
+            $el.toggleClass('is-showing-add')
+            $addForm.field('canTrade')
+            .add($addForm.field('canDeposit'))
+            .add($addForm.field('canWithdraw'))
+            .prop('checked', false)
+
+            refresh()
+        })
     })
 
     // Remove API key
@@ -43,10 +64,10 @@ module.exports = function() {
         , id = $key.attr('data-id')
 
         api.call('v1/keys/' + id, null, { type: 'DELETE' })
-        .fail(function(xhr) {
+        .always(function() {
             $remove.loading(false)
-            errors.alertFromXhr(xhr)
         })
+        .fail(errors.alertFromXhr)
         .done(function() {
             $key.fadeAway()
         })
