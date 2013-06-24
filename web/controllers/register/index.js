@@ -172,10 +172,8 @@ module.exports = function(after) {
             .html(i18n('register.create button'))
         }).done(function() {
             router.go(after || '')
-        }).fail(function(xhr) {
-            var err = errors.fromXhr(xhr)
-
-            if (err !== null && err.name == 'EmailFailedCheck') {
+        }).fail(function(err) {
+            if (err.name == 'EmailFailedCheck') {
                 $email.find('input').focus()
 
                 $email
@@ -188,7 +186,7 @@ module.exports = function(after) {
                 return
             }
 
-            errors.alertFromXhr(xhr)
+            errors.alertFromXhr(err)
         })
     }
 
