@@ -37,6 +37,7 @@ task('client', [
     base + '/index.html',
     base + '/img',
     base + '/img/registerbg.jpg',
+    base + '/img/icon-top-bar.png',
     base + '/img/flags',
     base + '/img/flags/NO.png',
     base + '/img/flags/US.png',
@@ -52,6 +53,7 @@ file(base + '/head.min.js', [base + '/head.js'], common.compressJs)
 file(base + '/styles.min.css', [base + '/styles.css'], common.compressCss)
 
 file(base + '/img/registerbg.jpg', ['assets/client/img/registerbg.jpg'], common.copy)
+file(base + '/img/icon-top-bar.png', ['assets/client/img/icon-top-bar.png'], common.copy)
 file(base + '/img/flags/NO.png', ['assets/client/img/flags/NO.png'], common.copy)
 file(base + '/img/flags/US.png', ['assets/client/img/flags/US.png'], common.copy)
 file(base + '/img/flags/ES.png', ['assets/client/img/flags/ES.png'], common.copy)

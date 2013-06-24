@@ -16,6 +16,7 @@ file('build/icons/tileicon.png', ['assets/icons/tileicon.png'], common.copy)
 file('build/icons/touch-icon-ipad-retina.png', ['assets/icons/touch-icon-ipad-retina.png'], common.copy)
 file('build/icons/touch-icon-iphone-retina.png', ['assets/icons/touch-icon-iphone-retina.png'], common.copy)
 file('build/icons/touch-icon-iphone.png', ['assets/icons/touch-icon-iphone.png'], common.copy)
+file(base + '/logo-top-left.png', ['assets/landing/logo-top-left.png'], common.copy)
 
 task('landing', [
     'build',
@@ -26,6 +27,7 @@ task('landing', [
     base + '/head.js',
     base + '/index.html',
     base + '/entry.js',
+    base + '/logo-top-left.png',
     'build/icons',
     'build/icons/favicon.ico',
     'build/icons/favicon.png',
@@ -43,6 +45,7 @@ task('landing-dist', [
     base + '/entry.min.js',
     base + '/index.min.html',
     base + '/entry.min.js',
+    base + '/logo-top-left.png',
     'build/icons',
     'build/icons/favicon.ico',
     'build/icons/favicon.png',
