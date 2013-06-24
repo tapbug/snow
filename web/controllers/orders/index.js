@@ -40,7 +40,9 @@ module.exports = function() {
 
     $items.on('click', 'button.cancel', function(e) {
         e.preventDefault()
+
         var $item = $(e.target).closest('.item')
+        $(this).loading(true, 'Deleting...')
 
         api.call('v1/orders/' + $item.attr('data-id'), null, { type: 'DELETE' })
         .fail(errors.alertFromXhr)
