@@ -20,6 +20,7 @@ function publish(hostname, cb) {
         'build/landing/vendor.js': 'vendor.js',
         'build/landing/styles.css': 'styles.css',
         'build/landing/index.html': 'index.html',
+        'build/landing/logo-top-left.png': 'logo-top-left.png',
         'build/icons/favicon.ico': 'favicon.ico',
         'build/icons/favicon.png': 'favicon.png',
         'build/icons/tileicon.png': 'tileicon.png',
