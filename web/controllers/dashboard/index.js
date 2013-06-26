@@ -45,7 +45,7 @@ module.exports = function() {
 
     api.rippleAddress().done(function(address) {
         $depositXrp.attr('href', format('https://ripple.com//send?to=%s&dt=%s',
-            address, api.user.id))
+            address, api.user.tag))
     })
 
     controller.destroy = function() {
