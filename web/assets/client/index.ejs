@@ -15,10 +15,6 @@
     <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
     <meta name="msapplication-TileImage" content="/tileicon.png">
 
-    <!--[if lte IE 7]>
-        <h4 color="red">Your browser is too old</h4><p><a href="http://browsehappy.com">Upgrade now</a></p>
-    <![endif]-->
-
     <% if (minify) { %>
         <link href="styles.min.css?ts=<%= timestamp %>" rel="stylesheet">
     <% } else { %>
@@ -42,6 +38,10 @@
 </head>
 
 <body>
+    <!--[if lte IE 8]>
+        <div class="old-browser"><h4>Your browser is too old</h4><p><a href="http://browsehappy.com">Upgrade now</a></p></div>
+    <![endif]-->
+
     <% if (minify) { %>
         <script src="vendor.min.js?ts=<%= timestamp %>"></script>
     <% } else { %>
