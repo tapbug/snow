@@ -27,6 +27,7 @@ exports.alertFromXhr = function(error) {
 }
 
 exports.reportFromXhr = function(error) {
+    if (!error.xhr) throw new Error('Error is not XHR error')
     if (!error.xhr.readyState || !error.xhr.status) return
 
     var strippedUrl = error.xhr.settings.url
@@ -48,7 +49,7 @@ exports.reportFromXhr = function(error) {
             url: strippedUrl,
             status: error.xhr.status,
             type: error.xhr.settings.type,
-            requestData: error.settings.data || null,
+            requestData: error.xhr.settings.data || null,
             responseText: error.xhr.responseText,
             user: api.user.id || null
         }
