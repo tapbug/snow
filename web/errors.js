@@ -42,7 +42,7 @@ exports.reportFromXhr = function(error) {
     var data = {
         tags: {
             url: (error.xhr.settings.type || 'GET') + ' ' + strippedUrl,
-            user: api.user.id || null
+            user: api.user ? api.user.id : null
         },
         extra: {
             url: strippedUrl,
