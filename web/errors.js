@@ -51,7 +51,7 @@ exports.reportFromXhr = function(error) {
             type: error.xhr.settings.type,
             requestData: error.xhr.settings.data || null,
             responseText: error.xhr.responseText,
-            user: api.user.id || null
+            user: api.user ? api.user.id : null
         }
     }
 
