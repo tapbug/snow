@@ -63,7 +63,7 @@ api.call = function(method, data, options) {
             body: body,
             statusText: statusText,
             status: status,
-            name: body.name || null,
+            name: body && body.name ? body.name : null,
             message: body && body.message || null
         }
 
