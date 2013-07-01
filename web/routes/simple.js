@@ -28,10 +28,12 @@ module.exports = {
         })
         .add(/^simple\/buy(?:\?(any))?$/, function(amount) {
             if (!authorize.user()) return
+            if (!authorize.identity()) return
             master(buy(amount), 'simple-buy')
         })
         .add(/^simple\/sell$/, function() {
             if (!authorize.user()) return
+            if (!authorize.identity()) return
             master(sell(), 'simple-sell')
         })
     }
