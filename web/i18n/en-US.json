@@ -171,7 +171,7 @@
     "privacy.body": "<p>Updated 2013-05-18</p><p>Placeholder</p>",
 
     "depositnok.heading": "Deposit with Norwegian bank transfer",
-    "depositnok.intro": "To deposit NOK with Norwegian bank transfer, send using the details below. Make sure that the message to recipient is correct.",
+    "depositnok.intro": "To deposit NOK with Norwegian bank transfer, send using the details below. You must send from a bank account that is in your own name. Make sure that the message to recipient is correct.",
     "depositnok.account": "Account number",
     "depositnok.messageToRecipient": "Message to recipient",
     "depositnok.minimumAmount": "Minimum amount",
@@ -214,7 +214,7 @@
     "simple.buy.estimate.amount-converted.label": "about",
     "simple.buy.estimate.continue": "Continue",
     "simple.buy.estimate.back": "Back",
-    "simple.buy.payment.intro": "We use Norwegian domestic bank transfer",
+    "simple.buy.payment.intro": "We use Norwegian domestic bank transfer. You must send from a bank account that is in your own name.",
     "simple.buy.payment.amount": "Amount",
     "simple.buy.payment.account": "Account",
     "simple.buy.payment.message-to-recipient": "Message to recipient",

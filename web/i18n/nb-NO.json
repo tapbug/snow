@@ -145,7 +145,7 @@
     "login.errors.email.badFormat": "Ser ikke gyldig ut.",
 
     "depositnok.heading": "Innskudd med norsk bankoveføring",
-    "depositnok.intro": "For å sette inn NOK med norsk bankoveføring, send med detaljene under. Pass på at melding til mottaker er riktig.",
+    "depositnok.intro": "For å sette inn NOK med norsk bankoveføring, send med detaljene under. Du må sende fra en konto som er i ditt eget navn. Pass på at melding til mottaker er riktig.",
     "depositnok.account": "Kontonummer",
     "depositnok.messageToRecipient": "Melding til mottaker",
     "depositnok.minimumAmount": "Minste beløp",
@@ -198,7 +198,7 @@
     "simple.buy.estimate.amount-converted.label": "omtrent",
     "simple.buy.estimate.continue": "Fortsett",
     "simple.buy.estimate.back": "Tilbake",
-    "simple.buy.payment.intro": "Vi bruker vanlig, norsk bankoverføring. Send fra nettbanken din med disse detaljene:",
+    "simple.buy.payment.intro": "Vi bruker vanlig, norsk bankoverføring. Du må sende fra en konto som er i ditt eget navn. Send fra nettbanken din med disse detaljene:",
     "simple.buy.payment.amount": "Antall",
     "simple.buy.payment.account": "Kontonummer",
     "simple.buy.payment.message-to-recipient": "Melding til mottaker",
