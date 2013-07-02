@@ -36,12 +36,15 @@ module.exports = function(userId) {
             'country': 'country',
             'city': 'city',
             'postalArea': 'postal_area',
-            'address': 'address'
+            'address': 'address',
+            'tag': 'tag',
+            'bitcoin-address': 'bitcoin_address',
+            'litecoin-address': 'litecoin_address'
         }
 
         _.each(plains, function(v, k) {
             var $row = $el.find('.' + k)
-            $row.find('span').html((u[v] || '').replace(/\n/g, '<br />')),
+            $row.find('span').html((u[v] || '').toString().replace(/\n/g, '<br />')),
             $row.find('.field').val(u[v] || '')
         })
 
