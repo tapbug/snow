@@ -21,15 +21,6 @@ module.exports = function() {
     // Insert footer
     $el.find('.footer-placeholder').replaceWith(footerTemplate())
 
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    }
-
-    function formatNumber(n, p) {
-        var s = num(n).set_precision(p || 2).toString()
-        return numberWithCommas(s)
-    }
-
     function balancesUpdated(balances) {
         var indexed = _.reduce(balances, function(p, c) {
             p[c.currency] = c.available
@@ -37,7 +28,11 @@ module.exports = function() {
         }, {})
 
         balance = indexed.BTC
-        $balance.html(formatNumber(balance) + ' BTC')
+
+        $balance
+        .html(numbers.format(balance, { maxPrecision: 2, currency: 'BTC' }))
+        .attr('title', numbers.format(balance, { currency: 'BTC' }))
+
         recalculate()
     }
 
