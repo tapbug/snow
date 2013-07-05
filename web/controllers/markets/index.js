@@ -1,4 +1,5 @@
-var template = require('./template.html')
+var _ = require('lodash')
+, template = require('./template.html')
 , marketTemplate = require('./market.html')
 
 module.exports = function(id) {
@@ -24,6 +25,10 @@ module.exports = function(id) {
     setMarket(id)
 
     function marketsChanged(markets) {
+        markets = _.sortBy(markets, function(market) {
+            return (market.id == 'BTCNOK' ? 0 : 1) + market.id
+        })
+
         $el.find('.markets-nav').html($.map(markets, function(market) {
             return $(marketTemplate(market))
         }))
