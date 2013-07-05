@@ -11,6 +11,17 @@ $.fn.enabled = function(value) {
     return !this.prop('disabled')
 }
 
+$.fn.parseNumber = function() {
+    return numbers.parse($(this).val())
+}
+
+$.fn.flash = function() {
+    var $this = $(this).addClass('flash')
+    setTimeout(function() {
+        $this.removeClass('flash')
+    }, 750)
+}
+
 $.fn.loading = function(value, html) {
     var $this = $(this)
     if (typeof value != 'undefined') {

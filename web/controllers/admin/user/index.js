@@ -48,9 +48,6 @@ module.exports = function(userId) {
             $row.find('.field').val(u[v] || '')
         })
 
-        $el.find('.simple span').html(u.simple ? 'Yes' : 'No')
-        $el.find('.simple .field').prop('checked', u.simple)
-
         $el.find('.created span').html(moment(u.created_at).format('Do MMMM YYYY'))
 
         $el.toggleClass('has-verified-email', !!u.email_verified_at)
@@ -96,8 +93,7 @@ module.exports = function(userId) {
             city: $el.find('.city .field').valOrNull(),
             postal_area: $el.find('.postalArea .field').valOrNull(),
             address: $el.find('.address .field').valOrNull(),
-            phone_number: $el.find('.phone .field').valOrNull(),
-            simple: $el.find('.simple .field').prop('checked')
+            phone_number: $el.find('.phone .field').valOrNull()
         })
 
         if (!_.keys(patch).length) {

@@ -66,24 +66,6 @@
     "login.password.placeholder": "Contraseña",
     "login.button": "Entrar",
 
-    "market.buy summary": "Usted está comprando %s %s por %s %s",
-    "market.sell summary": "Usted está vendiendo %s %s por %s %s",
-    "market.order placed": "Pedido %s confirmado",
-    "market.buy.heading": "Comprar Bitcoin",
-    "market.sell.heading": "Vender Bitcoin",
-    "market.buy.button": "Comprar Bitcoin",
-    "market.sell.button": "Vender Bitcoin",
-    "market.depth.heading": "Precios de mercado",
-    "market.depth.buy volume": "Comprar cantidad",
-    "market.depth.sell volume": "Vender cantidad",
-
-    "markets.column headers.last": "Último",
-    "markets.column headers.bid": "Oferta",
-    "markets.column headers.ask": "Preguntar",
-    "markets.column headers.high": "Alto",
-    "markets.column headers.low": "Bajo",
-    "markets.column headers.volume": "Cantidad",
-
     "not found.heading": "Resultado no encontrado",
     "not found.body": "No hay nada en esta dirección.",
 

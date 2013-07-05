@@ -30,7 +30,9 @@ var numbers = module.exports = function(n, opts, currency) {
 
     // Trim unnecessary zeroes
     if (!opts.precision && (opts.trim || opts.trimRight)) {
-        s = s.replace(/\.0*$/, '')
+        if (~s.indexOf('.')) {
+            s = s.replace(/\.?0*$/, '')
+        }
     }
 
     // Decmial separator

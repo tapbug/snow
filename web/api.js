@@ -90,11 +90,10 @@ api.login = function(email, password) {
     return api.loginWithKey(key)
 }
 
-api.register = function(email, password, simple) {
+api.register = function(email, password) {
     return api.call('v1/users', {
         email: email,
-        key: keyFromCredentials(email, password),
-        simple: simple
+        key: keyFromCredentials(email, password)
     })
     .done(function() {
         return api.login(email, password)
@@ -154,6 +153,7 @@ api.patchUser = function(attrs) {
 api.markets = function() {
     return api.call('v1/markets')
     .then(function(markets) {
+        api.markets.value = markets
         api.trigger('markets', markets)
     })
 }

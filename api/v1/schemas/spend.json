@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+        "amount": {
+            "type": "string",
+            "required": true,
+            "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "market": {
+            "type": "string",
+            "required": true,
+            "pattern": "^[A-Z]{6}$"
+        }
+    }
+}

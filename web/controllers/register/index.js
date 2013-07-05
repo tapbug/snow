@@ -157,15 +157,11 @@ module.exports = function(after) {
         .addClass('is-loading')
         .html(i18n('register.create button.creating'))
 
-
-        $advanced.modal({
-            keyboard: false,
-            backdrop: 'static'
-        })
+        register()
     })
 
-    function register(simple) {
-        api.register($email.find('input').val(), $password.find('input').val(), simple)
+    function register() {
+        api.register($email.find('input').val(), $password.find('input').val())
         .always(function() {
             $submit.prop('disabled', false)
             .removeClass('is-loading')
@@ -189,18 +185,6 @@ module.exports = function(after) {
             errors.alertFromXhr(err)
         })
     }
-
-    $advanced.on('click', '.normal-user', function(e) {
-        e.preventDefault()
-        $advanced.modal('hide')
-        register(true)
-    })
-
-    $advanced.on('click', '.expert-user', function(e) {
-        e.preventDefault()
-        $advanced.modal('hide')
-        register(false)
-    })
 
     $email.find('input').focusSoon()
 

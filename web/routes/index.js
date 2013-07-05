@@ -6,7 +6,6 @@ var master = require('../controllers/master')
 , withdrawripple = require('../controllers/withdrawripple')
 , login = require('../controllers/login')
 , register = require('../controllers/register')
-, market = require('../controllers/market')
 , notfound = require('../controllers/notfound')
 , dashboard = require('../controllers/dashboard')
 , terms = require('../controllers/terms')
@@ -31,18 +30,11 @@ module.exports = function() {
     .add(/^$/, function() {
         api.once('user', function(user) {
             if (user) {
-                if (user.simple) {
-                    router.go('simple')
-                } else {
-                    master(dashboard())
-                }
+                master(dashboard())
             } else {
                 master(login())
             }
         })
-    })
-    .add(/^markets$/, function() {
-        master(markets(), 'markets')
     })
     .add(/^apiKeys$/, function() {
         master(apiKeys(), 'home')
@@ -54,8 +46,8 @@ module.exports = function() {
         $.removeCookie('apiKey')
         window.location = '/'
     })
-    .add(/^markets\/(.+)$/, function(id) {
-        master(market(id), 'market')
+    .add(/^markets\/([A-Z]{6})$/, function(id) {
+        master(markets(id), 'markets')
     })
     .add(/^register(?:\?after=(.+))?$/, function(after) {
         master(register(after), 'register')
@@ -139,7 +131,6 @@ module.exports = function() {
     })
 
     require('./admin').configure()
-    require('./simple').configure()
 
     router
     .add(/^(.+)$/, function(hash) {

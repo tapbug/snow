@@ -23,7 +23,6 @@ if (window.analytics) {
 api.on('user', function(user) {
     $app.toggleClass('is-logged-in', !!user)
     $app.toggleClass('is-admin', user && user.admin)
-    $app.toggleClass('is-simple', user && user.simple)
 
     debug('user has changed')
 
