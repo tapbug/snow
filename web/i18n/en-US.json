@@ -237,4 +237,9 @@
     "markets.market.limitorder.ask.summary.order total": "Order total",
     "markets.market.limitorder.ask.submit": "Place order",
     "markets.market.limitorder.ask.submitting": "Placing order...",
+
+    "markets.market.depth.heading": "Market prices",
+    "markets.market.depth.columns.bid volume": "Buyers",
+    "markets.market.depth.columns.price": "Price",
+    "markets.market.depth.columns.ask volume": "Sellers"
 }

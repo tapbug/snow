@@ -159,9 +159,40 @@ module.exports = function(market) {
     })
 
     $el.on('submit', 'form', function(e) {
-        // i18n: markets.market.marketorder.ask.placing order
         e.preventDefault()
-        alert('TODO: Market order')
+
+        var $button = $el.find('[type="submit"]')
+        , $form = $el.find('form')
+
+        if (!validateSell(true)) {
+            $form.field('sell').focus()
+            $button.shake()
+            return
+        }
+
+        $button.loading(true, i18n('markets.market.marketorder.ask.placing order'))
+        $form.addClass('is-loading')
+
+        api.call('v1/orders', {
+            market: market,
+            type: 'ask',
+            amount: $el.field('sell').parseNumber(),
+            price: null
+        })
+        .always(function() {
+            $button.loading(false)
+            $form.removeClass('is-loading')
+        })
+        .fail(function(err) {
+            errors.alertFromXhr(err)
+        })
+        .done(function() {
+            $el.field('amount', '')
+            .field('price', '')
+            api.balances()
+            $el.find('.available').flash()
+            $el.trigger('trade')
+        })
     })
 
     $el.on('click', '[data-action="sell-all"]', function(e) {

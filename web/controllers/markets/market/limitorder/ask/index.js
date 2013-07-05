@@ -188,7 +188,7 @@ module.exports = function(market) {
             return
         }
 
-        $button.loading(true, 'Placing sell order')
+        $button.loading(true, i18n('markets.market.limitorder.ask.submitting'))
         $form.addClass('is-loading')
 
         api.call('v1/orders', {
