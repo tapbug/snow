@@ -48,8 +48,9 @@
     "register.create button.creating": "Creating account...",
     "register.existing user login": "Existing user? Login here",
 
-    "activities.CreateOrder": "You created an order to %s %s %s for %s %s",
+    "activities.CreateOrder": "You created an order to %s %s %s for %s",
     "activities.CreateOrder.buy": "buy",
+    "activities.CreateOrder.market price": "market price",
     "activities.CreateOrder.sell": "sell",
     "activities.CancelOrder": "You cancelled order #%s",
     "activities.RippleWithdraw": "You requested to withdraw %s %s to Ripple (%s)",

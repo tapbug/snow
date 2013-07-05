@@ -40,7 +40,7 @@
     "register.create button": "Crear cuenta",
     "register.create button.creating": "Creando cuenta...",
 
-    "activities.CreateOrder": "Usted ordenó un pedido de %s %s %s a %s %s",
+    "activities.CreateOrder": "Usted ordenó un pedido de %s %s %s a %s",
     "activities.CancelOrder": "Usted canceló el pedido #%s",
     "activities.RippleWithdraw": "Usted solicitó retirar %s %s a Ripple (%s)",
     "activities.LTCWithdraw": "Usted solicitó retirar %s LTC a %s",

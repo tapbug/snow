@@ -4,16 +4,23 @@ var format = require('util').format
 /* jshint maxcomplexity: 99 */
 module.exports = function(activity) {
     if (activity.type == 'CreateOrder') {
-        var total = num(activity.details.price).mul(activity.details.volume ||
-            activity.details.amount).toString()
+        var total
+        , amount = activity.details.volume || activity.details.amount
+        , quote = activity.details.market.substr(3)
+
+        if (activity.details.price) {
+            total = numbers.format(num(activity.details.price).mul(amount).toString(),
+                { currency: quote })
+        } else {
+            total = i18n('activities.CreateOrder.market price')
+        }
 
         return format(i18n('activities.CreateOrder'),
             (activity.details.side || activity.details.type) == 'bid' ?
                 i18n('activities.CreateOrder.buy') : i18n('activities.CreateOrder.sell'),
             numbers.format(activity.details.volume || activity.details.amount),
             activity.details.market.substr(0, 3),
-            numbers.format(total),
-            activity.details.market.substr(3))
+            total)
     }
 
     if (activity.type == 'CancelOrder') {
