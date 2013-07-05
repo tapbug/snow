@@ -86,7 +86,8 @@ module.exports = function(market) {
         , item = _.find(balances, { currency: base })
 
         $el.find('.available')
-        .html(numbers.format(item.available, { maxPrecision: 2, currency: item.currency }))
+        .html(numbers.format(item.available,
+            { maxPrecision: 2, currency: item.currency }))
         .attr('title', numbers.format(item.available, { currency: item.currency }))
     }
 
@@ -98,34 +99,36 @@ module.exports = function(market) {
         var val = $el.field('sell').val()
         , valid
 
-        if (val.length) {
-            var sell = numbers.parse(val)
+        if (!val.length) {
+            valid = !emptyIsError
+            $sell.toggleClass('error', !valid)
+            return valid
+        }
 
-            if (sell === null) {
+        var sell = numbers.parse(val)
+
+        if (sell === null) {
+            valid = false
+        } else {
+            if (num(sell).lte(0)) return
+
+            var precision = num(sell).get_precision()
+            , maxPrecision = 5 // TODO: Remove magic number
+
+            if (precision > maxPrecision) {
                 valid = false
+                $el.addClass('is-precision-too-high')
             } else {
-                if (num(sell).lte(0)) return
+                var item = _.find(api.balances.current, { currency: quote })
+                , available = item.available
 
-                var precision = num(sell).get_precision()
-                , maxPrecision = 5 // TODO: Remove magic number
-
-                if (precision > maxPrecision) {
+                if (num(sell).gt(available)) {
                     valid = false
-                    $el.addClass('is-precision-too-high')
+                    $el.addClass('has-insufficient-funds')
                 } else {
-                    var item = _.find(api.balances.current, { currency: quote })
-                    , available = item.available
-
-                    if (num(sell).gt(available)) {
-                        valid = false
-                        $el.addClass('has-insufficient-funds')
-                    } else {
-                        valid = true
-                    }
+                    valid = true
                 }
             }
-        } else {
-            valid = emptyIsError
         }
 
         $sell.toggleClass('error', !valid)

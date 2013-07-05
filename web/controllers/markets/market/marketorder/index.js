@@ -1,7 +1,4 @@
-var num = require('num')
-, _ = require('lodash')
-, template = require('./template.html')
-, debug = require('../../../../util/debug')('trade')
+var template = require('./template.html')
 
 module.exports = function(market) {
     var $el = $('<div class="market-order">').html(template({

@@ -15,7 +15,6 @@ module.exports = function(after) {
     , $password = $form.find('.control-group.password')
     , $repeat = $form.find('.control-group.repeat')
     , $submit = $form.find('button')
-    , $advanced = $el.find('.modal.advanced')
 
     $email.find('.help-inline').html(i18n('register.hints.email'))
     $password.find('.help-inline').html(i18n('register.hints.password'))
