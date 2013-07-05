@@ -230,6 +230,7 @@
 
     "markets.market.limitorder.ask.available.you have": "You have",
     "markets.market.limitorder.ask.amount.label": "Amount to sell",
+    "markets.market.limitorder.ask.amount.all": "all",
     "markets.market.limitorder.ask.amount.insufficient funds": "Insufficient funds",
     "markets.market.limitorder.ask.amount.too many decimals": "Too many decimals",
     "markets.market.limitorder.ask.price.label": "Price per",

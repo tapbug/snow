@@ -222,6 +222,7 @@
 
     "markets.market.limitorder.ask.available.you have": "Du har",
     "markets.market.limitorder.ask.amount.label": "Selg antall",
+    "markets.market.limitorder.ask.amount.all": "alt",
     "markets.market.limitorder.ask.amount.insufficient funds": "Mer enn du har",
     "markets.market.limitorder.ask.amount.too many decimals": "For mange desimaler",
     "markets.market.limitorder.ask.price.label": "Pris per",
