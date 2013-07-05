@@ -17,6 +17,8 @@ module.exports = function(market) {
     , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
 
     function updateQuote() {
+        $el.removeClass('is-too-deep')
+
         if (!depth) return
         var spend = $el.field('spend').parseNumber()
         if (spend === null) return
@@ -25,7 +27,12 @@ module.exports = function(market) {
         spend.set_precision(quotePrecision)
 
         if (spend.lte(0)) return
-        if (!depth.asks.length) return
+
+        if (!depth.asks.length) {
+            $spend.addClass('error')
+            $el.addClass('is-too-deep')
+            return
+        }
 
         var receive = num(0)
         , volumePrecision = num(depth.asks[0][1]).get_precision()

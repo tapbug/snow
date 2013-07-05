@@ -17,6 +17,8 @@ module.exports = function(market) {
     , $sell = $el.find('.sell')
 
     function updateQuote() {
+        $el.removeClass('is-too-deep')
+
         if (!depth) return
         var sell = numbers.parse($el.field('sell').val())
 
@@ -24,7 +26,12 @@ module.exports = function(market) {
         sell = num(sell)
 
         if (sell.lte(0)) return
-        if (!depth.bids.length) return
+
+        if (!depth.bids.length) {
+            $sell.addClass('error')
+            $el.addClass('is-too-deep')
+            return
+        }
 
         var receive = num(0)
         , volumePrecision = num(depth.bids[0][1]).get_precision()
