@@ -51,6 +51,19 @@ module.exports = function(userId) {
         })
     })
 
+    $items.on('click', '[data-action="delete"]', function(e) {
+        e.preventDefault()
+        var id = $(this).closest('tr').attr('data-id')
+        $(this).enabled(false).loading(true, 'Deleting...')
+        var url = format('admin/users/%s/bankAccounts/%s', userId, id)
+
+        api.call(url, null, { type: 'DELETE' })
+        .fail(errors.alertFromXhr)
+        .done(function() {
+            refresh()
+        })
+    })
+
     $el.on('click', '*[data-action="add"]', function(e) {
         e.preventDefault()
 
