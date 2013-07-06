@@ -46,7 +46,7 @@ module.exports = function(currency) {
         }
 
         api.call('v1/withdraws/bank', {
-            amount: $amount.val(),
+            amount: $amount.parseNumber(),
             bankAccount: +$bankAccount.val(),
             currency: 'NOK'
         })

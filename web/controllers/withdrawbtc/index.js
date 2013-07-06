@@ -10,7 +10,7 @@ module.exports = function() {
         e.preventDefault()
 
         api.call('v1/btc/out', {
-            amount: $amount.val(),
+            amount: $amount.parseNumber(),
             address: $address.val()
         })
         .fail(function(err) {

@@ -11,7 +11,7 @@ module.exports = function() {
     $form.on('submit', function(e) {
         e.preventDefault()
         api.call('v1/ripple/out', {
-            amount: $amount.val(),
+            amount: $amount.parseNumber(),
             address: $address.val(),
             currency: $currency.val()
         })
