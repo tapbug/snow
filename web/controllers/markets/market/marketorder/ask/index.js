@@ -126,10 +126,13 @@ module.exports = function(market) {
                 valid = false
                 $el.addClass('is-precision-too-high')
             } else {
-                var item = _.find(api.balances.current, { currency: quote })
+                var item = _.find(api.balances.current, { currency: base })
                 , available = item.available
 
                 if (num(sell).gt(available)) {
+                    debug('Available %s < required %s', available.toString(),
+                        sell.toString())
+
                     valid = false
                     $el.addClass('has-insufficient-funds')
                 } else {
@@ -202,6 +205,7 @@ module.exports = function(market) {
             api.balances()
             $el.find('.available').flash()
             $el.trigger('trade')
+            $form.field('amount').focus()
         })
     })
 

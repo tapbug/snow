@@ -212,6 +212,7 @@ module.exports = function(market) {
             api.balances()
             $el.find('.available').addClass('flash')
             $el.trigger('trade')
+            $form.field('amount').focus()
         })
     })
 

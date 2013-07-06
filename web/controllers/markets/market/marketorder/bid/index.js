@@ -217,6 +217,7 @@ module.exports = function(market) {
             .field('price', '')
             api.balances()
             $el.find('.available').flash()
+            $form.field('spend').focus()
         })
     })
 
