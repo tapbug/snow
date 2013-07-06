@@ -36,17 +36,9 @@ module.exports = function(market) {
 
         var receive = num(0)
         , volumePrecision = num(depth.asks[0][1]).get_precision()
-
-        var remaining = num(spend)
-
-        debug('volume precision %s', volumePrecision.toString())
-        debug('Spend up to %s', spend.toString())
-
-        debug('test %s', num(1).set_precision())
+        , remaining = num(spend)
 
         var filled = _.some(depth.asks, function(level) {
-            debug('%s remaining', remaining.toString())
-
             var price = num(level[0])
             , volume = num(level[1])
             , theirTotal = price.mul(volume)
@@ -55,11 +47,7 @@ module.exports = function(market) {
 
             take.set_precision(volume.get_precision())
 
-            debug('Volume %s, their total %s, take %s',
-                volume.toString(), theirTotal.toString(), take.toString())
-
             if (take.eq(0)) {
-                debug('Would take zero, breaking')
                 return true
             }
 
@@ -89,11 +77,7 @@ module.exports = function(market) {
         receive = receive.mul('0.995')
 
         var actualSpend = spend.sub(remaining)
-
-        debug('Spend %s - remaining %s = %s',
-            spend.toString(), remaining.toString(), actualSpend.toString())
-
-        var effectivePrice = actualSpend.div(receive)
+        , effectivePrice = actualSpend.div(receive)
 
         debug('Effective price: %s / %s = %s', actualSpend.toString(),
             receive.toString(), effectivePrice.toString())
@@ -138,7 +122,7 @@ module.exports = function(market) {
             valid = false
         } else {
             var precision = num(spend).get_precision()
-            , maxPrecision = 5 // TODO: Remove magic number
+            , maxPrecision = quotePrecision
 
             if (precision > maxPrecision) {
                 valid = false
@@ -213,7 +197,7 @@ module.exports = function(market) {
             errors.alertFromXhr(err)
         })
         .done(function() {
-            $el.field('amount', '')
+            $el.field('spend', '')
             .field('price', '')
             api.balances()
             $el.find('.available').flash()

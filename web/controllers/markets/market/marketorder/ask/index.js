@@ -15,6 +15,10 @@ module.exports = function(market) {
     , base = market.substr(0, 3)
     , depth
     , $sell = $el.find('.sell')
+    , pricePrecision = _.find(api.markets.value, { id: market }).scale
+    , basePrecision = _.find(api.currencies.value, { id: base }).scale
+    , volumePrecision = basePrecision - pricePrecision
+    , quotePrecision = _.find(api.currencies.value, { id: quote }).scale
 
     function updateQuote() {
         $el.removeClass('is-too-deep')
@@ -34,13 +38,7 @@ module.exports = function(market) {
         }
 
         var receive = num(0)
-        , volumePrecision = num(depth.bids[0][1]).get_precision()
-        , quotePrecision = 5
-        sell.set_precision(quotePrecision)
-
-        var remaining = num(sell)
-
-        debug('volume precision %s', volumePrecision.toString())
+        , remaining = num(sell)
 
         var filled = _.some(depth.bids, function(level) {
             debug('%s remaining', remaining.toString())
@@ -48,9 +46,6 @@ module.exports = function(market) {
             var price = num(level[0])
             , volume = num(level[1])
             , take = volume.gte(remaining) ? remaining : volume
-
-            // Decrease precision from currency scale to order amount scale.
-            take.set_precision(volume.get_precision())
 
             if (take.eq(0)) {
                 return true
@@ -64,6 +59,13 @@ module.exports = function(market) {
 
             receive = receive.add(take.mul(price))
             remaining = remaining.sub(take)
+
+            debug('Sum receive %s, remaining %s', receive.toString(),
+                remaining.toString())
+
+            if (remaining.eq(0)) {
+                return true
+            }
         })
 
         $el.toggleClass('is-too-deep', !filled)
@@ -77,9 +79,9 @@ module.exports = function(market) {
         receive = receive.mul('0.995')
 
         var effectivePrice = receive.div(sell)
-        effectivePrice.set_precision(3) // TODO: Remove magic number
+        effectivePrice.set_precision(pricePrecision)
 
-        receive.set_precision(5) // TODO: Remove magic number
+        receive.set_precision(quotePrecision)
 
         $el.find('.receive-quote').html(
             numbers.format(receive.toString()))
@@ -120,7 +122,7 @@ module.exports = function(market) {
             if (num(sell).lte(0)) return
 
             var precision = num(sell).get_precision()
-            , maxPrecision = 5 // TODO: Remove magic number
+            , maxPrecision = volumePrecision
 
             if (precision > maxPrecision) {
                 valid = false
