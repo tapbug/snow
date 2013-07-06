@@ -35,5 +35,7 @@ function verifiedphone(e) {
     debug('intercom update started')
 }
 
-api.on('user', attach)
-$app.on('verifiedphone', verifiedphone)
+if (window.location.hostname != 'localhost') {
+    api.on('user', attach)
+    $app.on('verifiedphone', verifiedphone)
+}
