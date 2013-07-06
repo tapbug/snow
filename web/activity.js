@@ -4,23 +4,32 @@ var format = require('util').format
 /* jshint maxcomplexity: 99 */
 module.exports = function(activity) {
     if (activity.type == 'CreateOrder') {
-        var total
-        , amount = activity.details.volume || activity.details.amount
-        , quote = activity.details.market.substr(3)
+        var amount = activity.details.volume || activity.details.amount
+        , quote = activity.details.market.substr(3, 3)
+        , base = activity.details.market.substr(0, 3)
+        , amountFormatted = numbers.format(amount, { currency: base })
+        , price = activity.details.price
+        , type = activity.details.type || activity.details.side
 
-        if (activity.details.price) {
-            total = numbers.format(num(activity.details.price).mul(amount).toString(),
-                { currency: quote })
+        if (price) {
+            var total = num(price).mul(amount).toString()
+            , totalFormatted = numbers.format(total, { currency: quote })
+            , priceFormatted = numbers.format(price, { currency: quote })
+
+            if (type == 'bid') {
+                return i18n('activities.CreateOrder.limit.bid', amountFormatted,
+                    totalFormatted, priceFormatted)
+            }
+
+            return i18n('activities.CreateOrder.limit.ask', amountFormatted,
+                totalFormatted, priceFormatted)
         } else {
-            total = i18n('activities.CreateOrder.market price')
-        }
+            if (type == 'bid') {
+                return i18n('activities.CreateOrder.market.bid', amountFormatted, quote)
+            }
 
-        return format(i18n('activities.CreateOrder'),
-            (activity.details.side || activity.details.type) == 'bid' ?
-                i18n('activities.CreateOrder.buy') : i18n('activities.CreateOrder.sell'),
-            numbers.format(activity.details.volume || activity.details.amount),
-            activity.details.market.substr(0, 3),
-            total)
+            return i18n('activities.CreateOrder.market.ask', amountFormatted, quote)
+        }
     }
 
     if (activity.type == 'CancelOrder') {
