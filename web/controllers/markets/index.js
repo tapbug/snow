@@ -1,6 +1,7 @@
 var _ = require('lodash')
 , template = require('./template.html')
 , marketTemplate = require('./market.html')
+, debug = require('../../util/debug')('snow:markets')
 
 module.exports = function(id) {
     var $el = $('<div class="markets">').html(template())
@@ -22,9 +23,7 @@ module.exports = function(id) {
         currentMarketId = id
     }
 
-    setMarket(id)
-
-    function marketsChanged(markets) {
+    function onMarkets(markets) {
         markets = _.sortBy(markets, function(market) {
             return (market.id == 'BTCNOK' ? 0 : 1) + market.id
         })
@@ -37,17 +36,18 @@ module.exports = function(id) {
         .addClass('active').siblings().removeClass('active')
     }
 
-    function refresh() {
-        api.call('v1/markets')
-        .fail(errors.alertFromXhr)
-        .done(marketsChanged)
-    }
-
-    refresh()
+    onMarkets(api.markets.value)
 
     setTimeout(function() {
         $el.find('input:visible:first').focus()
     }, 750)
+
+    controller.destroy = function() {
+        debug('destroying controller...')
+        market.destroy()
+    }
+
+    setMarket(id)
 
     return controller
 }

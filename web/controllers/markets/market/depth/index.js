@@ -54,6 +54,7 @@ module.exports = function(id) {
 
     controller.destroy = function() {
         api.off('depth:' + id, onDepth)
+        timer && clearTimeout(timer)
     }
 
     return controller
