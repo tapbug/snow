@@ -3,6 +3,8 @@ var format = require('util').format
 
 /* jshint maxcomplexity: 99 */
 module.exports = function(activity) {
+    var details = activity.details
+
     if (activity.type == 'CreateOrder') {
         var amount = activity.details.volume || activity.details.amount
         , quote = activity.details.market.substr(3, 3)
@@ -30,6 +32,11 @@ module.exports = function(activity) {
 
             return i18n('activities.CreateOrder.market.ask', amountFormatted, quote)
         }
+    }
+
+    if (activity.type == 'CreateVoucher') {
+        return i18n('activities.CreateVoucher', numbers.format(details.amount,
+            { currency: details.currency }))
     }
 
     if (activity.type == 'CancelOrder') {

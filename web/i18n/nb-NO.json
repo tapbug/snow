@@ -56,6 +56,7 @@
     "activities.SendToUser": "Du sendte %s %s til %s",
     "activities.Created": "Du lagde denne kontoen.",
     "activities.IdentitySet": "Du oppga navn og adresse.",
+    "activities.CreateVoucher": "Du lagde en kupong verdt %s",
     "activities.heading": "Kontoaktivitet",
     "dashboard.heading": "Oversikt",
     "dashboard.nok coming soon": "Kommer i starten av juni!",
