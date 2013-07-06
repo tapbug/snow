@@ -45,5 +45,9 @@ module.exports = function(id) {
 
     refresh()
 
+    setTimeout(function() {
+        $el.find('input:visible:first').focus()
+    }, 750)
+
     return controller
 }

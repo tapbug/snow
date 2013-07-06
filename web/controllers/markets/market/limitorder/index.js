@@ -22,6 +22,9 @@ module.exports = function(market) {
         // Update navigation pills
         $el.find('[data-order-type="' + type + '"]')
         .parent().addClass('active').siblings().removeClass('active')
+
+        // Focus the input
+        $el.find('input:visible:first').focus()
     }
 
     // Change order type
@@ -36,7 +39,7 @@ module.exports = function(market) {
         ask.destroy()
     }
 
-    setOrderType('ask')
+    setOrderType('bid')
 
     return controller
 }

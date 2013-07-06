@@ -21,6 +21,8 @@ module.exports = function(market) {
         $el.removeClasses(/^is-order-mode/).addClass('is-order-mode-' + mode)
         $el.find('[data-order-mode="' + mode + '"]')
         .parent().addClass('active').siblings().removeClass('active')
+
+        $el.find('input:visible:first').focus()
     }
 
     // Change order mode

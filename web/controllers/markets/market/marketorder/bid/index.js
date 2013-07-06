@@ -233,7 +233,6 @@ module.exports = function(market) {
 
     refreshDepth()
 
-    $el.field('spend').focusSoon()
 
     return controller
 }
