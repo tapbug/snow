@@ -69,15 +69,26 @@ module.exports = function() {
         $number.enabled(false)
         $country.enabled(false)
 
-        setTimeout(function() {
-            $codeForm.show()
-            $code.focus()
-        }, 2500)
-
         api.call('v1/users/verify/call', { number: number })
         .done(function() {
+            setTimeout(function() {
+                $codeForm.show()
+                $code.focus()
+            }, 2500)
         })
-        .fail(errors.alertFromXhr)
+        .fail(function(err) {
+            if (err.name == 'LockedOut') {
+                alertify.alert(
+                    'Sorry, but you tried to verify your phone not long ago. ' +
+                    'Please try again in a few minutes.',
+                    function() {
+                        window.location.reload()
+                    })
+                return
+            }
+
+            errors.alertFromXhr(err)
+        })
     })
 
     $codeForm.on('submit', function(e) {
