@@ -36,6 +36,12 @@ module.exports = function() {
                 return
             }
 
+            if (err.name == 'ResetPasswordLockedOut') {
+                alertify.alert('Sorry, but you tried to reset your password ' +
+                    'not long ago. Try again later or contact support@justcoin.com.')
+                return
+            }
+
             errors.alertFromXhr(err)
         })
         .done(function() {
