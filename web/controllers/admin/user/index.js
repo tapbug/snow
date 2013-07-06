@@ -49,6 +49,12 @@ module.exports = function(userId) {
         })
 
         $el.find('.created span').html(moment(u.created_at).format('Do MMMM YYYY'))
+        $el.find('.suspended span').html(u.suspended ? 'Yes' : 'No')
+        $el.find('.suspended .field').prop('checked', u.suspended)
+
+        if (u.suspended) {
+            $el.find('.suspended').addClass('warning')
+        }
 
         $el.toggleClass('has-verified-email', !!u.email_verified_at)
 
@@ -93,7 +99,8 @@ module.exports = function(userId) {
             city: $el.find('.city .field').valOrNull(),
             postal_area: $el.find('.postalArea .field').valOrNull(),
             address: $el.find('.address .field').valOrNull(),
-            phone_number: $el.find('.phone .field').valOrNull()
+            phone_number: $el.find('.phone .field').valOrNull(),
+            suspended: $el.find('.suspended .field').prop('checked')
         })
 
         if (!_.keys(patch).length) {
