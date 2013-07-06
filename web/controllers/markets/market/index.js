@@ -34,13 +34,10 @@ module.exports = function(market) {
 
     setOrderMode('market')
 
-    $el.on('trade', '.ask, .bid', function() {
-        depth.refresh()
-    })
-
     controller.destroy = function() {
         marketOrder.destroy()
         limitOrder.destroy()
+        depth.destroy()
     }
 
     return controller

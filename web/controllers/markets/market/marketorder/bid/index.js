@@ -35,7 +35,6 @@ module.exports = function(market) {
         }
 
         var receive = num(0)
-        , volumePrecision = num(depth.asks[0][1]).get_precision()
         , remaining = num(spend)
 
         var filled = _.some(depth.asks, function(level) {
@@ -100,6 +99,9 @@ module.exports = function(market) {
         .html(numbers.format(item.available,
             { maxPrecision: 2, currency: item.currency }))
         .attr('title', numbers.format(item.available, { currency: item.currency }))
+
+        // The user's ability to cover the order may have changed
+        validateSpend()
     }
 
     function validateSpend(emptyIsError) {
@@ -145,22 +147,14 @@ module.exports = function(market) {
         return valid
     }
 
-    function refreshDepth() {
-        return api.call('v1/markets/' + market + '/depth')
-        .always(function() {
-            // new timer
-        })
-        .fail(function(err) {
-            debug('Failed to update market depth: ' + JSON.stringify(err, null, 4))
-        })
-        .done(function(res) {
-            depth = res
-            updateQuote()
-        })
+    function onDepth(res) {
+        depth = res
+        updateQuote()
     }
 
     controller.destroy = function() {
         api.off('balances', balancesUpdated)
+        api.off('depth:' + market, onDepth)
     }
 
     // Update market order spend (bid)
@@ -199,9 +193,11 @@ module.exports = function(market) {
         .done(function() {
             $el.field('spend', '')
             .field('price', '')
-            api.balances()
             $el.find('.available').flash()
             $form.field('spend').focus()
+
+            api.depth(market)
+            api.balances()
         })
     })
 
@@ -215,9 +211,7 @@ module.exports = function(market) {
     // Subscribe to balance updates
     api.balances.current && balancesUpdated()
     api.on('balances', balancesUpdated)
-
-    refreshDepth()
-
+    api.on('depth:' + market, onDepth)
 
     return controller
 }

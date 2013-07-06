@@ -3,6 +3,7 @@ var _ = require('lodash')
 , sjcl = require('./vendor/sjcl')
 , emitter = require('./util/emitter')
 , api = module.exports = emitter()
+, debug = require('./util/debug')('snow:api')
 
 function keyFromCredentials(email, password) {
     var concat = email.toLowerCase() + password
@@ -155,6 +156,20 @@ api.markets = function() {
     .then(function(markets) {
         api.markets.value = markets
         api.trigger('markets', markets)
+    })
+}
+
+api.depth = function(id) {
+    debug('retrieving depth for %s...', id)
+
+    return api.call('v1/markets/' + id + '/depth')
+    .then(function(depth) {
+        debug('depth retrieved for %s. %s bids, %s asks', id,
+            depth.bids.length, depth.asks.length)
+
+        api.depth[id] = depth
+        api.trigger('depth', { market: id, depth: depth })
+        api.trigger('depth:'+ id, depth)
     })
 }
 

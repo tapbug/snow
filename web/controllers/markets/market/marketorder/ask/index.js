@@ -98,6 +98,10 @@ module.exports = function(market) {
         .html(numbers.format(item.available,
             { maxPrecision: 2, currency: item.currency }))
         .attr('title', numbers.format(item.available, { currency: item.currency }))
+
+
+        // The user's ability to cover the order may have changed
+        validateSell()
     }
 
     function validateSell(emptyIsError) {
@@ -148,22 +152,14 @@ module.exports = function(market) {
         return valid
     }
 
-    function refreshDepth() {
-        return api.call('v1/markets/' + market + '/depth')
-        .always(function() {
-            // new timer
-        })
-        .fail(function(err) {
-            debug('Failed to update market depth: ' + JSON.stringify(err, null, 4))
-        })
-        .done(function(res) {
-            depth = res
-            updateQuote()
-        })
+    function onDepth(res) {
+        depth = res
+        updateQuote()
     }
 
     controller.destroy = function() {
         api.off('balances', balancesUpdated)
+        api.off('depth:' + market, onDepth)
     }
 
     // Update market order sell (bid)
@@ -204,10 +200,11 @@ module.exports = function(market) {
         .done(function() {
             $el.field('amount', '')
             .field('price', '')
-            api.balances()
             $el.find('.available').flash()
-            $el.trigger('trade')
             $form.field('amount').focus()
+
+            api.depth(market)
+            api.balances()
         })
     })
 
@@ -221,8 +218,7 @@ module.exports = function(market) {
     // Subscribe to balance updates
     api.balances.current && balancesUpdated()
     api.on('balances', balancesUpdated)
-
-    refreshDepth()
+    api.on('depth:' + market, onDepth)
 
     return controller
 }

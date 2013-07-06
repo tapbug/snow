@@ -14,8 +14,9 @@ module.exports = function(id) {
         $el: $el
     }
     , $depth = controller.$el.find('.depth')
+    , timer
 
-    function depthChanged(depth) {
+    function onDepth(depth) {
         var combined = []
 
         _.each(depth.bids, function(x) {
@@ -41,17 +42,19 @@ module.exports = function(id) {
         $depth.find('tbody').html($.map(combined, function(item) {
             return priceTemplate(item)
         }))
+
+        timer && clearTimeout(timer)
+        timer = setTimeout(_.bind(api.depth, api, id), 5e3)
     }
 
-    function refreshDepth() {
-        api.call('v1/markets/' + id + '/depth')
-        .fail(errors.alertFromXhr)
-        .done(depthChanged)
+    // Subscribe to depth, show current if any, and refresh it now
+    api.on('depth:' + id, onDepth)
+    api.depth(id)
+    api.depth[id] && onDepth(api.depth[id])
+
+    controller.destroy = function() {
+        api.off('depth:' + id, onDepth)
     }
-
-    controller.refresh = refreshDepth
-
-    refreshDepth()
 
     return controller
 }

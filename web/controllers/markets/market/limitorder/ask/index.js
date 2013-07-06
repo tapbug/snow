@@ -45,6 +45,9 @@ module.exports = function(market) {
         .html(numbers.format(item.available,
             { maxPrecision: 2, currency: item.currency }))
         .attr('title', numbers.format(item.available, { currency: item.currency }))
+
+        // The user's ability to cover the order may have changed
+        validateAmount()
     }
 
     function validatePrice(emptyIsError) {
@@ -127,29 +130,23 @@ module.exports = function(market) {
         return valid
     }
 
-    function refreshDepth() {
-        return api.call('v1/markets/' + market + '/depth')
-        .fail(function(err) {
-            debug('Failed to update market depth: ' + JSON.stringify(err, null, 4))
-        })
-        .done(function(res) {
-            depth = res
+    function onDepth(d) {
+        depth = d
 
-            debug('depth %j', depth)
-
-            if (!$el.field('price').val().length) {
-                if (!depth.bids.length) {
-                    debug('no ask depth to suggest price from')
-                    return
-                }
-
-                $el.field('price').val(numbers.format(depth.bids[0][0]))
+        // If the user has not entered any
+        if (!$el.field('price').val().length) {
+            if (!depth.bids.length) {
+                debug('no ask depth from which to suggest price')
+                return
             }
-        })
+
+            $el.field('price').val(numbers.format(depth.bids[0][0]))
+        }
     }
 
     controller.destroy = function() {
         api.off('balances', balancesUpdated)
+        api.off('depth:' + market, onDepth)
     }
 
     $el.field('price').on('change keyup', function(e) {
@@ -207,10 +204,11 @@ module.exports = function(market) {
         .done(function() {
             $el.field('amount', '')
             .field('price', '')
-            api.balances()
             $el.find('.available').flash()
-            $el.trigger('trade')
             $form.field('amount').focus()
+
+            api.depth(market)
+            api.balances()
         })
     })
 
@@ -224,8 +222,7 @@ module.exports = function(market) {
     // Subscribe to balance updates
     api.balances.current && balancesUpdated()
     api.on('balances', balancesUpdated)
-
-    refreshDepth()
+    api.on('depth:' + market, onDepth)
 
     return controller
 }
