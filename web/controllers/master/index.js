@@ -8,6 +8,10 @@ var debug = require('../../util/debug')('snow:master')
 , $nav
 
 var master = module.exports = function(val, name) {
+    if (!$section) {
+        throw new Error('master called before render')
+    }
+
     if (val !== undefined) {
         if (page && page.destroy) {
             page.destroy()
