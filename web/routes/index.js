@@ -1,9 +1,6 @@
 var master = require('../controllers/master')
 , markets = require('../controllers/markets')
 , orders = require('../controllers/orders')
-, withdrawbtc = require('../controllers/withdrawbtc')
-, withdrawltc = require('../controllers/withdrawltc')
-, withdrawripple = require('../controllers/withdrawripple')
 , login = require('../controllers/login')
 , register = require('../controllers/register')
 , notfound = require('../controllers/notfound')
@@ -20,8 +17,7 @@ var master = require('../controllers/master')
 , redeemvoucher = require('../controllers/vouchers/redeem')
 , vouchers = require('../controllers/vouchers/index')
 , depositltc = require('../controllers/depositltc')
-, send = require('../controllers/send')
-, withdrawbank = require('../controllers/withdrawbank')
+, withdraw = require('../controllers/withdraw')
 , bankaccounts = require('../controllers/bankaccounts')
 , authorize = require('../authorize')
 
@@ -71,22 +67,10 @@ module.exports = function() {
         if (!authorize.user()) return
         master(redeemvoucher())
     })
-    .add(/^withdrawbtc$/, function() {
-        if (!authorize.user()) return
-        master(withdrawbtc(), 'withdrawbtc')
-    })
     .add(/^bankaccounts$/, function() {
         if (!authorize.user()) return
         if (!authorize.identity()) return
         master(bankaccounts(), 'bankaccounts')
-    })
-    .add(/^withdrawltc$/, function() {
-        if (!authorize.user()) return
-        master(withdrawltc(), 'withdrawltc')
-    })
-    .add(/^withdrawripple$/, function() {
-        if (!authorize.user()) return
-        master(withdrawripple(), 'withdrawripple')
     })
     .add(/^identity(?:\?after=(.+))?$/, function(after) {
         if (!authorize.user()) return
@@ -95,10 +79,6 @@ module.exports = function() {
     .add(/^depositbtc$/, function() {
         if (!authorize.user()) return
         master(depositbtc(), 'depositbtc')
-    })
-    .add(/^send$/, function() {
-        if (!authorize.user()) return
-        master(send(), 'send')
     })
     .add(/^changepassword$/, function() {
         if (!authorize.user()) return
@@ -114,11 +94,10 @@ module.exports = function() {
         if (!authorize.user()) return
         master(depositltc(), 'depositltc')
     })
-    .add(/^withdrawbank\?currency=([A-Z]{3})$/, function(currency) {
+    .add(/^withdraw\/([a-z]+)$/, function(type) {
         if (!authorize.user()) return
         if (!authorize.identity()) return
-
-        master(withdrawbank(currency), 'withdrawbank')
+        master(withdraw(type), 'withdraw')
     })
     .add(/^([a-z0-9]{12})$/i, function(code) {
         if (!authorize.user(true)) return

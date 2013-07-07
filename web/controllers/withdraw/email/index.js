@@ -4,7 +4,7 @@ var template = require('./template.html')
 , num = require('num')
 
 module.exports = function() {
-    var $el = $('<div class="send">').html(template())
+    var $el = $('<div class="withdraw-email">').html(template())
     , controller = {
         $el: $el
     }
@@ -134,7 +134,7 @@ module.exports = function() {
         })
     })
 
-    $el.on('click', 'a[href="#send"]', function() {
+    $el.on('click', 'a[href="#withdraw/email"]', function() {
         router.reload()
     })
 
