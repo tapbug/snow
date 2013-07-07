@@ -23,7 +23,6 @@ module.exports = function(opts) {
     }
     , $amount = $el.find('.amount')
     , $amountField = $el.field('amount')
-    , $currency = $el.field('.currency')
 
     $el.toggleClass('is-fixed-currency')
 
