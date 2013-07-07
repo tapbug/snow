@@ -11,6 +11,8 @@ module.exports = function(currency) {
     , $amount = $form.find('.amount')
     , $bankAccount = $form.find('.bank-account')
 
+    currency = 'NOK'
+
     if (currency !== 'NOK') {
         throw new Error('Expected currency to equal NOK')
     }
@@ -48,7 +50,7 @@ module.exports = function(currency) {
         api.call('v1/withdraws/bank', {
             amount: $amount.parseNumber(),
             bankAccount: +$bankAccount.val(),
-            currency: 'NOK'
+            currency: currency
         })
         .fail(errors.alertFromXhr)
         .done(function() {
