@@ -1,6 +1,6 @@
 module.exports = function() {
     var controller = {
-        $el: $('<div class="privacy">').html(require('./template.html')())
+        $el: $(require('./template.html')())
     }
 
     return controller

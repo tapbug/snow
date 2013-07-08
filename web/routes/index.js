@@ -6,6 +6,7 @@ var master = require('../controllers/master')
 , notfound = require('../controllers/notfound')
 , dashboard = require('../controllers/dashboard')
 , terms = require('../controllers/terms')
+, about = require('../controllers/about')
 , privacy = require('../controllers/privacy')
 , depositbtc = require('../controllers/depositbtc')
 , depositnok = require('../controllers/depositnok')
@@ -86,6 +87,9 @@ module.exports = function() {
     })
     .add(/^terms$/, function() {
         master(terms(), 'terms')
+    })
+    .add(/^about$/, function() {
+        master(about(), 'about')
     })
     .add(/^privacy$/, function() {
         master(privacy(), 'privacy')
