@@ -10,6 +10,7 @@ function publish(hostname, cb) {
         'build/client/styles.css': 'client/styles.css',
         'build/client/index.html': 'client/index.html',
         'assets/ripple.txt': 'ripple.txt',
+        'assets/irba.html': 'irba.html',
         'build/client/img/icon-top-bar.png': 'client/img/icon-top-bar.png',
         'build/client/img/registerbg.jpg': 'client/img/registerbg.jpg',
         'build/client/img/flags/NO.png': 'client/img/flags/NO.png',
