@@ -104,7 +104,7 @@ module.exports = function(userId) {
         })
 
         if (!_.keys(patch).length) {
-            alertify.log('No changes saved to user #' + userId)
+            notify.show('No changes saved to user #' + userId)
             cancelEdit()
             return
         }
@@ -121,7 +121,6 @@ module.exports = function(userId) {
         })
         .fail(errors.alertFromXhr)
         .done(function() {
-            alertify.log('Saved ' + _.keys(patch).join(', ') + ' for user #' + userId)
             cancelEdit()
         })
     })
@@ -133,7 +132,6 @@ module.exports = function(userId) {
         api.call(url, null, { type: 'POST' })
         .fail(errors.alertFromXhr)
         .done(function() {
-            alertify.log('E-mail verification link sent.')
             fetchProfile()
         })
     })

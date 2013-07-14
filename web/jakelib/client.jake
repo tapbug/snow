@@ -16,7 +16,8 @@ var vendor = [
     'vendor/jquery.cookie.js',
     'vendor/sjcl.js',
     'components/alertify/alertify.min.js',
-    'vendor/bootstrap/js/bootstrap.min.js'
+    'vendor/bootstrap/js/bootstrap.min.js',
+    'components/bootstrap-notify/js/bootstrap-notify.js'
 ]
 
 task('client-dist', [
@@ -89,6 +90,7 @@ file(base + '/styles.css', [
     'components/alertify/themes/alertify.bootstrap.css',
     'vendor/bootstrap/css/bootstrap.min.css',
     'vendor/bootstrap/css/bootstrap-responsive.min.css',
+    'components/bootstrap-notify/css/bootstrap-notify.css',
     'build/client/index.css'
 ], common.concatFiles)
 

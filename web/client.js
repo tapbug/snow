@@ -8,6 +8,9 @@ window.api = require('./api')
 window.errors = require('./errors')
 window.i18n = require('./i18n')
 window.numbers = require('./util/numbers')
+window.notify = require('./util/notify')()
+
+$app.append(window.notify.$el)
 
 debug('shared components inited')
 
@@ -67,6 +70,8 @@ api.on('user', function(user) {
     checkEmail(function() {
         checkPhone(function() {
             debug('verifications done')
+            api.activities()
+
         })
     })
 })

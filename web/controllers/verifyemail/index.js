@@ -1,4 +1,3 @@
-/* global alertify */
 var debug = require('../../util/debug')('verifyemail')
 
 module.exports = function() {
@@ -37,7 +36,6 @@ module.exports = function() {
                     api.user.emailVerified = true
                     clearInterval(timer)
                     $el.modal('hide')
-                    alertify.log(i18n('verifyemail.confirmation'))
                 })
             }, 5e3)
         })

@@ -1,6 +1,4 @@
-/* global alertify */
-var util = require('util')
-, header = require('../header')
+var header = require('../header')
 , template = require('./template.html')
 
 module.exports = function(userId) {
@@ -36,13 +34,6 @@ module.exports = function(userId) {
         })
         .fail(errors.alertFromXhr)
         .done(function() {
-            alertify.log(util.format(
-                'User #%s credited with %s %s (%s)',
-                userId,
-                body.amount,
-                body.currency_id,
-                body.reference), 'success', 30e3)
-
             $el.find('input').val('')
             $el.find('.user input').focusSoon()
         })

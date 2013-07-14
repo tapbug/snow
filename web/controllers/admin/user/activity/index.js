@@ -1,5 +1,5 @@
 var header = require('../header')
-, formatActivity = require('../../../../activity')
+, formatActivity = require('../../../../util/activity')
 
 module.exports = function(userId) {
     var itemTemplate = require('./item.html')

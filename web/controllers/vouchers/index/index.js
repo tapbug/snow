@@ -1,4 +1,3 @@
-/* global alertify */
 var template = require('./template.html')
 , itemTemplate = require('./item.html')
 
@@ -36,7 +35,6 @@ module.exports = function() {
         .fail(errors.alertFromXhr)
         .done(function() {
             $item.fadeAway()
-            alertify.log('Voucher cancelled and funds returned to your account.')
             api.balances()
         })
     })

@@ -232,3 +232,19 @@ api.rippleAddress = function() {
         api.trigger('rippleAddress', address)
     })
 }
+
+api.activities = function(since) {
+    var options = {
+        qs: {
+        }
+    }
+
+    if (since !== undefined) {
+        options.qs.since = since
+    }
+
+    return api.call('v1/activities', null, options)
+    .done(function(items) {
+        api.trigger('activities', items)
+    })
+}

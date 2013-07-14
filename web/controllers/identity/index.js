@@ -1,4 +1,3 @@
-/* global Intercom, alertify */
 var util = require('util')
 , _ = require('lodash')
 
@@ -35,7 +34,6 @@ module.exports = function(after) {
 
         api.call('v1/users/identity', data)
         .done(function() {
-            alertify.log(i18n('identity.confirmation'))
             _.extend(api.user, data)
 
             if (typeof Intercom != 'undefined' && Intercom) {
