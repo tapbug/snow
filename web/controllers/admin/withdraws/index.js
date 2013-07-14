@@ -1,4 +1,3 @@
-/* global alertify */
 var util = require('util')
 
 module.exports = function() {
@@ -55,7 +54,6 @@ module.exports = function() {
 
             api.call(url, data, { type: 'PATCH' })
             .done(function() {
-                alertify.log(util.format('Order #%s cancelled.', id), 'success', 30e3)
                 $el.closest('.withdraw').fadeAway()
             })
             .fail(function(xhr) {
@@ -76,7 +74,6 @@ module.exports = function() {
 
         api.call('admin/withdraws/' + id, { state: 'processing' }, { type: 'PATCH' })
         .done(function() {
-            alertify.log(util.format('Order #%s is now processing.', id), 'success', 30e3)
             refresh()
         })
         .fail(function(xhr) {
@@ -97,9 +94,6 @@ module.exports = function() {
 
         api.call(url, { state: 'completed' }, { type: 'PATCH' })
         .done(function() {
-            var msg = util.format('Order #%s marked as completed.', id)
-            alertify.log(msg, 'success', 30e3)
-
             $el.closest('.withdraw').fadeAway()
         })
         .fail(function(xhr) {

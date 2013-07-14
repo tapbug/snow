@@ -1,4 +1,3 @@
-/* global alertify */
 var util = require('util')
 , _ = require('lodash')
 , debug = require('../../util/debug')('verifyemail')
@@ -115,7 +114,6 @@ module.exports = function() {
             api.user.phone = number
             $app.trigger('verifiedphone', { number: number })
             $el.modal('hide')
-            alertify.log(i18n('verifyphone.verified', api.user.phone))
         })
         .fail(function(xhr) {
             errors.alertFromXhr(xhr)

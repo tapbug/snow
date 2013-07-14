@@ -12,7 +12,8 @@
         "analytics": false,
         "Modernizr": false,
         "alertify": false,
-        "Intercom": false
+        "Intercom": false,
+        "notify": false
     },
     "es3": true,
     "indent": 4, // This option enforces specific tab width for your code.

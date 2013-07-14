@@ -62,6 +62,9 @@
     "activities.BankCredit": "You deposited %s %s from a bank account (%s)",
     "activities.IdentitySet": "You supplied your name and address.",
     "activities.CreateVoucher": "You created a voucher for %s",
+    "activities.FillOrder.bid": "You bought %s for %s (%s per)",
+    "activities.FillOrder.ask": "You sold %s for %s (%s per)",
+    "activities.WithdrawComplete": "Withdraw request of %s completed",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",

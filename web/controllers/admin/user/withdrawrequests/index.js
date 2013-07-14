@@ -1,4 +1,3 @@
-/* global alertify */
 var util = require('util')
 , header = require('../header')
 
@@ -47,7 +46,6 @@ module.exports = function(userId) {
                 refresh()
             })
             .done(function() {
-                alertify.log(util.format('Order #%s cancelled.', id), 'success', 30e3)
                 refresh()
             })
         })

@@ -1,4 +1,5 @@
 var moment = require('moment')
+, _ = require('lodash')
 
 module.exports = function() {
     var itemTemplate = require('./item.html')
@@ -8,11 +9,22 @@ module.exports = function() {
     , $items = controller.$el.find('.activities')
 
     function itemsChanged(items) {
+        // Sort so that fills appear after creates
+        items = _.sortBy(items, function(item) {
+            var epoch = moment(item.created).unix()
+
+            if (item.type == 'FillOrder') {
+                epoch += 5
+            }
+
+            return -epoch
+        })
+
         $items.html($.map(items, function(item) {
             var duration = new Date() > moment(item.created) ?
                 moment(item.created).fromNow() : moment().fromNow()
 
-            item.text = require('../../activity')(item)
+            item.text = require('../../util/activity')(item)
             item.ago = duration
 
             return itemTemplate(item)
