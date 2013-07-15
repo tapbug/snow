@@ -76,6 +76,11 @@ module.exports = function(activity) {
             numbers.format(details.amount, { currency: details.currency }))
     }
 
+    if (activity.type == 'VerifyBankAccount') {
+        return i18n('activities.VerifyBankAccount',
+            details.accountNumber || details.iban)
+    }
+
     if (activity.type == 'Credit') {
         return i18n('activities.Credit',
             numbers.format(details.amount, { currency: details.currency }))

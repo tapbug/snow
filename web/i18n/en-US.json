@@ -67,6 +67,7 @@
     "activities.WithdrawComplete": "Withdraw request of %s completed",
     "activities.ChangePassword": "You changed your password",
     "activities.Credit": "Credited %s from a deposit",
+    "activities.VerifyBankAccount": "The bank account was %s verified",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",

@@ -241,5 +241,6 @@
     "activities.FillOrder.ask": "Du solgte %s for %s (%s per)",
     "activities.WithdrawComplete": "Uttak av %s fullført",
     "activities.ChangePassword": "Du endret passord",
-    "activities.Credit": "Kreditert %s fra et innskudd"
+    "activities.Credit": "Kreditert %s fra et innskudd",
+    "activities.VerifyBankAccount": "Bankkontoen %s ble bekreftet"
 }
