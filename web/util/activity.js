@@ -76,6 +76,11 @@ module.exports = function(activity) {
             numbers.format(details.amount, { currency: details.currency }))
     }
 
+    if (activity.type == 'Credit') {
+        return i18n('activities.Credit',
+            numbers.format(details.amount, { currency: details.currency }))
+    }
+
     if (activity.type == 'CreateVoucher') {
         return i18n('activities.CreateVoucher', numbers.format(details.amount,
             { currency: details.currency }))
@@ -83,6 +88,10 @@ module.exports = function(activity) {
 
     if (activity.type == 'CancelOrder') {
         return format(i18n('activities.CancelOrder'), activity.details.id)
+    }
+
+    if (activity.type == 'ChangePassword') {
+        return format(i18n('activities.ChangePassword'))
     }
 
     if (activity.type == 'BankCredit') {

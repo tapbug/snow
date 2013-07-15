@@ -65,6 +65,8 @@
     "activities.FillOrder.bid": "You bought %s for %s (%s per)",
     "activities.FillOrder.ask": "You sold %s for %s (%s per)",
     "activities.WithdrawComplete": "Withdraw request of %s completed",
+    "activities.ChangePassword": "You changed your password",
+    "activities.Credit": "Credited %s from a deposit",
 
     "dashboard.heading": "Account Funds",
     "dashboard.nok coming soon": "Coming soon!",

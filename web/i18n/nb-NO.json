@@ -239,5 +239,7 @@
     "markets.market.depth.columns.ask volume": "Selger",
     "activities.FillOrder.bid": "Du kjøpte %s for %s (%s per)",
     "activities.FillOrder.ask": "Du solgte %s for %s (%s per)",
-    "activities.WithdrawComplete": "Uttak av %s fullført"
+    "activities.WithdrawComplete": "Uttak av %s fullført",
+    "activities.ChangePassword": "Du endret passord",
+    "activities.Credit": "Kreditert %s fra et innskudd"
 }
