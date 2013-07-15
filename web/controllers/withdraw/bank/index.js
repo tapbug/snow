@@ -17,7 +17,7 @@ module.exports = function(currency) {
         throw new Error('Expected currency to equal NOK')
     }
 
-    api.call('v1/users/bankAccounts')
+    api.call('v1/bankAccounts')
     .fail(errors.alertFromXhr)
     .done(function(accounts) {
         accounts = _.filter(accounts, function(a) {
