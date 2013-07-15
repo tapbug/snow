@@ -52,11 +52,11 @@
 
     "depositbtc.heading": "Añadir BTC a tu cuenta",
     "depositbtc.address.label": "Enviar a esta dirección",
-    "depositbtc.disclaimer": "Se requiere 3 confirmaciones antes de ver su dinero en su cuenta. Esto debería tardar menos de una hora.",
+    "depositbtc.disclaimer": "Se requiere 6 confirmaciones antes de ver su dinero en su cuenta. Esto debería tardar menos de una hora.",
 
     "depositltc.heading": "Añadir LTC a tu cuenta",
     "depositltc.address.label": "Enviar a esta dirección",
-    "depositltc.disclaimer": "Se requiere 3 confirmaciones antes de ver su dinero en su cuenta. Esto debería tardar menos de una hora.",
+    "depositltc.disclaimer": "Se requiere 6 confirmaciones antes de ver su dinero en su cuenta. Esto debería tardar menos de una hora.",
 
     "login.wrong username or password": "Wrong e-mail/password combination",
     "login.heading": "Entrar",

@@ -9,7 +9,7 @@
     "home.sub-heading": "Justcoin is a digital currency exchange and Ripple gateway. We currently support Bitcoin, Litecoin and ripples (XRP)",
     "home.call to action": "Sign up now",
     "home.bitcoin.heading": "Bitcoin",
-    "home.bitcoin.body": "You can deposit and withdraw BTC (three confirmations)",
+    "home.bitcoin.body": "You can deposit and withdraw BTC (seks confirmations)",
     "home.bitcoin.what is button": "What is Bitcoin?",
     "home.ripple.heading": "Ripple",
     "home.ripple.body": "Justcoin operates a Ripple gateway, meaning you can deposit and withdraw BTC/LTC to Ripple through Justcoin.",
@@ -74,11 +74,11 @@
 
     "depositbtc.heading": "Add BTC to your account",
     "depositbtc.address.label": "Send to this address",
-    "depositbtc.disclaimer": "We require 3 confirmations before your account is credited. This should take less than an hour.",
+    "depositbtc.disclaimer": "We require seks confirmations before your account is credited. This should take less than an hour.",
 
     "depositltc.heading": "Add LTC to your account",
     "depositltc.address.label": "Send to this address",
-    "depositltc.disclaimer": "We require 3 confirmations before your account is credited. This should take less than an hour.",
+    "depositltc.disclaimer": "We require seks confirmations before your account is credited. This should take less than an hour.",
 
     "login.errors.wrong username or password": "Wrong e-mail/password",
     "login.heading": "Please sign in",
